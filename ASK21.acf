@@ -22258,7 +22258,7 @@ gen_annun winter vario center
 gen_needle b21 vario netto
   POS 382.000000 131.000000
   IMAGE b21_vario_te57_k
-  DATAREF b21_soaring/total_energy_mps
+  DATAREF b21/ask21/vario_netto_mps
   SIZE 0.550000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
