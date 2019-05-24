@@ -1,14 +1,14 @@
 -- B21
 
 local QUIET_CLIMB = 10 -- dead band -110 fpm .. +10 fpm
-local QUIET_SINK = -110 -- vario will be silent in this band
+local QUIET_SINK = -150 -- vario will be silent in this band
 
 local spoilers_unlock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesOut.wav')
 
-local spoilers_lock = loadSample(sasl.getAircraftPath()..'sounds/systems/BrakesIn.wav')
+local spoilers_lock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesIn.wav')
 
-local sounds = { climb = loadSample(sasl.getAircraftPath()..'sounds/alert/vario_climb.wav'),
-				 sink = loadSample(sasl.getAircraftPath()..'sounds/alert/vario_descend.wav')
+local sounds = { climb = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_climb.wav'),
+				 sink = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_descend.wav')
 }
 
 defineProperty("spoiler_ratio", globalPropertyf("sim/cockpit2/controls/speedbrake_ratio")) -- get value of spoiler lever setting
@@ -16,7 +16,7 @@ pause = globalPropertyf("sim/time/paused") -- check if sim is paused
 volume_switch = globalPropertyi("sim/auriel/acoustic_switch") -- dataref for the "off/volume" switch
 climbrate = globalPropertyf("b21_soaring/total_energy_fpm") -- 'smoothed' vario dataref, will be used to set pitch of vario sound
 
-local status = 0
+local spoiler_init = 0 -- flag to ensure spoiler sounds played once on open/close
 
 setSampleGain(spoilers_lock, 500)
 setSampleGain(spoilers_unlock, 500)
@@ -25,17 +25,17 @@ local volume = 0
 
 function update_spoilers()
 	-------------- generate airbrake lock / unlock sounds
-	if get(spoiler_ratio) > 0.03 and status == 0 
+	if get(spoiler_ratio) > 0.03 and spoiler_init == 0 
 	then 
 		playSample(spoilers_unlock, 0)
-        status = 1
+        spoiler_init = 1
         return
 	end
 
-	if get(spoiler_ratio) < 0.03 and status == 1 
+	if get(spoiler_ratio) < 0.03 and spoiler_init == 1 
 	then
 		playSample(spoilers_lock, 0)
-		status = 0
+		spoiler_init = 0
 	end
 end
 
