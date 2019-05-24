@@ -1,0 +1,9 @@
+[B21_SASL INFO]: Initializing...
+[B21_SASL INFO]: Path to module: C:\Program Files (x86)/Steam/steamapps/common/X-Plane 11/Aircraft/Extra Aircraft/ASK21_B21/plugins/B21_SASL/data/modules/main.lua
+[B21_SASL INFO]: Loading module...
+[B21_SASL INFO]: [LUA]: loading	module
+[B21_SASL INFO]: [LUA]: loading	b21_netto
+[B21_SASL INFO]: [LUA]: "b21_netto"	B21 b21_netto.lua starting
+[B21_SASL INFO]: [LUA]: "b21_netto"	polar loaded 65
+[B21_SASL INFO]: Module loaded
+[B21_SASL INFO]: Disabling...
