@@ -41,6 +41,14 @@
 ]]
 -- DataRefs
 --  "TOTAL WEIGHT"
+DATAREF_TIME_S
+DATAREF_ALT_FT
+DATAREF_AIRSPEED_KTS
+DATAREF_AIRSPEED_MPS
+DATAREF_TE_MPS
+DATAREF_TE_FPM
+DATAREF_TE_KTS
+DATAREF_TOTAL_WEIGHT
 
 -- Values read from polar.lua
 local B21_302_polar_speed_0_mps = 0 -- CONSTANT
@@ -110,21 +118,27 @@ local prev_alt_m = 0
 local prev_speed_mps_2 = 0
 
 -- the datarefs we will READ to get time, altitude and speed from the sim
-local sim_time_s = globalPropertyf("sim/network/misc/network_time_sec")
-local sim_alt_ft = globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot")
+local DATAREF_TIME_S =  globalPropertyf("sim/network/misc/network_time_sec")
+local DATAREF_ALT_FT = globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot")
 -- (for calibration) local sim_alt_m = globalPropertyf("sim/flightmodel/position/elevation")
-local sim_speed_kts = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
+local DATAREF_AIRSPEED_KTS = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
 -- (for calibration) local sim_speed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
+local DATAREF_TOTAL_WEIGHT_KG = globalPropertyf("sim/flightmodel/weight/m_total")
+local DATAREF_NEXT_WAYPOINT_ALT_M --debug
+local DATAREF_WP_BEARING_RADIANS --debug
+local DATAREF_WP_DISTANCE_METERS --debug
+local DATAREF_AMBIENT_WIND_DIRECTION_RADIANS --debug
+local AMBIENT_WIND_VELOCITY_MPS --debug
 
 -- create global DataRefs we will WRITE (name, default, isNotPublished, isShared, isReadOnly)
-dataref_te_mps = createGlobalPropertyf("b21/ask21/total_energy_mps", 0.0, false, true, true)
-dataref_te_fpm = createGlobalPropertyf("b21/ask21/total_energy_fpm", 0.0, false, true, true)
-dataref_te_kts = createGlobalPropertyf("b21/ask21/total_energy_kts", 0.0, false, true, true)
+local DATAREF_TE_MPS = createGlobalPropertyf("b21/ask21/total_energy_mps", 0.0, false, true, true)
+local DATAREF_TE_FPM = createGlobalPropertyf("b21/ask21/total_energy_fpm", 0.0, false, true, true)
+local DATAREF_TE_KTS = createGlobalPropertyf("b21/ask21/total_energy_kts", 0.0, false, true, true)
 
 -- ----------------------------------------------
 -- calculates ratio of extra weight 0.0..1.0
 function update_ballast()
-    B21_302_ballast = (DATAREF_TOTAL_WEIGHT - B21_polar_weight_empty_kgs) / (B21_polar_weight_full_kg - B21_polar_weight_empty_kg)
+    B21_302_ballast = (DATAREF_TOTAL_WEIGHT_KG - B21_polar_weight_empty_kgs) / (B21_polar_weight_full_kg - B21_polar_weight_empty_kg)
 end
 
 
@@ -164,19 +178,20 @@ function interp(speed, p1, p2)
 end
 
 function update_polar_sink()
-    B21_302_polar_sink_mps = sink_mps(DATAREF_AIRSPEED, B21_302_ballast_adjust)
+    local airspeed_kph = get(DATAREF_AIRSPEED_KTS) * 1.852
+    B21_302_polar_sink_mps = sink_mps(airspeed_kph, B21_302_ballast_adjust)
 end
 
 function update_total_energy()
     
 	-- calculate time (float seconds) since previous update
-	local time_delta_s = get(sim_time_s) - prev_time_s
+	local time_delta_s = get(DATAREF_TIME_S) - prev_time_s
 	
 	-- only update max 20 times per second (i.e. time delta > 0.05 seconds)
 	if time_delta_s > 0.05
 	then
 		-- get current speed in m/s
-		local speed_mps = get(sim_speed_kts) * 0.514444
+		local speed_mps = get(DATAREF_AIRSPEED_KTS) * 0.514444
 		-- (for calibration) local speed_mps = get(sim_speed_mps)
 
 		-- calculate current speed squared (m/s)^2
@@ -186,14 +201,14 @@ function update_total_energy()
 		local te_adj_mps = (speed_mps_2 - prev_speed_mps_2) / (2 * 9.81 * time_delta_s)
 		
 		-- calculate altitude delta (meters) since last update
-		local alt_delta_m = get(sim_alt_ft) * 0.3048 - prev_alt_m
+		local alt_delta_m = get(DATAREF_ALT_FT) * 0.3048 - prev_alt_m
 		-- (for calibration) local alt_delta_m = get(sim_alt_m) - prev_alt_m
 		
 		-- calculate plain climb rate
 		local climb_mps = alt_delta_m / time_delta_s
 		
 		-- calculate new vario compensated reading using 70% current and 30% new (for smoothing)
-		local te_mps = get(dataref_te_mps) * 0.7 + (climb_mps + te_adj_mps) * 0.3
+		local te_mps = get(DATAREF_TE_MPS) * 0.7 + (climb_mps + te_adj_mps) * 0.3
 		
 		-- limit the reading to 7 m/s max to avoid a long recovery time from the smoothing
 		if te_mps > 7
@@ -203,16 +218,16 @@ function update_total_energy()
 		
 		-- all good, transfer value to the needle
         -- write value to datarefs
-        set(dataref_te_mps, te_mps) -- meters per second
+        set(DATAREF_TE_MPS, te_mps) -- meters per second
 
-        set(dataref_te_fpm, te_mps * 196.85) -- feet per minute
+        set(DATAREF_TE_FPM, te_mps * 196.85) -- feet per minute
 
-        set(dataref_te_kts, te_mps * 1.94384) -- knots
+        set(DATAREF_TE_KTS, te_mps * 1.94384) -- knots
 		
 		-- store time, altitude and speed^2 as starting values for next iteration
-		prev_time_s = get(sim_time_s)
-		-- prev_alt_m = get(sim_alt_ft) * 0.3048
-		prev_alt_m = get(sim_alt_m)
+		prev_time_s = get(DATAREF_TIME_S)
+		prev_alt_m = get(DATAREF_ALT_FT) * 0.3048
+		-- (for calibration) prev_alt_m = get(sim_alt_m)
         prev_speed_mps_2 = speed_mps_2
         -- finally write value
         B21_302_te_mps = te_mps
@@ -281,9 +296,9 @@ end
 
 function update_wp_alt_bearing_and_distance()
     --debug we might need to do some trig here
-    B21_302_wp_msl_m = DATAREF_NEXT_WAYPOINT_ALT_M
-    B21_302_wp_bearing_radians = DATAREF_WP_BEARING_RADIANS
-    B21_302_distance_to_go_m = DATAREF_WP_DISTANCE_METERS
+    B21_302_wp_msl_m = get(DATAREF_NEXT_WAYPOINT_ALT_M)
+    B21_302_wp_bearing_radians = get(DATAREF_WP_BEARING_RADIANS)
+    B21_302_distance_to_go_m = get(DATAREF_WP_DISTANCE_METERS)
 end
 
 --[[
