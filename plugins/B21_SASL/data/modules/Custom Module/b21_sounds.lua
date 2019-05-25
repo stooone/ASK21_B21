@@ -9,11 +9,11 @@ local spoilers_lock = loadSample(sasl.getAircraftPath()..'/sounds/systems/Brakes
 
 local sounds = { climb = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_climb.wav'),
 				 sink = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_descend.wav')
-}
+               }
 
 defineProperty("spoiler_ratio", globalPropertyf("sim/cockpit2/controls/speedbrake_ratio")) -- get value of spoiler lever setting
 pause = globalPropertyf("sim/time/paused") -- check if sim is paused
-volume_switch = globalPropertyi("sim/auriel/acoustic_switch") -- dataref for the "off/volume" switch
+-- volume_switch = globalPropertyi("sim/auriel/acoustic_switch") -- dataref for the "off/volume" switch
 climbrate = globalPropertyf("b21_soaring/total_energy_fpm") -- 'smoothed' vario dataref, will be used to set pitch of vario sound
 
 local spoiler_init = 0 -- flag to ensure spoiler sounds played once on open/close
@@ -21,20 +21,22 @@ local spoiler_init = 0 -- flag to ensure spoiler sounds played once on open/clos
 setSampleGain(spoilers_lock, 500)
 setSampleGain(spoilers_unlock, 500)
 
-local volume = 0
+local volume = 110
+
+--playSample(spoilers_unlock)
 
 function update_spoilers()
 	-------------- generate airbrake lock / unlock sounds
 	if get(spoiler_ratio) > 0.03 and spoiler_init == 0 
 	then 
-		playSample(spoilers_unlock, 0)
+		playSample(spoilers_unlock, false)
         spoiler_init = 1
         return
 	end
 
 	if get(spoiler_ratio) < 0.03 and spoiler_init == 1 
 	then
-		playSample(spoilers_lock, 0)
+		playSample(spoilers_lock, false)
 		spoiler_init = 0
 	end
 end
@@ -94,7 +96,7 @@ function update_climb(vario_climbrate)
         setSamplePitch(sounds.climb, pitch)
         if not isSamplePlaying(sounds.climb)
         then
-            playSample(sounds.climb, 1) -- looping
+            playSample(sounds.climb, true) -- looping
         end
         return
     end
@@ -113,7 +115,7 @@ function update_climb(vario_climbrate)
 
         if not isSamplePlaying(sounds.sink)
         then
-            playSample(sounds.sink, 1) -- looping
+            playSample(sounds.sink, true) -- looping
         end
     end
 end -- update_climb()
