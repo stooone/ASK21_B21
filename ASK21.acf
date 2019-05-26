@@ -164,7 +164,7 @@ P _gear/1/_lonE 0.0
 P _gear/1/_lonN 0.0
 P _gear/1/_lonR 0.0
 P _gear/1/_scon 1735.471801758
-P _gear/1/_stat_def 0.097549774
+P _gear/1/_stat_def 0.097549766
 P _gear/1/_steerdeg_hispeed 0.0
 P _gear/1/_steerdeg_lospeed 0.0
 P _gear/1/_strut_comp 0.0
@@ -260,7 +260,7 @@ P _obja/4/_v10_att_z_acf_prt_ref 0.0
 P _obja/4/_v10_is_internal 960420056
 P _obja/4/_v10_steers_with_gear 0
 P _obja/count 5
-P _panel_inst_3d 23
+P _panel_inst_3d 25
 P _part/10/_bot_s1 0.006000000
 P _part/10/_bot_s2 0.048999999
 P _part/10/_bot_t1 0.006000000
@@ -19561,9 +19561,113 @@ P acf/_ann_triggers_warning/98 0
 P acf/_ann_triggers_warning/99 0
 P acf/_ann_triggers_warning/count 197
 P acf/_ann_wav_file/10 alarm.wav
+P acf/_ann_wav_file/100 autopilot_fail.wav
+P acf/_ann_wav_file/101 autopilot_fail.wav
+P acf/_ann_wav_file/102 autopilot_fail.wav
+P acf/_ann_wav_file/103 autopilot_fail.wav
+P acf/_ann_wav_file/104 autopilot_fail.wav
+P acf/_ann_wav_file/105 autopilot_fail.wav
+P acf/_ann_wav_file/106 autopilot_fail.wav
+P acf/_ann_wav_file/107 autopilot_fail.wav
+P acf/_ann_wav_file/108 autopilot_fail.wav
+P acf/_ann_wav_file/109 NormThrottle.wav
+P acf/_ann_wav_file/11 antonov_an-26 boom3.wav
+P acf/_ann_wav_file/110 NormThrottle.wav
+P acf/_ann_wav_file/111 NormThrottle.wav
+P acf/_ann_wav_file/112 NormThrottle.wav
+P acf/_ann_wav_file/113 NormThrottle.wav
+P acf/_ann_wav_file/114 NormThrottle.wav
+P acf/_ann_wav_file/115 NormThrottle.wav
+P acf/_ann_wav_file/116 NormThrottle.wav
+P acf/_ann_wav_file/117 silence.wav
+P acf/_ann_wav_file/118 silence.wav
+P acf/_ann_wav_file/119 silence.wav
+P acf/_ann_wav_file/12 rotor-high.wav
+P acf/_ann_wav_file/120 silence.wav
+P acf/_ann_wav_file/121 silence.wav
+P acf/_ann_wav_file/122 silence.wav
+P acf/_ann_wav_file/123 silence.wav
+P acf/_ann_wav_file/124 silence.wav
+P acf/_ann_wav_file/125 silence.wav
+P acf/_ann_wav_file/126 silence.wav
+P acf/_ann_wav_file/127 silence.wav
+P acf/_ann_wav_file/128 silence.wav
+P acf/_ann_wav_file/129 silence.wav
+P acf/_ann_wav_file/13 silence.wav
+P acf/_ann_wav_file/130 silence.wav
+P acf/_ann_wav_file/131 silence.wav
+P acf/_ann_wav_file/132 silence.wav
+P acf/_ann_wav_file/133 autopilot_disco.wav
+P acf/_ann_wav_file/134 autopilot_disco.wav
+P acf/_ann_wav_file/135 autopilot_disco.wav
+P acf/_ann_wav_file/136 autopilot_disco.wav
+P acf/_ann_wav_file/137 autopilot_disco.wav
+P acf/_ann_wav_file/138 autopilot_disco.wav
+P acf/_ann_wav_file/139 autopilot_disco.wav
+P acf/_ann_wav_file/14 Transonic.wav
+P acf/_ann_wav_file/140 autopilot_disco.wav
+P acf/_ann_wav_file/141 autopilot_fail.wav
+P acf/_ann_wav_file/142 autopilot_fail.wav
+P acf/_ann_wav_file/143 autopilot_fail.wav
+P acf/_ann_wav_file/144 autopilot_fail.wav
+P acf/_ann_wav_file/145 autopilot_fail.wav
+P acf/_ann_wav_file/146 autopilot_fail.wav
+P acf/_ann_wav_file/147 autopilot_fail.wav
+P acf/_ann_wav_file/148 autopilot_fail.wav
+P acf/_ann_wav_file/149 NormThrottle.wav
+P acf/_ann_wav_file/15 RafaleC  flap.wav
+P acf/_ann_wav_file/150 NormThrottle.wav
+P acf/_ann_wav_file/151 NormThrottle.wav
+P acf/_ann_wav_file/152 NormThrottle.wav
+P acf/_ann_wav_file/153 NormThrottle.wav
+P acf/_ann_wav_file/154 NormThrottle.wav
+P acf/_ann_wav_file/155 NormThrottle.wav
+P acf/_ann_wav_file/156 NormThrottle.wav
+P acf/_ann_wav_file/157 NormThrottle.wav
+P acf/_ann_wav_file/158 NormThrottle.wav
+P acf/_ann_wav_file/159 NormThrottle.wav
+P acf/_ann_wav_file/16 autopilot_disco.wav
+P acf/_ann_wav_file/160 NormThrottle.wav
+P acf/_ann_wav_file/161 NormThrottle.wav
+P acf/_ann_wav_file/162 NormThrottle.wav
+P acf/_ann_wav_file/163 NormThrottle.wav
+P acf/_ann_wav_file/164 NormThrottle.wav
+P acf/_ann_wav_file/165 NormThrottle.wav
+P acf/_ann_wav_file/166 autopilot_disco.wav
+P acf/_ann_wav_file/167 autopilot_fail.wav
 P acf/_ann_wav_file/168 alarm.wav
+P acf/_ann_wav_file/169 autopilot_fail.wav
+P acf/_ann_wav_file/17 gear.wav
+P acf/_ann_wav_file/170 autopilot_disco.wav
+P acf/_ann_wav_file/171 mute.wav
+P acf/_ann_wav_file/172 mute.wav
+P acf/_ann_wav_file/173 mute.wav
 P acf/_ann_wav_file/174 Eclipse APU.wav
+P acf/_ann_wav_file/175 mute.wav
+P acf/_ann_wav_file/176 MD80 glideslope.WAV
+P acf/_ann_wav_file/177 autopilot_fail.wav
+P acf/_ann_wav_file/178 mute.wav
+P acf/_ann_wav_file/179 mute.wav
+P acf/_ann_wav_file/18 autopilot_disco.wav
+P acf/_ann_wav_file/180 bankangle.wav
+P acf/_ann_wav_file/181 mute.wav
+P acf/_ann_wav_file/182 mute.wav
+P acf/_ann_wav_file/183 0n.wav
+P acf/_ann_wav_file/184 0n.wav
+P acf/_ann_wav_file/185 0n.wav
+P acf/_ann_wav_file/186 0n.wav
+P acf/_ann_wav_file/187 0n.wav
+P acf/_ann_wav_file/188 0n.wav
 P acf/_ann_wav_file/19 autopilot_disco.wav
+P acf/_ann_wav_file/20 mute.wav
+P acf/_ann_wav_file/21 autopilot_fail.wav
+P acf/_ann_wav_file/22 autopilot_fail.wav
+P acf/_ann_wav_file/23 autopilot_fail.wav
+P acf/_ann_wav_file/24 autopilot_fail.wav
+P acf/_ann_wav_file/25 autopilot_fail.wav
+P acf/_ann_wav_file/26 autopilot_fail.wav
+P acf/_ann_wav_file/27 autopilot_fail.wav
+P acf/_ann_wav_file/28 autopilot_fail.wav
 P acf/_ann_wav_file/29 Warning.wav
 P acf/_ann_wav_file/3 autopilot_disco.wav
 P acf/_ann_wav_file/30 Warning.wav
@@ -19573,7 +19677,15 @@ P acf/_ann_wav_file/33 Warning.wav
 P acf/_ann_wav_file/34 Warning.wav
 P acf/_ann_wav_file/35 Warning.wav
 P acf/_ann_wav_file/36 Warning.wav
+P acf/_ann_wav_file/37 autopilot_fail.wav
+P acf/_ann_wav_file/38 autopilot_fail.wav
+P acf/_ann_wav_file/39 autopilot_fail.wav
 P acf/_ann_wav_file/4 alarm.wav
+P acf/_ann_wav_file/40 autopilot_fail.wav
+P acf/_ann_wav_file/41 autopilot_fail.wav
+P acf/_ann_wav_file/42 autopilot_fail.wav
+P acf/_ann_wav_file/43 autopilot_fail.wav
+P acf/_ann_wav_file/44 autopilot_fail.wav
 P acf/_ann_wav_file/45 Warning.wav
 P acf/_ann_wav_file/46 Warning.wav
 P acf/_ann_wav_file/47 Warning.wav
@@ -19600,16 +19712,40 @@ P acf/_ann_wav_file/65 Firebell.wav
 P acf/_ann_wav_file/66 Firebell.wav
 P acf/_ann_wav_file/67 Firebell.wav
 P acf/_ann_wav_file/68 Firebell.wav
+P acf/_ann_wav_file/69 silence.wav
 P acf/_ann_wav_file/7 Warning.wav
+P acf/_ann_wav_file/70 silence.wav
+P acf/_ann_wav_file/71 silence.wav
+P acf/_ann_wav_file/72 silence.wav
+P acf/_ann_wav_file/73 silence.wav
+P acf/_ann_wav_file/74 silence.wav
+P acf/_ann_wav_file/75 silence.wav
+P acf/_ann_wav_file/76 silence.wav
 P acf/_ann_wav_file/77 Warning.wav
 P acf/_ann_wav_file/78 Warning.wav
 P acf/_ann_wav_file/79 Warning.wav
+P acf/_ann_wav_file/8 mute.wav
 P acf/_ann_wav_file/80 Warning.wav
 P acf/_ann_wav_file/81 Warning.wav
 P acf/_ann_wav_file/82 Warning.wav
 P acf/_ann_wav_file/83 Warning.wav
 P acf/_ann_wav_file/84 Warning.wav
+P acf/_ann_wav_file/85 CUSTOM/
+P acf/_ann_wav_file/86 CUSTOM/
+P acf/_ann_wav_file/87 CUSTOM/
+P acf/_ann_wav_file/88 CUSTOM/
+P acf/_ann_wav_file/89 CUSTOM/
 P acf/_ann_wav_file/9 terrain.wav
+P acf/_ann_wav_file/90 CUSTOM/
+P acf/_ann_wav_file/91 CUSTOM/
+P acf/_ann_wav_file/92 CUSTOM/
+P acf/_ann_wav_file/93 autopilot_fail.wav
+P acf/_ann_wav_file/94 autopilot_fail.wav
+P acf/_ann_wav_file/95 autopilot_fail.wav
+P acf/_ann_wav_file/96 autopilot_fail.wav
+P acf/_ann_wav_file/97 autopilot_fail.wav
+P acf/_ann_wav_file/98 autopilot_fail.wav
+P acf/_ann_wav_file/99 autopilot_fail.wav
 P acf/_ann_wav_file/count 197
 P acf/_ap_crs_src 0
 P acf/_apt_req_plane 0
@@ -21488,11 +21624,18 @@ P acf/_part_descrip/75 #2 engine pylon
 P acf/_part_descrip/76 #3 emgine pylon
 P acf/_part_descrip/77 Engine #5
 P acf/_part_descrip/78 #2 center Nacelle
+P acf/_part_descrip/79 Prop3 gearbox
+P acf/_part_descrip/80 Prop4 gearbox
 P acf/_part_descrip/85 Nose Wheel Fairing
 P acf/_part_descrip/86 hgiReG tW raleehnaP 
 P acf/_part_descrip/87 Main Gear Wheel Fairing - Starboard
 P acf/_part_descrip/88 nose landing gear fairing
 P acf/_part_descrip/89 esoNaeG iS rF edgnal
+P acf/_part_descrip/90 cargo
+P acf/_part_descrip/91 cargo
+P acf/_part_descrip/92 Nosegear axle truck
+P acf/_part_descrip/93 Nosegear steering link arm2
+P acf/_part_descrip/94 Nosegear axle truck
 P acf/_part_descrip/count 95
 P acf/_pe_xyz/0 0.0
 P acf/_pe_xyz/1 1.299999952
@@ -22256,7 +22399,7 @@ gen_annun winter vario center
   TOOLTIP TE vario
 
 gen_needle b21 vario netto
-  POS 382.000000 131.000000
+  POS 409.000000 84.000000
   IMAGE b21_vario_te57_k
   DATAREF b21/ask21/vario_netto_mps
   SIZE 0.550000
@@ -22272,7 +22415,7 @@ gen_needle b21 vario netto
   OFFSET 20.000000
 
 gen_rotary b21 netto center
-  POS 383.000000 129.500000
+  POS 410.000000 83.500000
   IMAGE b21_te57_center
   DATAREF 
   SIZE 0.550000
@@ -22291,6 +22434,44 @@ gen_rotary b21 netto center
   CURSOR DEFAULT
   CLICK_DX 0
   CLICK_DY 0
+
+gen_needle b21_vario_302
+  POS 283.000000 132.500000
+  IMAGE b21_vario_302/vario_302
+  DATAREF b21/ask21/vario_302_needle_fpm
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME -5000.000000 -179.000000 1.000000
+  KEY_FRAME -1000.000000 -179.000000 1.000000
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1000.000000 179.000000 1.000000
+  KEY_FRAME 5000.000000 179.000000
+  IS_DRAGGABLE 0
+  OFFSET 0.000000
+
+gen_rheostat 302_knob
+  POS 168.000000 67.000000
+  IMAGE b21_vario_302/vario_302_knob
+  DATAREF b21/ask21/vario_302_knob
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 30.000000 1.000000
+  KEY_FRAME 2.000000 60.000000 1.000000
+  KEY_FRAME 3.000000 90.000000 1.000000
+  KEY_FRAME 4.000000 120.000000 1.000000
+  KEY_FRAME 5.000000 150.000000 1.000000
+  KEY_FRAME 6.000000 180.000000 1.000000
+  KEY_FRAME 7.000000 210.000000
+  CLICK_RADIUS 10.000000
+  CLICK_RADIUS_DY 0.000000
+  STEP1 1.000000
+  STEP2 1.000000
+  OFFSET 0.000000
+  CURSOR DEFAULT
+  CLICK_DX 0
+  CLICK_DY 0
+  WRAP 0
 
 PANEL_2D_END
 PANEL_3D_BEGIN

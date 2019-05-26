@@ -1,5 +1,10 @@
 -- B21
 
+-- #################################################
+-- Vario sound controlled by this DataRef:
+climbrate = createGlobalPropertyf("b21/ask21/vario_sound_fpm", 0.0, false, true, true)
+-- #################################################
+
 local QUIET_CLIMB = 10 -- dead band -110 fpm .. +10 fpm
 local QUIET_SINK = -150 -- vario will be silent in this band
 
@@ -14,7 +19,6 @@ local sounds = { climb = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario
 defineProperty("spoiler_ratio", globalPropertyf("sim/cockpit2/controls/speedbrake_ratio")) -- get value of spoiler lever setting
 pause = globalPropertyf("sim/time/paused") -- check if sim is paused
 -- volume_switch = globalPropertyi("sim/auriel/acoustic_switch") -- dataref for the "off/volume" switch
-climbrate = globalPropertyf("b21/ask21/vario_sound_fpm") -- 'smoothed' vario dataref, will be used to set pitch of vario sound
 
 local spoiler_init = 0 -- flag to ensure spoiler sounds played once on open/close
 

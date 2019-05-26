@@ -36,34 +36,34 @@
 ]]
 -- the datarefs we will READ to get time, altitude and speed from the sim
 DATAREF = {}
-DATAREF.MACCREADY = 2.0                      -- debug write this from instrument MacCready knob
-DATAREF.TIME_S = 100.0                       -- globalPropertyf("sim/network/misc/network_time_sec")
-DATAREF.ALT_FT = 3000.0                      -- globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot")
+DATAREF.MACCREADY = createGlobalPropertyf("b21/ask21/vario_302_knob", 0, false, true, true) -- 2.0
+DATAREF.TIME_S = globalPropertyf("sim/network/misc/network_time_sec") -- 100
+DATAREF.ALT_FT = globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot") -- 3000
 -- (for calibration) local sim_alt_m = globalPropertyf("sim/flightmodel/position/elevation")
-DATAREF.AIRSPEED_KTS = 60.0                  -- globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
+DATAREF.AIRSPEED_KTS = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot") -- 60
 -- (for calibration) local sim_speed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
-DATAREF.WEIGHT_TOTAL_KG = 430.0              -- globalPropertyf("sim/flightmodel/weight/m_total")
-DATAREF.NEXT_WAYPOINT_ALT_M = 100.0          -- debug
-DATAREF.WP_BEARING_RADIANS = 0.0             -- debug
-DATAREF.WP_DISTANCE_M = 2000.0               -- debug
-DATAREF.WIND_RADIANS = 0.0 -- debug
-DATAREF.WIND_MPS = 0.0      -- debug
+DATAREF.WEIGHT_TOTAL_KG = globalPropertyf("sim/flightmodel/weight/m_total") -- 430
+DATAREF.WP_MSL_M = createGlobalPropertyf("b21/ask21/debug_wp_msl_m", 100.0, false, true, true)          -- debug
+DATAREF.WP_BEARING_RAD = createGlobalPropertyf("b21/ask21/debug_wp_bearing_rad", 0.0, false, true, true)           -- debug
+DATAREF.WP_DISTANCE_M = createGlobalPropertyf("b21/ask21/debug_wp_distance_m", 0.0, false, true, true) -- 2000.0               -- debug
+DATAREF.WIND_RADIANS = createGlobalPropertyf("b21/ask21/debug_wind_rad", 0.0, false, true, true) -- debug
+DATAREF.WIND_MPS = createGlobalPropertyf("b21/ask21/debug_wind_mps", 0.0, false, true, true)      -- debug
 
 -- create global DataRefs we will WRITE (name, default, isNotPublished, isShared, isReadOnly)
-DATAREF.TE_MPS = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_mps", 0.0, false, true, true)
-DATAREF.TE_FPM = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_fpm", 0.0, false, true, true)
-DATAREF.TE_KTS = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_kts", 0.0, false, true, true)
-DATAREF.PULL = 0         -- createGlobalPropertyi("b21/ask21/302_pull", 0, false, true, true)
-DATAREF.PUSH = 0         -- createGlobalPropertyi("b21/ask21/302_push", 0, false, true, true)
-DATAREF.NEEDLE_FPM = 0.0 -- createGlobalPropertyf("b21/ask21/302_needle_fpm", 0.0, false, true, true)
-DATAREF.B21_VARIO_SOUND_FPM = 0.0 --debug
+DATAREF.TE_MPS = createGlobalPropertyf("b21/ask21/total_energy_mps", 0.0, false, true, true)
+DATAREF.TE_FPM = createGlobalPropertyf("b21/ask21/total_energy_fpm", 0.0, false, true, true)
+DATAREF.TE_KTS = createGlobalPropertyf("b21/ask21/total_energy_kts", 0.0, false, true, true)
+DATAREF.PULL = createGlobalPropertyi("b21/ask21/vario_302_pull", 0, false, true, true)
+DATAREF.PUSH = createGlobalPropertyi("b21/ask21/vario_302_push", 0, false, true, true)
+DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/ask21/vario_302_needle_fpm", 0.0, false, true, true)
+DATAREF.B21_VARIO_SOUND_FPM = globalPropertyf("b21/ask21/vario_sound_fpm")
 
 function dataref_read(x)
-    return DATAREF[x]
+    return get(DATAREF[x])
 end
 
 function dataref_write(x, value)
-    DATAREF[x] = value
+    set(DATAREF[x], value)
 end
 
 -- Conversion constants
@@ -135,7 +135,7 @@ B21_302_netto_mps = 0.0
 
 -- Next waypoint altitude msl (m), bearing (radians), distance (m)
 B21_302_wp_msl_m = 0.0
-B21_302_wp_bearing_radians = 0.0
+B21_302_wp_bearing_rad = 0.0
 B21_302_distance_to_go_m = 0.0
 
 -- Maccready speed-to-fly and polar sink value at that speed
@@ -334,17 +334,17 @@ end
                     CALCULATE DESTINATION ALT METERS MSL
                     Outputs:
                         B21_302_wp_msl_m
-                        B21_302_wp_bearing_radians
+                        B21_302_wp_bearing_rad
                         B21_302_distance_to_go_m
 ]]
 
 function update_wp_alt_bearing_and_distance()
     --debug we might need to do some trig here
-    B21_302_wp_msl_m = dataref_read("NEXT_WAYPOINT_ALT_M")
-    B21_302_wp_bearing_radians = dataref_read("WP_BEARING_RADIANS")
+    B21_302_wp_msl_m = dataref_read("WP_MSL_M")
+    B21_302_wp_bearing_rad = dataref_read("WP_BEARING_RAD")
     B21_302_distance_to_go_m = dataref_read("WP_DISTANCE_M")
     print("B21_302_wp_msl_m",B21_302_wp_msl_m) --debug
-    print("B21_302_wp_bearing_radians",B21_302_wp_bearing_radians) --debug
+    print("B21_302_wp_bearing_rad",B21_302_wp_bearing_rad) --debug
     print("B21_302_distance_to_go_m", B21_302_distance_to_go_m) --debug
 end
 
@@ -405,7 +405,7 @@ end
 ]]
 
 function update_arrival_height()
-    local B21_theta_radians = dataref_read("WIND_RADIANS") - B21_302_wp_bearing_radians - math.pi
+    local B21_theta_radians = dataref_read("WIND_RADIANS") - B21_302_wp_bearing_rad - math.pi
 
     local B21_wind_velocity_mps = dataref_read("WIND_MPS")
 
