@@ -35,32 +35,35 @@
 
 ]]
 -- the datarefs we will READ to get time, altitude and speed from the sim
-DATAREF_TIME_S = 100.0                       -- globalPropertyf("sim/network/misc/network_time_sec")
-DATAREF_ALT_FT = 3000.0                      -- globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot")
+DATAREF = {}
+DATAREF.MACCREADY = 2.0
+DATAREF.TIME_S = 100.0                       -- globalPropertyf("sim/network/misc/network_time_sec")
+DATAREF.ALT_FT = 3000.0                      -- globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot")
 -- (for calibration) local sim_alt_m = globalPropertyf("sim/flightmodel/position/elevation")
-DATAREF_AIRSPEED_KTS = 60.0                  -- globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
+DATAREF.AIRSPEED_KTS = 60.0                  -- globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
 -- (for calibration) local sim_speed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
-DATAREF_TOTAL_WEIGHT_KG = 430.0              -- globalPropertyf("sim/flightmodel/weight/m_total")
-DATAREF_NEXT_WAYPOINT_ALT_M = 100.0          -- debug
-DATAREF_WP_BEARING_RADIANS = 0.0             -- debug
-DATAREF_WP_DISTANCE_METERS = 2000.0          -- debug
-DATAREF_AMBIENT_WIND_DIRECTION_RADIANS = 0.0 -- debug
-DATAREF_AMBIENT_WIND_VELOCITY_MPS = 0.0      -- debug
+DATAREF.TOTAL_WEIGHT_KG = 430.0              -- globalPropertyf("sim/flightmodel/weight/m_total")
+DATAREF.NEXT_WAYPOINT_ALT_M = 100.0          -- debug
+DATAREF.WP_BEARING_RADIANS = 0.0             -- debug
+DATAREF.WP_DISTANCE_M = 2000.0               -- debug
+DATAREF.WIND_RADIANS = 0.0 -- debug
+DATAREF.WIND_MPS = 0.0      -- debug
 
 -- create global DataRefs we will WRITE (name, default, isNotPublished, isShared, isReadOnly)
-DATAREF_TE_MPS = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_mps", 0.0, false, true, true)
-DATAREF_TE_FPM = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_fpm", 0.0, false, true, true)
-DATAREF_TE_KTS = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_kts", 0.0, false, true, true)
-DATAREF_PULL = 0         -- createGlobalPropertyi("b21/ask21/302_pull", 0, false, true, true)
-DATAREF_PUSH = 0         -- createGlobalPropertyi("b21/ask21/302_push", 0, false, true, true)
-DATAREF_NEEDLE_FPM = 0.0 -- createGlobalPropertyf("b21/ask21/302_needle_fpm", 0.0, false, true, true)
+DATAREF.TE_MPS = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_mps", 0.0, false, true, true)
+DATAREF.TE_FPM = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_fpm", 0.0, false, true, true)
+DATAREF.TE_KTS = 0.0     -- createGlobalPropertyf("b21/ask21/total_energy_kts", 0.0, false, true, true)
+DATAREF.PULL = 0         -- createGlobalPropertyi("b21/ask21/302_pull", 0, false, true, true)
+DATAREF.PUSH = 0         -- createGlobalPropertyi("b21/ask21/302_push", 0, false, true, true)
+DATAREF.NEEDLE_FPM = 0.0 -- createGlobalPropertyf("b21/ask21/302_needle_fpm", 0.0, false, true, true)
+DATAREF.B21_VARIO_SOUND_FPM = 0.0 --debug
 
 function dataref_read(x)
-    return x
+    return DATAREF[x]
 end
 
 function dataref_write(x, value)
-    x = value
+    DATAREF[x] = value
 end
 
 -- Conversion constants
@@ -68,6 +71,9 @@ FT_TO_M = 0.3048
 KTS_TO_KPH = 1.852
 KTS_TO_MPS = 0.514444
 MPS_TO_FPM = 196.85
+MPS_TO_KTS = 1.0 / KTS_TO_MPS
+MPS_TO_KPH = 3.6
+KPH_TO_MPS = 1 / MPS_TO_KPH
 
 -- Values read from polar.lua
 B21_302_polar_speed_0_mps = 0 -- CONSTANT
@@ -100,8 +106,8 @@ B21_302_maccready_mps = 2 -- user input maccready setting in m/s
 
 B21_302_climb_average_mps = 0 -- calculated climb average
 
-B21_polar_stf_best_mps = B21_polar_stf_best_kph * 0.277778
-B21_polar_stf_2_mps = B21_polar_stf_2_kph * 0.277778
+B21_polar_stf_best_mps = B21_polar_stf_best_kph * KPH_TO_MPS
+B21_polar_stf_2_mps = B21_polar_stf_2_kph * KPH_TO_MPS
 
 -- some constants derived from polar to use in the speed-to-fly calculation
 B21_302_polar_const_r = (B21_polar_stf_2_mps^2 - B21_polar_stf_best_mps^2) / 2
@@ -160,11 +166,19 @@ average_start_s = 97.0 --debug
 --  ballast = 0.0 (zero ballast, glider at empty weight) => polar_adjust = 1
 --  ballast = 1.0 (full ballast, glider at full weight) => polar_adjust = sqrt(weight_full/weight_empty)
 function update_ballast()
-    B21_302_ballast = (DATAREF_TOTAL_WEIGHT_KG - B21_polar_weight_empty_kg) / (B21_polar_weight_full_kg - B21_polar_weight_empty_kg)
+    B21_302_ballast = (DATAREF.TOTAL_WEIGHT_KG - B21_polar_weight_empty_kg) / (B21_polar_weight_full_kg - B21_polar_weight_empty_kg)
     if B21_302_prev_ballast ~= B21_302_ballast
     then
         B21_302_ballast_adjust = math.sqrt(1 + B21_polar_weight_full_kg * B21_302_ballast / B21_polar_weight_empty_kg - B21_302_ballast)
     end
+    print("B21_302_ballast_adjust",B21_302_ballast_adjust) --debug
+end
+
+function update_maccready()
+    --debug read knob on cockpit panel
+    B21_302_maccready_mps = dataref_read("MACCREADY")
+    B21_302_maccready_kts = B21_302_maccready_mps * MPS_TO_KTS
+    print("B21_302_maccready_kts", B21_302_maccready_kts) --debug
 end
 
 -- calcular polar sink in m/s for given airspeed in km/h
@@ -186,14 +200,12 @@ end
 -- interpolate sink for speed between between points p1 and p2 on the polar
 -- p1 and p2 are { speed_kph, sink_mps } where sink is positive
 function interp(speed, p1, p2)
-    dataref_write(b21_debug_polar_p1_mps, p1[2])
-    dataref_write(b21_debug_polar_p2_mps, p2[2])
     local ratio = (speed - p1[1]) / (p2[1] - p1[1])
     return p1[2] + ratio * (p2[2]-p1[2])
 end
 
 function update_polar_sink()
-    local airspeed_kph = dataref_read(DATAREF_AIRSPEED_KTS) * KTS_TO_KPH
+    local airspeed_kph = dataref_read("AIRSPEED_KTS") * KTS_TO_KPH
     B21_302_polar_sink_mps = sink_mps(airspeed_kph, B21_302_ballast_adjust)
     print("B21_302_polar_sink_mps",B21_302_polar_sink_mps) --debug
 end
@@ -202,13 +214,13 @@ end
 function update_total_energy()
     
 	-- calculate time (float seconds) since previous update
-	local time_delta_s = dataref_read(DATAREF_TIME_S) - prev_time_s
+	local time_delta_s = dataref_read("TIME_S") - prev_time_s
 	print("time_delta_s ",time_delta_s) --debug
 	-- only update max 20 times per second (i.e. time delta > 0.05 seconds)
 	if time_delta_s > 0.05
 	then
 		-- get current speed in m/s
-		local speed_mps = dataref_read(DATAREF_AIRSPEED_KTS) * KTS_TO_MPS
+		local speed_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
 		-- (for calibration) local speed_mps = dataref_read(sim_speed_mps)
 
 		-- calculate current speed squared (m/s)^2
@@ -218,14 +230,14 @@ function update_total_energy()
 		local te_adj_mps = (speed_mps_2 - prev_speed_mps_2) / (2 * 9.81 * time_delta_s)
 		print("te_adj_mps", te_adj_mps) --debug
 		-- calculate altitude delta (meters) since last update
-		local alt_delta_m = dataref_read(DATAREF_ALT_FT) * 0.3048 - prev_alt_m
+		local alt_delta_m = dataref_read("ALT_FT") * 0.3048 - prev_alt_m
 		-- (for calibration) local alt_delta_m = dataref_read(sim_alt_m) - prev_alt_m
 		print("alt_delta_m",alt_delta_m) --debug
 		-- calculate plain climb rate
 		local climb_mps = alt_delta_m / time_delta_s
 		print("rate of climb m/s", climb_mps) -- debug
 		-- calculate new vario compensated reading using 70% current and 30% new (for smoothing)
-		local te_mps = dataref_read(DATAREF_TE_MPS) * 0.7 + (climb_mps + te_adj_mps) * 0.3
+		local te_mps = B21_302_te_mps * 0.7 + (climb_mps + te_adj_mps) * 0.3
 		
 		-- limit the reading to 7 m/s max to avoid a long recovery time from the smoothing
 		if te_mps > 7
@@ -235,15 +247,15 @@ function update_total_energy()
 		
 		-- all good, transfer value to the needle
         -- write value to datarefs
-        dataref_write(DATAREF_TE_MPS, te_mps) -- meters per second
+        dataref_write("TE_MPS", te_mps) -- meters per second
 
-        dataref_write(DATAREF_TE_FPM, te_mps * 196.85) -- feet per minute
+        dataref_write("TE_FPM", te_mps * MPS_TO_FPM) -- feet per minute
 
-        dataref_write(DATAREF_TE_KTS, te_mps * 1.94384) -- knots
+        dataref_write("TE_KTS", te_mps * MPS_TO_KTS) -- knots
 		
 		-- store time, altitude and speed^2 as starting values for next iteration
-		prev_time_s = dataref_read(DATAREF_TIME_S)
-		prev_alt_m = dataref_read(DATAREF_ALT_FT) * FT_TO_M
+		prev_time_s = dataref_read("TIME_S")
+		prev_alt_m = dataref_read("ALT_FT") * FT_TO_M
 		-- (for calibration) prev_alt_m = dataref_read(sim_alt_m)
         prev_speed_mps_2 = speed_mps_2
         -- finally write value
@@ -304,7 +316,7 @@ function update_stf()
         B21_302_stf_temp_a = 1.0 / ((B21_302_polar_const_v2stfx - B21_302_stf_temp_a) / B21_302_polar_const_z + (1.0 / B21_302_polar_const_v2stfx))
     end
     B21_302_stf_mps = math.sqrt(B21_302_stf_temp_a) * math.sqrt(B21_302_ballast_adjust)
-    print("B21_302_stf_mps",B21_302_stf_mps) -- debug
+    print("B21_302_stf_mps",B21_302_stf_mps, "(",B21_302_stf_mps * MPS_TO_KPH,"kph)") -- debug
 end
 
 --[[
@@ -317,12 +329,12 @@ end
 
 function update_wp_alt_bearing_and_distance()
     --debug we might need to do some trig here
-    B21_302_wp_msl_m = dataref_read(DATAREF_NEXT_WAYPOINT_ALT_M)
-    B21_302_wp_bearing_radians = dataref_read(DATAREF_WP_BEARING_RADIANS)
-    B21_302_distance_to_go_m = dataref_read(DATAREF_WP_DISTANCE_METERS)
+    B21_302_wp_msl_m = dataref_read("NEXT_WAYPOINT_ALT_M")
+    B21_302_wp_bearing_radians = dataref_read("WP_BEARING_RADIANS")
+    B21_302_distance_to_go_m = dataref_read("WP_DISTANCE_M")
     print("B21_302_wp_msl_m",B21_302_wp_msl_m) --debug
     print("B21_302_wp_bearing_radians",B21_302_wp_bearing_radians) --debug
-    print("B21_302_distance_to_go_m", B21_2302_distance_to_go_m) --debug
+    print("B21_302_distance_to_go_m", B21_302_distance_to_go_m) --debug
 end
 
 --[[
@@ -333,8 +345,9 @@ end
 
 -- calculate speed-to-fly in still air for current maccready setting
 function update_maccready_stf()
-    B21_302_mc_stf_mps = math.sqrt(B21_302_maccready_mps * B21_302_polar_const_r + B21_polar_stf_best_mps^2) * math.sqrt(B21_302_ballast_adjust)
-    print("B21_302_mc_stf_mps", B21_302_mc_stf_mps) --debug
+    B21_302_mc_stf_mps = math.sqrt(B21_302_maccready_mps * B21_302_polar_const_r + B21_polar_stf_best_mps^2) * 
+                         math.sqrt(B21_302_ballast_adjust)
+    print("B21_302_mc_stf_mps", B21_302_mc_stf_mps,"(", B21_302_mc_stf_mps * MPS_TO_KPH, "kph)") --debug
 end
 
 --[[
@@ -348,8 +361,8 @@ end
 ]]
 
 function update_maccready_sink()
-    B21_302_mc_sink_mps = sink_mps(B21_302_mc_stf_mps, B21_302_ballast_adjust)
-    print("B21_302_mc_sink_mps", B21_302_mc_sink_mps) --debug
+    B21_302_mc_sink_mps = sink_mps(B21_302_mc_stf_mps * MPS_TO_KPH, B21_302_ballast_adjust)
+    print("B21_302_mc_sink_mps", B21_302_mc_sink_mps,"(", B21_302_mc_stf_mps / B21_302_mc_sink_mps,"mc L/D)") --debug
 end
 
 --[[                    CALCULATE ARRIVAL HEIGHT
@@ -381,9 +394,9 @@ end
 ]]
 
 function update_arrival_height()
-    local B21_theta_radians = dataref_read(DATAREF_AMBIENT_WIND_DIRECTION_RADIANS) - B21_302_wp_bearing_radians - math.pi
+    local B21_theta_radians = dataref_read("WIND_RADIANS") - B21_302_wp_bearing_radians - math.pi
 
-    local B21_wind_velocity_mps = dataref_read(DATAREF_AMBIENT_WIND_VELOCITY_MPS)
+    local B21_wind_velocity_mps = dataref_read("WIND_MPS")
 
     local B21_x_mps = math.cos(B21_theta_radians) * B21_wind_velocity_mps
 
@@ -393,7 +406,8 @@ function update_arrival_height()
 
     B21_302_height_needed_m = B21_302_distance_to_go_m / B21_vw_mps * B21_302_mc_sink_mps
 
-    B21_302_arrival_height_m = dataref_read(DATAREF_ALT_FT) * FT_TO_M - B21_302_height_needed_m - B21_302_wp_msl_m
+    B21_302_arrival_height_m = dataref_read("ALT_FT") * FT_TO_M - B21_302_height_needed_m - B21_302_wp_msl_m
+    print("Wind",dataref_read("WIND_RADIANS"),"radians",dataref_read("WIND_MPS"),"mps") --debug
     print("B21_302_height_needed_m", B21_302_height_needed_m) --debug
     print("B21_302_arrival_height_m", B21_302_arrival_height_m) --debug
 end
@@ -419,9 +433,9 @@ function update_glide_ratio()
     then
         B21_302_glide_ratio = 99
     else
-        B21_302_glide_ratio = dataref_read(DATAREF_AIRSPEED_KTS) * KTS_TO_MPS / sink
+        B21_302_glide_ratio = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS / sink
     end
-    print("B21_302_glide_ratio",B21_302_glide_ratio)
+    print("B21_302_glide_ratio",B21_302_glide_ratio) --debug
 end
 
 --[[                CALCULATE AVERAGE CLIMB (m/s) (L:B21_302_climb_average, meters per second)
@@ -447,9 +461,9 @@ end
 -- calculate B21_302_climb_average_mps
 function update_average_climb()
     -- only update 2+ seconds after last update
-    if dataref_read(DATAREF_TIME_S) - 2 > average_start_s
+    if dataref_read("TIME_S") - 2 > average_start_s
     then
-        average_start_s = dataref_read(DATAREF_TIME_S)
+        average_start_s = dataref_read("TIME_S")
 
         -- update climb average with smoothing
         B21_302_climb_average_mps = B21_302_climb_average_mps * 0.85 + B21_302_te_mps * 0.15
@@ -460,7 +474,7 @@ function update_average_climb()
             B21_302_climb_average_mps = B21_302_te_mps
         end
     end
-    print("B21_302_climb_average_mps",B21_302_climbs_average_mps)
+    print("B21_302_climb_average_mps",B21_302_climb_average_mps) --debug
 end
 
 --[[                    CALCULATE STF NEEDLE VALUE (m/s)
@@ -482,41 +496,43 @@ function update_needle()
     local needle_mps
     if B21_302_mode_stf
     then
-        needle_mps = (dataref_read(DATAREF_AIRSPEED_KTS) * KTS_TO_MPS - B21_302_stf_mps)/ 7
+        needle_mps = (dataref_read("AIRSPEED_KTS") * KTS_TO_MPS - B21_302_stf_mps)/ 7
     else
         needle_mps = B21_302_te_mps
     end
     B21_302_needle_fpm = needle_mps * MPS_TO_FPM
-    dataref_write(DATAREF_NEEDLE_FPM, B21_302_needle_fpm)
+    dataref_write("NEEDLE_FPM", B21_302_needle_fpm)
+    print("B21_302_needle_fpm",B21_302_needle_fpm)--debug
 end
 
 -- write value to b21/ask21/vario_sound_fpm dataref
 function update_vario_sound()
-    dataref_write(DATAREF_B21_VARIO_SOUND_FPM, B21_302_needle_fpm)
+    dataref_write("B21_VARIO_SOUND_FPM", B21_302_needle_fpm)
 end
 
 -- show the 'PULL' indicator on the vario display
 function update_pull()
     if B21_302_mode_stf and B21_302_needle_fpm > 100.0
     then
-        dataref_write(DATAREF_PULL, 1)
+        dataref_write("PULL", 1)
     else
-        dataref_write(DATAREF_PULL, 0)
+        dataref_write("PULL", 0)
     end
 end
 
 function update_push()
     if B21_302_mode_stf and B21_302_needle_fpm < -100
     then
-        dataref_write(DATAREF_PUSH, 1)
+        dataref_write("PUSH", 1)
     else
-        dataref_write(DATAREF_PUSH, 0)
+        dataref_write("PUSH", 0)
     end
 end
 
 -- Finally, here's the per-frame update() callabck
 function update()
     update_ballast()
+    update_maccready()
     update_polar_sink()
     update_total_energy()
     update_netto()
