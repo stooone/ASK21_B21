@@ -36,13 +36,13 @@
 ]]
 -- the datarefs we will READ to get time, altitude and speed from the sim
 DATAREF = {}
-DATAREF.MACCREADY = 2.0
+DATAREF.MACCREADY = 2.0                      -- debug write this from instrument MacCready knob
 DATAREF.TIME_S = 100.0                       -- globalPropertyf("sim/network/misc/network_time_sec")
 DATAREF.ALT_FT = 3000.0                      -- globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot")
 -- (for calibration) local sim_alt_m = globalPropertyf("sim/flightmodel/position/elevation")
 DATAREF.AIRSPEED_KTS = 60.0                  -- globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
 -- (for calibration) local sim_speed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
-DATAREF.TOTAL_WEIGHT_KG = 430.0              -- globalPropertyf("sim/flightmodel/weight/m_total")
+DATAREF.WEIGHT_TOTAL_KG = 430.0              -- globalPropertyf("sim/flightmodel/weight/m_total")
 DATAREF.NEXT_WAYPOINT_ALT_M = 100.0          -- debug
 DATAREF.WP_BEARING_RADIANS = 0.0             -- debug
 DATAREF.WP_DISTANCE_M = 2000.0               -- debug
@@ -75,30 +75,35 @@ MPS_TO_KTS = 1.0 / KTS_TO_MPS
 MPS_TO_KPH = 3.6
 KPH_TO_MPS = 1 / MPS_TO_KPH
 
--- Values read from polar.lua
-B21_302_polar_speed_0_mps = 0 -- CONSTANT
-B21_302_polar_sink_0_mps = 10 -- CONSTANT
-
--- points from polar curve { speed kps, sink m/s }
-polar = {
-    { 65.0, 0.8 },
-    { 70.0, 0.75 },
-    { 80.0, 0.7 },
-    { 90.0, 0.76 },
-    { 100.0, 0.78 },
-    { 120.0, 1.05 },
-    { 140.0, 1.5 },
-    { 160.0, 2.1 },
-    { 180.0, 3.5 },
-    { 200.0, 4.0 },
-    { 250.0, 10.0 } -- guess, off end of published polar
-}
---
-B21_polar_weight_empty_kg = 430 -- ASK21 360kg empty + 70kg for solo pilot
-B21_polar_weight_full_kg = 600 -- max weight, but no ballast anyway
---
-B21_polar_stf_best_kph = 97 -- speed to fly in zero sink (ASK21)
-B21_polar_stf_2_kph = 130    -- speed to fly in -2 m/s sink (ASK21)
+-- #########################################################################################
+-- ##                  POLAR SETTINGS UPDATED FOR EACH GLIDER                        #######
+-- #########################################################################################
+-- #                                                                                       #
+-- points from polar curve { speed kps, sink m/s }                                      -- #
+polar = {                                                                               -- #
+    { 65.0, 0.8 },                                                                      -- #
+    { 70.0, 0.75 },                                                                     -- #
+    { 80.0, 0.7 },                                                                      -- #
+    { 90.0, 0.76 },                                                                     -- #
+    { 100.0, 0.78 },                                                                    -- #
+    { 120.0, 1.05 },                                                                    -- #
+    { 140.0, 1.5 },                                                                     -- #
+    { 160.0, 2.1 },                                                                     -- #
+    { 180.0, 3.5 },                                                                     -- #
+    { 200.0, 4.0 },                                                                     -- #
+    { 250.0, 10.0 } -- backstop, off end of published polar                             -- #
+}                                                                                       -- #
+--                                                                                      -- #
+B21_polar_weight_empty_kg = 430 -- ASK21 360kg empty + 70kg for solo pilot              -- #
+B21_polar_weight_full_kg = 600 -- max weight, but no ballast anyway                     -- #
+--                                                                                      -- #
+B21_polar_stf_best_kph = 97 -- speed to fly in zero sink (ASK21)                        -- #
+B21_polar_stf_2_kph = 130    -- speed to fly in -2 m/s sink (ASK21)                     -- #
+                                                                                        -- #
+-- #                                                                                    -- #
+-- #########################################################################################
+-- ### END OF POLAR SETTINGS                                                         #######
+-- #########################################################################################
 
 -- b21_302 globals
 B21_302_maccready_kts = 4 -- user input maccready setting in kts
@@ -114,8 +119,8 @@ B21_302_polar_const_r = (B21_polar_stf_2_mps^2 - B21_polar_stf_best_mps^2) / 2
 B21_302_polar_const_v2stfx = 625 -- threshold speed-squared (m/s) figure to adjust speed-to-fly if below this (i.e. 25 m/s)
 B21_302_polar_const_z = 300000
 
-B21_302_prev_ballast = 1.0 -- previous ballast ratio, used to detect change in value & update polar_adjust
-B21_302_ballast_adjust = 1.0 -- adjustment factor for ballast, shifts polar by sqrt of weight ratio
+B21_302_ballast_ratio = 0.0 -- proportion of ballast carried 0..1
+B21_302_ballast_adjust = 1.0 -- adjustment factor for ballast, shifts polar by sqrt of total_weight / weight_empty
 
 -- vario modes
 B21_302_mode_stf = true  -- speed to fly
@@ -147,6 +152,12 @@ B21_302_glide_ratio = 0.0
 -- vario needle value
 B21_302_needle_fpm = 0.0
 
+
+-- #############################################################
+-- vars used by routines to track changes between update() calls
+
+prev_ballast = 0.0
+
 -- previous update time (float seconds)
 prev_time_s = 99.0 --debug
 
@@ -159,18 +170,18 @@ prev_speed_mps_2 = 952.75 --debug 60knots
 -- time period start used by average
 average_start_s = 97.0 --debug
 
--- ----------------------------------------------
--- Calculate B21_302_ballast as ratio of extra weight 0.0..1.0
+-- #################################################################################################
+
 -- Calculate B21_302_ballast_adjust which is:
 --  the square root of the proportion glider weight is above polar_weight_empty, i.e.
 --  ballast = 0.0 (zero ballast, glider at empty weight) => polar_adjust = 1
 --  ballast = 1.0 (full ballast, glider at full weight) => polar_adjust = sqrt(weight_full/weight_empty)
 function update_ballast()
-    B21_302_ballast = (DATAREF.TOTAL_WEIGHT_KG - B21_polar_weight_empty_kg) / (B21_polar_weight_full_kg - B21_polar_weight_empty_kg)
-    if B21_302_prev_ballast ~= B21_302_ballast
-    then
-        B21_302_ballast_adjust = math.sqrt(1 + B21_polar_weight_full_kg * B21_302_ballast / B21_polar_weight_empty_kg - B21_302_ballast)
-    end
+    B21_302_ballast_ratio = (dataref_read("WEIGHT_TOTAL_KG") - B21_polar_weight_empty_kg) / 
+                            (B21_polar_weight_full_kg - B21_polar_weight_empty_kg)
+    
+    B21_302_ballast_adjust = math.sqrt(dataref_read("WEIGHT_TOTAL_KG")/ B21_polar_weight_empty_kg)
+    print("B21_302_ballast_ratio",B21_302_ballast_ratio) --debug
     print("B21_302_ballast_adjust",B21_302_ballast_adjust) --debug
 end
 
