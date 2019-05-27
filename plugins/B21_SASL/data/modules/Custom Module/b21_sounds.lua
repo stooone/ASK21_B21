@@ -5,27 +5,29 @@
 climbrate = createGlobalPropertyf("b21/ask21/vario_sound_fpm", 0.0, false, true, true)
 -- #################################################
 
-local QUIET_CLIMB = 100 -- dead band -110 fpm .. +10 fpm
-local QUIET_SINK = -150 -- vario will be silent in this band
+local QUIET_CLIMB = project_settings.QUIET_CLIMB
+local QUIET_SINK = project_settings.QUIET_SINK
+local prev_volume = project_settings.VARIO_VOLUME
 
 local spoilers_unlock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesOut.wav')
 
 local spoilers_lock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesIn.wav')
 
 local sounds = { climb = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_climb.wav'),
-				 sink = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_descend.wav')
+				 sink = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_sink.wav')
                }
 
 defineProperty("spoiler_ratio", globalPropertyf("sim/cockpit2/controls/speedbrake_ratio")) -- get value of spoiler lever setting
 pause = globalPropertyf("sim/time/paused") -- check if sim is paused
--- volume_switch = globalPropertyi("sim/auriel/acoustic_switch") -- dataref for the "off/volume" switch
+DATAREF_VOLUME = createGlobalPropertyi("b21/ask21/vario_sound_volume", project_settings.VARIO_VOLUME, false, true, false) -- dataref for the "off/volume" switch
 
 local spoiler_init = 0 -- flag to ensure spoiler sounds played once on open/close
 
 setSampleGain(spoilers_lock, 500)
 setSampleGain(spoilers_unlock, 500)
 
-local volume = 110
+setSampleGain(sounds.climb, project_settings.VARIO_VOLUME)
+setSampleGain(sounds.sink, project_settings.VARIO_VOLUME)
 
 --playSample(spoilers_unlock)
 
@@ -46,18 +48,18 @@ function update_spoilers()
 end
 
 function update_volume()
-	local new_volume = 100 -- get(volume_switch) * 100
+	local new_volume = get(DATAREF_VOLUME)
 
-	if new_volume ~= volume
+	if new_volume ~= prev_volume
 	then
-        volume = new_volume
-        if volume == 0
+        prev_volume = new_volume
+        if new_volume == 0
         then
             stopSample(sound.sink)
             stopSample(sound.climb)
         else
-		    setSampleGain(sounds.climb, volume)
-            setSampleGain(sounds.sink, volume)
+		    setSampleGain(sounds.climb, new_volume)
+            setSampleGain(sounds.sink, new_volume)
         end
 	end
 end --update_volume()

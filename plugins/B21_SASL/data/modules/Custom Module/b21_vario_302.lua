@@ -32,7 +32,8 @@
 DATAREF = {}
 -- datarefs updated by panel:
 DATAREF.KNOB = createGlobalPropertyf("b21/ask21/vario_302/knob", 0, false, true, false) -- 2.0
-DATAREF.MODE_STF = createGlobalPropertyi("b21/ask21/vario_302/mode_stf", 0, false, true, false) -- 1
+DATAREF.STF_TE = createGlobalPropertyi("b21/ask21/vario_302/stf_te", project_settings.VARIO_302_MODE, false, true, false) -- (0: stf, 1: te, 2: auto)
+
 -- datarefs from x-plane
 DATAREF.TIME_S = globalPropertyf("sim/network/misc/network_time_sec") -- 100
 DATAREF.ALT_FT = globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot") -- 3000
@@ -64,6 +65,7 @@ DATAREF.NUMBER_LEFT = createGlobalPropertyf("b21/ask21/vario_302/number_left",12
 DATAREF.NUMBER_RIGHT = createGlobalPropertyf("b21/ask21/vario_302/number_right",34.5,false,true,true)
 DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/ask21/vario_302/number_top",56789,false,true,true)
 
+--shim functions to help testing in desktop Lua
 function dataref_read(x)
     return get(DATAREF[x])
 end
@@ -129,8 +131,7 @@ B21_302_ballast_ratio = 0.0 -- proportion of ballast carried 0..1
 B21_302_ballast_adjust = 1.0 -- adjustment factor for ballast, shifts polar by sqrt of total_weight / weight_empty
 
 -- vario modes
-B21_302_mode_stf = true  -- speed to fly
-B21_302_mode_polar = false
+B21_302_mode_stf = project_settings.VARIO_302_MODE  -- 0 = speed to fly, 1 = TE, 2 = AUTO
 
 -- total energy
 B21_302_te_mps = 0.0
@@ -201,6 +202,15 @@ function update_maccready()
         B21_302_maccready_mps = B21_302_maccready_kts * KTS_TO_MPS
     end
     --print("B21_302_maccready_kts", B21_302_maccready_kts) --debug
+end
+
+function update_stf_te()
+    if dataref_read("STF_TE") == 0
+    then
+        B21_302_mode_stf = true
+    else
+        B21_302_mode_stf = false
+    end
 end
 
 -- calcular polar sink in m/s for given airspeed in km/h
@@ -602,6 +612,8 @@ end
 function update()
     update_ballast()
     update_maccready()
+    update_stf_te()
+    
     update_polar_sink()
     update_total_energy()
     update_netto()
