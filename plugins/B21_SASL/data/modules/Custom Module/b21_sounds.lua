@@ -5,7 +5,7 @@
 climbrate = createGlobalPropertyf("b21/ask21/vario_sound_fpm", 0.0, false, true, true)
 -- #################################################
 
-local QUIET_CLIMB = 10 -- dead band -110 fpm .. +10 fpm
+local QUIET_CLIMB = 100 -- dead band -110 fpm .. +10 fpm
 local QUIET_SINK = -150 -- vario will be silent in this band
 
 local spoilers_unlock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesOut.wav')

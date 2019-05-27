@@ -2,13 +2,7 @@
 
 -- Computer vario simulation
 
---[[
-        <FloatPosition>0.000,0.000</FloatPosition>
-        <Size>785,810</Size>
-        <Image id="302_background_v4.bmp" Name="302_background_v4.bmp">
-
-        THIS GAUGE READS THE POLAR FROM polar.xml
-                    Version 2.4
+--[[  THIS GAUGE READS THE POLAR FROM polar.xml
                     
                     The instrument has three basic modes for dev purposes:
                     
@@ -22,41 +16,53 @@
                                 Flap index (at 3 o'clock replacing MacCready)
                                 Sink rate (TE compensated for convenience) in m/s (replacing climb avg)
 
-    user inputs:
-        B21_302_mode_stf   -- (true/false) toggles vario between STF and TE mode
-        B21_302_mode_polar -- (true/false) displays debug info
-        B21_302_maccready_kts -- MacCready setting dialled in by pilot
+    The 3 numbers displayed on the vario are referred to as 'top', 'left' and 'right'
 
-    display values
-        B21_302_needle_fpm
-        B21_302_glide_ratio -- debug info
-        B21_302_arrival_height_m
-        B21_302_climb_average_mps
+    User input DataRefs:
+        b21/ask21/vario_302/mode_stf   -- (1/0) toggles vario between STF and TE mode
+        b21/ask21/vario_302/knob -- MacCready setting dialled in by pilot
 
+    Display DataRefs
+        b21/ask21/vario_302/needle_fpm
+        b21/ask21/vario_302/number_left
+        b21/ask21/vario_302/number_right
+        b21/ask21/vario_302/number_top
 ]]
 -- the datarefs we will READ to get time, altitude and speed from the sim
 DATAREF = {}
-DATAREF.MACCREADY = createGlobalPropertyf("b21/ask21/vario_302_knob", 0, false, true, true) -- 2.0
+-- datarefs updated by panel:
+DATAREF.KNOB = createGlobalPropertyf("b21/ask21/vario_302/knob", 0, false, true, false) -- 2.0
+DATAREF.MODE_STF = createGlobalPropertyi("b21/ask21/vario_302/mode_stf", 0, false, true, false) -- 1
+-- datarefs from x-plane
 DATAREF.TIME_S = globalPropertyf("sim/network/misc/network_time_sec") -- 100
 DATAREF.ALT_FT = globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pilot") -- 3000
 -- (for calibration) local sim_alt_m = globalPropertyf("sim/flightmodel/position/elevation")
 DATAREF.AIRSPEED_KTS = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot") -- 60
 -- (for calibration) local sim_speed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
 DATAREF.WEIGHT_TOTAL_KG = globalPropertyf("sim/flightmodel/weight/m_total") -- 430
-DATAREF.WP_MSL_M = createGlobalPropertyf("b21/ask21/debug_wp_msl_m", 100.0, false, true, true)          -- debug
-DATAREF.WP_BEARING_RAD = createGlobalPropertyf("b21/ask21/debug_wp_bearing_rad", 0.0, false, true, true)           -- debug
-DATAREF.WP_DISTANCE_M = createGlobalPropertyf("b21/ask21/debug_wp_distance_m", 0.0, false, true, true) -- 2000.0               -- debug
-DATAREF.WIND_RADIANS = createGlobalPropertyf("b21/ask21/debug_wind_rad", 0.0, false, true, true) -- debug
-DATAREF.WIND_MPS = createGlobalPropertyf("b21/ask21/debug_wind_mps", 0.0, false, true, true)      -- debug
+DATAREF.WP_MSL_M = createGlobalPropertyf("b21/ask21/debug/wp_msl_m", 100.0, false, true, true)          -- debug
+DATAREF.WP_BEARING_RAD = createGlobalPropertyf("b21/ask21/debug/wp_bearing_rad", 0.0, false, true, true)           -- debug
+DATAREF.WP_DISTANCE_M = createGlobalPropertyf("b21/ask21/debug/wp_distance_m", 0.0, false, true, true) -- 2000.0               -- debug
+DATAREF.WIND_RADIANS = createGlobalPropertyf("b21/ask21/debug/wind_rad", 0.0, false, true, true) -- debug
+DATAREF.WIND_MPS = createGlobalPropertyf("b21/ask21/debug/wind_mps", 0.0, false, true, true)      -- debug
+-- datarefs from settings.lua
+DATAREF.UNITS_VARIO = globalProperty("b21/ask21/units_vario") -- 0 = knots, 1 = m/s (from settings.lua)
+DATAREF.UNITS_ALTITUDE = globalProperty("b21/ask21/units_altitude") -- 0 = feet, 1 = meters (from settings.lua)
+DATAREF.UNITS_SPEED = globalProperty("b21/ask21/units_speed") -- 0 = knots, 1 = km/h (from settings.lua)
 
 -- create global DataRefs we will WRITE (name, default, isNotPublished, isShared, isReadOnly)
 DATAREF.TE_MPS = createGlobalPropertyf("b21/ask21/total_energy_mps", 0.0, false, true, true)
 DATAREF.TE_FPM = createGlobalPropertyf("b21/ask21/total_energy_fpm", 0.0, false, true, true)
 DATAREF.TE_KTS = createGlobalPropertyf("b21/ask21/total_energy_kts", 0.0, false, true, true)
-DATAREF.PULL = createGlobalPropertyi("b21/ask21/vario_302_pull", 0, false, true, true)
-DATAREF.PUSH = createGlobalPropertyi("b21/ask21/vario_302_push", 0, false, true, true)
-DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/ask21/vario_302_needle_fpm", 0.0, false, true, true)
+DATAREF.NETTO = createGlobalPropertyf("b21/ask21/netto_fpm", 0.0, false, true, true)
+
+DATAREF.PULL = createGlobalPropertyi("b21/ask21/vario_302/pull", 0, false, true, true)
+DATAREF.PUSH = createGlobalPropertyi("b21/ask21/vario_302/push", 0, false, true, true)
+DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/ask21/vario_302/needle_fpm", 0.0, false, true, true)
 DATAREF.B21_VARIO_SOUND_FPM = globalPropertyf("b21/ask21/vario_sound_fpm")
+DATAREF.NUMBER_LEFT = createGlobalPropertyf("b21/ask21/vario_302/number_left",12.3,false,true,true)
+DATAREF.NUMBER_RIGHT = createGlobalPropertyf("b21/ask21/vario_302/number_right",34.5,false,true,true)
+DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/ask21/vario_302/number_top",56789,false,true,true)
 
 function dataref_read(x)
     return get(DATAREF[x])
@@ -87,14 +93,14 @@ polar = {                                                                       
     { 90.0, 0.76 },                                                                     -- #
     { 100.0, 0.78 },                                                                    -- #
     { 120.0, 1.05 },                                                                    -- #
-    { 140.0, 1.5 },                                                                     -- #
+    { 140.0, 1.65 },                                                                     -- #
     { 160.0, 2.1 },                                                                     -- #
-    { 180.0, 3.5 },                                                                     -- #
+    { 180.0, 2.9 },                                                                     -- #
     { 200.0, 4.0 },                                                                     -- #
     { 250.0, 10.0 } -- backstop, off end of published polar                             -- #
 }                                                                                       -- #
 --                                                                                      -- #
-B21_polar_weight_empty_kg = 430 -- ASK21 360kg empty + 70kg for solo pilot              -- #
+B21_polar_weight_empty_kg = 487 -- ASK21 360kg empty + crew etc                         -- #
 B21_polar_weight_full_kg = 600 -- max weight, but no ballast anyway                     -- #
 --                                                                                      -- #
 B21_polar_stf_best_kph = 97 -- speed to fly in zero sink (ASK21)                        -- #
@@ -181,15 +187,20 @@ function update_ballast()
                             (B21_polar_weight_full_kg - B21_polar_weight_empty_kg)
     
     B21_302_ballast_adjust = math.sqrt(dataref_read("WEIGHT_TOTAL_KG")/ B21_polar_weight_empty_kg)
-    print("B21_302_ballast_ratio",B21_302_ballast_ratio) --debug
-    print("B21_302_ballast_adjust",B21_302_ballast_adjust) --debug
+    --print("B21_302_ballast_ratio",B21_302_ballast_ratio) --debug
+    --print("B21_302_ballast_adjust",B21_302_ballast_adjust) --debug
 end
 
 function update_maccready()
     --debug read knob on cockpit panel
-    B21_302_maccready_mps = dataref_read("MACCREADY")
-    B21_302_maccready_kts = B21_302_maccready_mps * MPS_TO_KTS
-    print("B21_302_maccready_kts", B21_302_maccready_kts) --debug
+    if dataref_read("UNITS_VARIO") == 1 -- meters per second
+    then
+        B21_302_maccready_mps = dataref_read("KNOB") / 2
+    else                                -- knots
+        B21_302_maccready_kts = dataref_read("KNOB") / 2
+        B21_302_maccready_mps = B21_302_maccready_kts * KTS_TO_MPS
+    end
+    --print("B21_302_maccready_kts", B21_302_maccready_kts) --debug
 end
 
 -- calcular polar sink in m/s for given airspeed in km/h
@@ -218,7 +229,7 @@ end
 function update_polar_sink()
     local airspeed_kph = dataref_read("AIRSPEED_KTS") * KTS_TO_KPH
     B21_302_polar_sink_mps = sink_mps(airspeed_kph, B21_302_ballast_adjust)
-    print("B21_302_polar_sink_mps",B21_302_polar_sink_mps) --debug
+    --print("B21_302_polar_sink_mps",B21_302_polar_sink_mps) --debug
 end
 
 -- calculate TE value from time, altitude and airspeed
@@ -226,7 +237,7 @@ function update_total_energy()
     
 	-- calculate time (float seconds) since previous update
 	local time_delta_s = dataref_read("TIME_S") - prev_time_s
-	print("time_delta_s ",time_delta_s) --debug
+	--print("time_delta_s ",time_delta_s) --debug
 	-- only update max 20 times per second (i.e. time delta > 0.05 seconds)
 	if time_delta_s > 0.05
 	then
@@ -236,17 +247,17 @@ function update_total_energy()
 
 		-- calculate current speed squared (m/s)^2
 		local speed_mps_2 = speed_mps * speed_mps
-		print("speed_mps^2 now",speed_mps_2)
+		--print("speed_mps^2 now",speed_mps_2)
 		-- TE speed adjustment (m/s)
 		local te_adj_mps = (speed_mps_2 - prev_speed_mps_2) / (2 * 9.81 * time_delta_s)
-		print("te_adj_mps", te_adj_mps) --debug
+		--print("te_adj_mps", te_adj_mps) --debug
 		-- calculate altitude delta (meters) since last update
 		local alt_delta_m = dataref_read("ALT_FT") * 0.3048 - prev_alt_m
 		-- (for calibration) local alt_delta_m = dataref_read(sim_alt_m) - prev_alt_m
-		print("alt_delta_m",alt_delta_m) --debug
+		--print("alt_delta_m",alt_delta_m) --debug
 		-- calculate plain climb rate
 		local climb_mps = alt_delta_m / time_delta_s
-		print("rate of climb m/s", climb_mps) -- debug
+		--print("rate of climb m/s", climb_mps) -- debug
 		-- calculate new vario compensated reading using 70% current and 30% new (for smoothing)
 		local te_mps = B21_302_te_mps * 0.7 + (climb_mps + te_adj_mps) * 0.3
 		
@@ -271,7 +282,7 @@ function update_total_energy()
         prev_speed_mps_2 = speed_mps_2
         -- finally write value
         B21_302_te_mps = te_mps
-        print("B21_302_te_mps", B21_302_te_mps)
+        --print("B21_302_te_mps", B21_302_te_mps)
 	end
     
 		
@@ -293,7 +304,21 @@ E.g. TE says airplane sinking at 2.5 m/s (te = -2.5)
 
 function update_netto()
     B21_302_netto_mps = B21_302_te_mps + B21_302_polar_sink_mps
-    print("B21_302_netto_mps",B21_302_netto_mps) --debug
+    
+    local airspeed_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
+    
+    -- correct for low airspeed when instrument would not be fully working
+    -- i.e.
+    -- at 0 mps airspeed, netto will be forced to zero
+    -- at 0..20 mps, value will be scaled from x0 .. x1 using square of airspeed
+    -- 20+ mps (~40 knots) value will be 100% of calculated value
+    if airspeed_mps < 20
+    then
+        B21_302_netto_mps = B21_302_netto_mps * (airspeed_mps^2 / 400)
+    end
+    -- write the netto value to our global dataref so it can be used directly in other gauges
+    dataref_write("NETTO",B21_302_netto_mps * MPS_TO_FPM)
+    --print("B21_302_netto_mps",B21_302_netto_mps) --debug
 end
 
 --[[
@@ -327,7 +352,7 @@ function update_stf()
         B21_302_stf_temp_a = 1.0 / ((B21_302_polar_const_v2stfx - B21_302_stf_temp_a) / B21_302_polar_const_z + (1.0 / B21_302_polar_const_v2stfx))
     end
     B21_302_stf_mps = math.sqrt(B21_302_stf_temp_a) * math.sqrt(B21_302_ballast_adjust)
-    print("B21_302_stf_mps",B21_302_stf_mps, "(",B21_302_stf_mps * MPS_TO_KPH,"kph)") -- debug
+    --print("B21_302_stf_mps",B21_302_stf_mps, "(",B21_302_stf_mps * MPS_TO_KPH,"kph)") -- debug
 end
 
 --[[
@@ -343,9 +368,9 @@ function update_wp_alt_bearing_and_distance()
     B21_302_wp_msl_m = dataref_read("WP_MSL_M")
     B21_302_wp_bearing_rad = dataref_read("WP_BEARING_RAD")
     B21_302_distance_to_go_m = dataref_read("WP_DISTANCE_M")
-    print("B21_302_wp_msl_m",B21_302_wp_msl_m) --debug
-    print("B21_302_wp_bearing_rad",B21_302_wp_bearing_rad) --debug
-    print("B21_302_distance_to_go_m", B21_302_distance_to_go_m) --debug
+    --print("B21_302_wp_msl_m",B21_302_wp_msl_m) --debug
+    --print("B21_302_wp_bearing_rad",B21_302_wp_bearing_rad) --debug
+    --print("B21_302_distance_to_go_m", B21_302_distance_to_go_m) --debug
 end
 
 --[[
@@ -358,7 +383,7 @@ end
 function update_maccready_stf()
     B21_302_mc_stf_mps = math.sqrt(B21_302_maccready_mps * B21_302_polar_const_r + B21_polar_stf_best_mps^2) * 
                          math.sqrt(B21_302_ballast_adjust)
-    print("B21_302_mc_stf_mps", B21_302_mc_stf_mps,"(", B21_302_mc_stf_mps * MPS_TO_KPH, "kph)") --debug
+    --print("B21_302_mc_stf_mps", B21_302_mc_stf_mps,"(", B21_302_mc_stf_mps * MPS_TO_KPH, "kph)") --debug
 end
 
 --[[
@@ -373,7 +398,7 @@ end
 
 function update_maccready_sink()
     B21_302_mc_sink_mps = sink_mps(B21_302_mc_stf_mps * MPS_TO_KPH, B21_302_ballast_adjust)
-    print("B21_302_mc_sink_mps", B21_302_mc_sink_mps,"(", B21_302_mc_stf_mps / B21_302_mc_sink_mps,"mc L/D)") --debug
+    --print("B21_302_mc_sink_mps", B21_302_mc_sink_mps,"(", B21_302_mc_stf_mps / B21_302_mc_sink_mps,"mc L/D)") --debug
 end
 
 --[[                    CALCULATE ARRIVAL HEIGHT
@@ -418,9 +443,9 @@ function update_arrival_height()
     B21_302_height_needed_m = B21_302_distance_to_go_m / B21_vw_mps * B21_302_mc_sink_mps
 
     B21_302_arrival_height_m = dataref_read("ALT_FT") * FT_TO_M - B21_302_height_needed_m - B21_302_wp_msl_m
-    print("Wind",dataref_read("WIND_RADIANS"),"radians",dataref_read("WIND_MPS"),"mps") --debug
-    print("B21_302_height_needed_m", B21_302_height_needed_m) --debug
-    print("B21_302_arrival_height_m", B21_302_arrival_height_m) --debug
+    --print("Wind",dataref_read("WIND_RADIANS"),"radians",dataref_read("WIND_MPS"),"mps") --debug
+    --print("B21_302_height_needed_m", B21_302_height_needed_m) --debug
+    --print("B21_302_arrival_height_m", B21_302_arrival_height_m) --debug
 end
 
 --[[                    CALCULATE ACTUAL GLIDE RATIO
@@ -446,7 +471,7 @@ function update_glide_ratio()
     else
         B21_302_glide_ratio = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS / sink
     end
-    print("B21_302_glide_ratio",B21_302_glide_ratio) --debug
+    --print("B21_302_glide_ratio",B21_302_glide_ratio) --debug
 end
 
 --[[                CALCULATE AVERAGE CLIMB (m/s) (L:B21_302_climb_average, meters per second)
@@ -485,7 +510,7 @@ function update_average_climb()
             B21_302_climb_average_mps = B21_302_te_mps
         end
     end
-    print("B21_302_climb_average_mps",B21_302_climb_average_mps) --debug
+    --print("B21_302_climb_average_mps",B21_302_climb_average_mps) --debug
 end
 
 --[[                    CALCULATE STF NEEDLE VALUE (m/s)
@@ -511,9 +536,22 @@ function update_needle()
     else
         needle_mps = B21_302_te_mps
     end
+    
+    -- correct for speed
+    local airspeed_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
+    -- correct for low airspeed when instrument would not be fully working
+    -- i.e.
+    -- at 0 mps airspeed, needle_mps will be forced to zero
+    -- at 0..20 mps, value will be scaled from x0 .. x1 using square of airspeed
+    -- 20+ mps (~40 knots) value will be 100% of calculated value
+    if airspeed_mps < 20
+    then
+        needle_mps = needle_mps * (airspeed_mps^2 / 400)
+    end
+
     B21_302_needle_fpm = needle_mps * MPS_TO_FPM
     dataref_write("NEEDLE_FPM", B21_302_needle_fpm)
-    print("B21_302_needle_fpm",B21_302_needle_fpm)--debug
+    --print("B21_302_needle_fpm",B21_302_needle_fpm)--debug
 end
 
 -- write value to b21/ask21/vario_sound_fpm dataref
@@ -540,6 +578,26 @@ function update_push()
     end
 end
 
+--update top number of 302 vario with altitude
+function update_top_number()
+    if dataref_read("UNITS_ALTITUDE") == 1 -- 0: feet, 1: meters
+    then -- write meters
+        dataref_write("NUMBER_TOP", dataref_read("ALT_FT") * FT_TO_M)
+    else -- write feet
+        dataref_write("NUMBER_TOP", dataref_read("ALT_FT"))
+    end
+end
+
+--update left number of 302 vario with maccready setting
+function update_left_number()
+    if dataref_read("UNITS_VARIO") == 1 -- meters per second
+    then
+        dataref_write("NUMBER_LEFT", math.floor(B21_302_maccready_mps * 10.0 + 0.5))
+    else                                -- knots
+        dataref_write("NUMBER_LEFT", math.floor(B21_302_maccready_kts * 10.0 + 0.5))
+    end
+end
+
 -- Finally, here's the per-frame update() callabck
 function update()
     update_ballast()
@@ -558,4 +616,6 @@ function update()
     update_vario_sound()
     update_pull()
     update_push()
+    update_top_number()
+    update_left_number()
 end

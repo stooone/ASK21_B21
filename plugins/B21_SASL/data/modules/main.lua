@@ -4,8 +4,10 @@
 size = { 2048, 2048 }
 
 components = { 
-               b21_netto {},
+               settings {},
+               -- b21_netto {},
                b21_sounds {},
-               b21_vario_302 {}
+               b21_vario_302 {},
+               b21_vario_57 {}
              }
 
