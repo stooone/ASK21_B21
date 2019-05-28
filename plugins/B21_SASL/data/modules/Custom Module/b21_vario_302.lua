@@ -32,7 +32,9 @@
 DATAREF = {}
 -- datarefs updated by panel:
 DATAREF.KNOB = createGlobalPropertyf("b21/ask21/vario_302/knob", 0, false, true, false) -- 2.0
-DATAREF.STF_TE = createGlobalPropertyi("b21/ask21/vario_302/stf_te", project_settings.VARIO_302_MODE, false, true, false) -- (0: stf, 1: te, 2: auto)
+DATAREF.STF_TE_SWITCH = 
+    createGlobalPropertyi("b21/ask21/vario_302/stf_te_switch", project_settings.VARIO_302_MODE, false, true, false)
+     -- (0: stf, 1: auto, 2: te)
 
 -- datarefs from x-plane
 DATAREF.TIME_S = globalPropertyf("sim/network/misc/network_time_sec") -- 100
@@ -46,6 +48,8 @@ DATAREF.WP_BEARING_RAD = createGlobalPropertyf("b21/ask21/debug/wp_bearing_rad",
 DATAREF.WP_DISTANCE_M = createGlobalPropertyf("b21/ask21/debug/wp_distance_m", 0.0, false, true, true) -- 2000.0               -- debug
 DATAREF.WIND_RADIANS = createGlobalPropertyf("b21/ask21/debug/wind_rad", 0.0, false, true, true) -- debug
 DATAREF.WIND_MPS = createGlobalPropertyf("b21/ask21/debug/wind_mps", 0.0, false, true, true)      -- debug
+DATAREF.TURN_RATE_DEG = globalProperty("sim/cockpit2/gauges/indicators/turn_rate_heading_deg_pilot")
+
 -- datarefs from settings.lua
 DATAREF.UNITS_VARIO = globalProperty("b21/ask21/units_vario") -- 0 = knots, 1 = m/s (from settings.lua)
 DATAREF.UNITS_ALTITUDE = globalProperty("b21/ask21/units_altitude") -- 0 = feet, 1 = meters (from settings.lua)
@@ -64,6 +68,11 @@ DATAREF.B21_VARIO_SOUND_FPM = globalPropertyf("b21/ask21/vario_sound_fpm")
 DATAREF.NUMBER_LEFT = createGlobalPropertyf("b21/ask21/vario_302/number_left",12.3,false,true,true)
 DATAREF.NUMBER_RIGHT = createGlobalPropertyf("b21/ask21/vario_302/number_right",34.5,false,true,true)
 DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/ask21/vario_302/number_top",56789,false,true,true)
+DATAREF.STF_TE_IND = createGlobalPropertyi("b21/ask21/vario_302/stf_te_ind",0,false,true,true) -- stf/te indicator on lcd
+
+-- some development debug values for testing
+DATAREF.DEBUG1 = createGlobalPropertyf("b21/ask21/debug/1",0.1,false,true,false)
+DATAREF.DEBUG2 = createGlobalPropertyf("b21/ask21/debug/2",0.1,false,true,false)
 
 --shim functions to help testing in desktop Lua
 function dataref_read(x)
@@ -165,17 +174,25 @@ B21_302_needle_fpm = 0.0
 
 prev_ballast = 0.0
 
--- previous update time (float seconds)
-prev_time_s = 99.0 --debug
+-- previous TE update time (float seconds)
+te_prev_time_s = dataref_read("TIME_S")
 
 -- previous altitude (float meters)
-prev_alt_m = 913.0 --debug
+prev_alt_m = 0.0 -- debug 913
 
 -- previous speed squared (float (m/s)^2 )
 prev_speed_mps_2 = 952.75 --debug 60knots
 
 -- time period start used by average
-average_start_s = 97.0 --debug
+average_start_s = 0.0
+
+-- previous update time of the NUMBER_TOP altitude display
+prev_number_top_s = 0.0
+
+-- stf/te auto switch calculation
+speed_prev_time_s = dataref_read("TIME_S")
+average_speed_mps = 0.0
+average_turn_rate_deg = 0.0
 
 -- #################################################################################################
 
@@ -205,11 +222,50 @@ function update_maccready()
 end
 
 function update_stf_te()
-    if dataref_read("STF_TE") == 0
+    local stf_switch = dataref_read("STF_TE_SWITCH")
+    if stf_switch == 0 -- 'STF' mode
     then
         B21_302_mode_stf = true
-    else
+    elseif stf_switch == 2 -- 'TE' mode
+    then
         B21_302_mode_stf = false
+    else -- in 'AUTO' STF/TE mode (switch == 2)
+        local time_delta_s = dataref_read("TIME_S") - speed_prev_time_s
+        if time_delta_s < 1.0
+        then
+            return -- we don't need to update STF/TE mode more than once per second
+        end
+        -- ok more than a second since last update, so test auto stf for a change
+        speed_prev_time_s = dataref_read("TIME_S")
+
+        local speed_now_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
+        average_speed_mps = average_speed_mps + (speed_now_mps - average_speed_mps) * time_delta_s * 0.1
+
+        local turn_rate_now_deg = math.abs(dataref_read("TURN_RATE_DEG"))
+        average_turn_rate_deg = average_turn_rate_deg + (turn_rate_now_deg - average_turn_rate_deg) * time_delta_s * 0.2
+
+        if B21_302_mode_stf
+        then
+            -- currently in STF mode
+            -- if slow and turning then change to TE
+            if speed_now_mps < 37.0 and turn_rate_now_deg > 50.0
+            then
+                B21_302_mode_stf = false
+            end
+        else
+            -- currently in TE mode                       change to STF if
+            if speed_now_mps > 35 or                      -- flying faster than 35 mps
+               average_turn_rate_deg < 30                 -- not turning much lately
+            then
+                B21_302_mode_stf = true
+            end
+        end
+
+        -- if in STF mode then set indicator to 0 (= STF on lcd), else set indicator to 1 (= TE on lcd)
+        dataref_write("STF_TE_IND", B21_302_mode_stf and 0 or 1)
+
+        dataref_write("DEBUG1", turn_rate_now_deg)
+        dataref_write("DEBUG2", average_turn_rate_deg)
     end
 end
 
@@ -246,7 +302,7 @@ end
 function update_total_energy()
     
 	-- calculate time (float seconds) since previous update
-	local time_delta_s = dataref_read("TIME_S") - prev_time_s
+	local time_delta_s = dataref_read("TIME_S") - te_prev_time_s
 	--print("time_delta_s ",time_delta_s) --debug
 	-- only update max 20 times per second (i.e. time delta > 0.05 seconds)
 	if time_delta_s > 0.05
@@ -286,7 +342,7 @@ function update_total_energy()
         dataref_write("TE_KTS", te_mps * MPS_TO_KTS) -- knots
 		
 		-- store time, altitude and speed^2 as starting values for next iteration
-		prev_time_s = dataref_read("TIME_S")
+		te_prev_time_s = dataref_read("TIME_S")
 		prev_alt_m = dataref_read("ALT_FT") * FT_TO_M
 		-- (for calibration) prev_alt_m = dataref_read(sim_alt_m)
         prev_speed_mps_2 = speed_mps_2
@@ -590,12 +646,19 @@ end
 
 --update top number of 302 vario with altitude
 function update_top_number()
+    -- only update every 3 seconds max
+    local now = dataref_read("TIME_S")
+    if now < prev_number_top_s + 3
+    then
+        return
+    end
     if dataref_read("UNITS_ALTITUDE") == 1 -- 0: feet, 1: meters
     then -- write meters
         dataref_write("NUMBER_TOP", dataref_read("ALT_FT") * FT_TO_M)
     else -- write feet
         dataref_write("NUMBER_TOP", dataref_read("ALT_FT"))
     end
+    prev_number_top_s = now
 end
 
 --update left number of 302 vario with maccready setting

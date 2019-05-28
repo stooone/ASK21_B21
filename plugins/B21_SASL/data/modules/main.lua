@@ -8,8 +8,9 @@ project_settings = { }
 include("settings.lua")
 
 components = { 
-               b21_sounds { },
-               b21_vario_302 { },
-               b21_vario_57 { }
+               b21_sounds {},
+               b21_vario_302 {},
+               b21_vario_57 {},
+               b21_airbrakes {}
              }
 

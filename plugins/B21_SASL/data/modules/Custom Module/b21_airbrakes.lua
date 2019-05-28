@@ -1,6 +1,9 @@
 -- B21
 
-local debug = false
+local debug = true
+
+if debug then print("b21_airbrakes loaded")
+end
 
 ----------------------------------- LOCATE DATAREFS OR COMMANDS -----------------------------------
 local startup_running = globalProperty("sim/operation/prefs/startup_running")
@@ -16,12 +19,12 @@ local prev_speedbrake = 0.0
 -- initialization
 -- comply with user's 'startup_running' preference (power to 'on')
 local start_power = get(startup_running) and 1 or 0 -- convert true/false to 1/0
-set(battery_on, start_powr)
+set(battery_on, start_power)
 set(avionics_power_on, start_power)
 
 -- apply brakes if on ground
 -- set ratio to 1.0 if on the ground or 0.0 if in the air
-local brake_ratio = radio_altimeter_height_ft_pilot < 10.0 and 1.0 or 0.0
+local brake_ratio = get(radio_altimeter_height_ft_pilot) < 10.0 and 1.0 or 0.0
 set(parking_brake_ratio, brake_ratio)
 set(speedbrake_ratio, brake_ratio)
 

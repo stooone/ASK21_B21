@@ -52,7 +52,6 @@ function update_volume()
 
 	if new_volume ~= prev_volume
 	then
-        prev_volume = new_volume
         if new_volume == 0
         then
             stopSample(sound.sink)
@@ -61,6 +60,7 @@ function update_volume()
 		    setSampleGain(sounds.climb, new_volume)
             setSampleGain(sounds.sink, new_volume)
         end
+        prev_volume = new_volume
 	end
 end --update_volume()
 
@@ -82,7 +82,7 @@ function update_climb(vario_climbrate)
     local pitch -- pitch rate required by setSamplePitch (1000 = normal)
 
 	-- if paused then kill sound and return
-	if (get(pause) == 1) or (volume == 0)
+	if (get(pause) == 1) or (prev_volume == 0)
 	then
 		stop_sounds()
 		return
@@ -90,13 +90,12 @@ function update_climb(vario_climbrate)
 
 	-- if the climbrate is above the dead band, play sounds.climb
 
-    if vario_climbrate < QUIET_CLIMB
+    if vario_climbrate > QUIET_CLIMB
     then
-        if isSamplePlaying(sounds.climb)
+        if isSamplePlaying(sounds.sink)
         then
-            stopSample(sounds.climb)
+            stopSample(sounds.sink)
         end
-    else
         -- play climb sound
         pitch = math.floor(vario_climbrate / 2.0) + 650.0
         setSamplePitch(sounds.climb, pitch)
@@ -105,23 +104,29 @@ function update_climb(vario_climbrate)
             playSample(sounds.climb, true) -- looping
         end
         return
-    end
-
-	if vario_climbrate > QUIET_SINK
+    elseif vario_climbrate < QUIET_SINK
 	then
-        if isSamplePlaying(sounds.sink)
+        if isSamplePlaying(sounds.climb)
         then
-            stopSample(sounds.sink)
+            stopSample(sounds.climb)
         end
-    else
         -- play sink sound
         pitch = math.floor( -39000.0 / vario_climbrate + 235.0 )
-
         setSamplePitch(sounds.sink, pitch)
-
         if not isSamplePlaying(sounds.sink)
         then
             playSample(sounds.sink, true) -- looping
+        end
+        return
+    else
+        -- otherwise, in quiet band, stop both sounds
+        if isSamplePlaying(sounds.climb)
+        then
+            stopSample(sounds.climb)
+        end
+        if isSamplePlaying(sounds.sink)
+        then
+            stopSample(sounds.sink)
         end
     end
 end -- update_climb()
