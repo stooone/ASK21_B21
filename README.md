@@ -35,6 +35,10 @@ Checklist of things still to be done.
 
 ### nav instrument
 
+* get wind data
+* get waypoint location data
+* define TP zone
+* design task creation
 * create nav instrument reading flight plan
 * add glider turnpoints to nav database
 * add commands
@@ -78,4 +82,14 @@ Checklist of things still to be done.
 ### clock
 
 * implement a clock on the panel (cut-down watch perhaps)
+
+### sounds
+
+* add 'all-out' sound
+
+### Aerotow
+
+* place AI aircraft in front of glider
+* do graphics for tow rope
+* in cockpit sound for tow-plane
 
