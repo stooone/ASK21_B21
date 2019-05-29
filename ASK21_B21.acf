@@ -130,7 +130,7 @@ P _gear/0/_lonE 0.0
 P _gear/0/_lonN 0.0
 P _gear/0/_lonR 0.0
 P _gear/0/_scon 2963.000732422
-P _gear/0/_stat_def 0.388360679
+P _gear/0/_stat_def 0.388360560
 P _gear/0/_steerdeg_hispeed 0.0
 P _gear/0/_steerdeg_lospeed 0.0
 P _gear/0/_strut_comp 0.0
@@ -164,7 +164,7 @@ P _gear/1/_lonE 0.0
 P _gear/1/_lonN 0.0
 P _gear/1/_lonR 0.0
 P _gear/1/_scon 1735.471801758
-P _gear/1/_stat_def 0.097549789
+P _gear/1/_stat_def 0.097549751
 P _gear/1/_steerdeg_hispeed 0.0
 P _gear/1/_steerdeg_lospeed 0.0
 P _gear/1/_strut_comp 0.0
@@ -260,7 +260,7 @@ P _obja/4/_v10_att_z_acf_prt_ref 0.0
 P _obja/4/_v10_is_internal 960420056
 P _obja/4/_v10_steers_with_gear 0
 P _obja/count 5
-P _panel_inst_3d 32
+P _panel_inst_3d 33
 P _part/10/_bot_s1 0.006000000
 P _part/10/_bot_s2 0.048999999
 P _part/10/_bot_t1 0.006000000
@@ -10711,7 +10711,7 @@ P _part/8/_geo_xyz/10,9,0 -8.830852509
 P _part/8/_geo_xyz/10,9,1 1.176438093
 P _part/8/_geo_xyz/10,9,2 10.208029747
 P _part/8/_geo_xyz/11,0,0 -10.412437439
-P _part/8/_geo_xyz/11,0,1 1.347293496
+P _part/8/_geo_xyz/11,0,1 1.347293615
 P _part/8/_geo_xyz/11,0,2 8.358226776
 P _part/8/_geo_xyz/11,1,0 -10.412706375
 P _part/8/_geo_xyz/11,1,1 1.343458056
@@ -10726,7 +10726,7 @@ P _part/8/_geo_xyz/11,12,0 -10.412706375
 P _part/8/_geo_xyz/11,12,1 1.343458056
 P _part/8/_geo_xyz/11,12,2 8.477264404
 P _part/8/_geo_xyz/11,13,0 -10.412437439
-P _part/8/_geo_xyz/11,13,1 1.347293496
+P _part/8/_geo_xyz/11,13,1 1.347293615
 P _part/8/_geo_xyz/11,13,2 8.358226776
 P _part/8/_geo_xyz/11,14,0 0.0
 P _part/8/_geo_xyz/11,14,1 0.0
@@ -10765,7 +10765,7 @@ P _part/8/_geo_xyz/11,9,0 -10.416460991
 P _part/8/_geo_xyz/11,9,1 1.289760470
 P _part/8/_geo_xyz/11,9,2 10.143795013
 P _part/8/_geo_xyz/12,0,0 -10.412437439
-P _part/8/_geo_xyz/12,0,1 1.347293496
+P _part/8/_geo_xyz/12,0,1 1.347293615
 P _part/8/_geo_xyz/12,0,2 8.358226776
 P _part/8/_geo_xyz/12,1,0 -10.412706375
 P _part/8/_geo_xyz/12,1,1 1.343458056
@@ -10780,7 +10780,7 @@ P _part/8/_geo_xyz/12,12,0 -10.412706375
 P _part/8/_geo_xyz/12,12,1 1.343458056
 P _part/8/_geo_xyz/12,12,2 8.477264404
 P _part/8/_geo_xyz/12,13,0 -10.412437439
-P _part/8/_geo_xyz/12,13,1 1.347293496
+P _part/8/_geo_xyz/12,13,1 1.347293615
 P _part/8/_geo_xyz/12,13,2 8.358226776
 P _part/8/_geo_xyz/12,14,0 0.0
 P _part/8/_geo_xyz/12,14,1 0.0
@@ -13471,7 +13471,7 @@ P _part/85/_part_specs_invis 1
 P _part/85/_part_tex 0
 P _part/85/_part_the 0.0
 P _part/85/_part_x 0.0
-P _part/85/_part_y -0.511639297
+P _part/85/_part_y -0.511639416
 P _part/85/_part_z 10.500000000
 P _part/85/_patt_con 0
 P _part/85/_patt_prt 0
@@ -15118,7 +15118,7 @@ P _part/9/_geo_xyz/10,9,0 8.830852509
 P _part/9/_geo_xyz/10,9,1 1.176438093
 P _part/9/_geo_xyz/10,9,2 10.208029747
 P _part/9/_geo_xyz/11,0,0 10.412437439
-P _part/9/_geo_xyz/11,0,1 1.347293496
+P _part/9/_geo_xyz/11,0,1 1.347293615
 P _part/9/_geo_xyz/11,0,2 8.358226776
 P _part/9/_geo_xyz/11,1,0 10.412706375
 P _part/9/_geo_xyz/11,1,1 1.343458056
@@ -15133,7 +15133,7 @@ P _part/9/_geo_xyz/11,12,0 10.412706375
 P _part/9/_geo_xyz/11,12,1 1.343458056
 P _part/9/_geo_xyz/11,12,2 8.477264404
 P _part/9/_geo_xyz/11,13,0 10.412437439
-P _part/9/_geo_xyz/11,13,1 1.347293496
+P _part/9/_geo_xyz/11,13,1 1.347293615
 P _part/9/_geo_xyz/11,13,2 8.358226776
 P _part/9/_geo_xyz/11,14,0 0.0
 P _part/9/_geo_xyz/11,14,1 0.0
@@ -15172,7 +15172,7 @@ P _part/9/_geo_xyz/11,9,0 10.416460991
 P _part/9/_geo_xyz/11,9,1 1.289760470
 P _part/9/_geo_xyz/11,9,2 10.143795013
 P _part/9/_geo_xyz/12,0,0 10.412437439
-P _part/9/_geo_xyz/12,0,1 1.347293496
+P _part/9/_geo_xyz/12,0,1 1.347293615
 P _part/9/_geo_xyz/12,0,2 8.358226776
 P _part/9/_geo_xyz/12,1,0 10.412706375
 P _part/9/_geo_xyz/12,1,1 1.343458056
@@ -15187,7 +15187,7 @@ P _part/9/_geo_xyz/12,12,0 10.412706375
 P _part/9/_geo_xyz/12,12,1 1.343458056
 P _part/9/_geo_xyz/12,12,2 8.477264404
 P _part/9/_geo_xyz/12,13,0 10.412437439
-P _part/9/_geo_xyz/12,13,1 1.347293496
+P _part/9/_geo_xyz/12,13,1 1.347293615
 P _part/9/_geo_xyz/12,13,2 8.358226776
 P _part/9/_geo_xyz/12,14,0 0.0
 P _part/9/_geo_xyz/12,14,1 0.0
@@ -22194,7 +22194,7 @@ P acf/_yel_lo_xmsn_T 0
 PROPERTIES_END
 PANEL_2D_BEGIN
 ins_tailnum ins_tailnum
-  POS 512.000000 -39.000000
+  POS 786.000000 50.000000
   DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22231,14 +22231,14 @@ but_brakes but_brakes
   BUS_SRC 1
 
 ins_slip_BC ins_slip_BC
-  POS 512.000000 127.000000
+  POS 511.000000 -31.000000
   DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
 
 compass_GA compass_GA
-  POS 511.000000 337.000000
+  POS 511.000000 334.000000
   DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22282,80 +22282,6 @@ elv_trim_ind elv_trim_ind.png
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
-
-gen_rheostat gen_rheostat.png
-  POS 680.000000 178.000000
-  DATAREF sim/auriel/acoustic_switch
-  LIGHT_MODE MECHANICAL
-  LIGHT_RHEOSTAT 0
-  KEY_FRAME 0.000000 0.000000 1.000000
-  KEY_FRAME 1.000000 1.000000 1.000000
-  KEY_FRAME 2.000000 2.000000 1.000000
-  KEY_FRAME 3.000000 3.000000 1.000000
-  KEY_FRAME 4.000000 4.000000
-  CLICK_RADIUS 10.000000
-  CLICK_RADIUS_DY 0.000000
-  STEP1 1.000000
-  STEP2 1.000000
-  OFFSET 0.000000
-  CURSOR DEFAULT
-  CLICK_DX 0
-  CLICK_DY 0
-  WRAP 0
-
-gen_rheostat gen_rheostat.png
-  POS 680.000000 144.000000
-  DATAREF sim/auriel/vario_samplerate
-  LIGHT_MODE MECHANICAL
-  LIGHT_RHEOSTAT 0
-  KEY_FRAME 25.000000 1.000000 1.000000
-  KEY_FRAME 50.000000 2.000000 1.000000
-  KEY_FRAME 100.000000 3.000000 1.000000
-  KEY_FRAME 150.000000 4.000000 1.000000
-  KEY_FRAME 200.000000 5.000000 1.000000
-  KEY_FRAME 250.000000 6.000000 1.000000
-  KEY_FRAME 300.000000 7.000000
-  CLICK_RADIUS 10.000000
-  CLICK_RADIUS_DY 0.000000
-  STEP1 1.000000
-  STEP2 1.000000
-  OFFSET 0.000000
-  CURSOR DEFAULT
-  CLICK_DX 0
-  CLICK_DY 0
-  WRAP 0
-
-gen_LED gen_LED.png
-  POS 643.500000 179.500000
-  DATAREF sim/auriel/acoustic_switch
-  LIGHT_MODE MECHANICAL
-  LIGHT_RHEOSTAT 0
-  KEY_FRAME 0.000000 0.000000 1.000000
-  KEY_FRAME 1.000000 1.000000
-  DIGITS 6
-  DECIMALS 0
-  PERIOD_WIDTH 0
-  LED_ROWS 0
-
-gen_LED gen_LED.png
-  POS 643.500000 145.500000
-  DATAREF sim/auriel/vario_samplerate
-  LIGHT_MODE MECHANICAL
-  LIGHT_RHEOSTAT 0
-  KEY_FRAME 0.000000 0.000000 1.000000
-  KEY_FRAME 1.000000 1.000000
-  DIGITS 6
-  DECIMALS 0
-  PERIOD_WIDTH 0
-  LED_ROWS 0
-
-ins_chrono_GA chrono_GA.png
-  POS 642.000000 74.000000
-  DATAREF 
-  LIGHT_MODE MECHANICAL
-  LIGHT_RHEOSTAT 0
-  KEY_FRAME 0.000000 0.000000 1.000000
-  KEY_FRAME 1.000000 1.000000
 
 gen_annun vario_winter_backgr
   POS 283.000000 133.000000
@@ -22502,7 +22428,7 @@ gen_rheostat vario_302_knob
   WRAP 0
 
 gen_annun vario_57_background
-  POS 359.000000 286.000000
+  POS 361.000000 280.000000
   IMAGE vario_57/vario_57_background
   DATAREF 
   SHOW_EQUAL 1.000000 b21/ask21/units_vario
@@ -22512,7 +22438,7 @@ gen_annun vario_57_background
   KEY_FRAME 1.000000 1.000000
 
 gen_needle vario_57_needle
-  POS 356.000000 289.000000
+  POS 359.000000 282.000000
   IMAGE vario_57/vario_57_needle
   DATAREF b21/ask21/vario_57/needle_fpm
   LIGHT_MODE MECHANICAL
@@ -22527,7 +22453,7 @@ gen_needle vario_57_needle
   NEEDLE_OFFSET_Y -5.000000
 
 gen_rotary vario_57_center
-  POS 357.500000 285.500000
+  POS 360.500000 278.500000
   IMAGE vario_57/vario_57_center
   DATAREF 
   LIGHT_MODE MECHANICAL
@@ -22578,6 +22504,81 @@ gen_rotary vario_302_stf_te
   OFFSET 0.000000
   STEP1 1.000000
   STEP2 1.000000
+  CURSOR DEFAULT
+  CLICK_DX 0
+  CLICK_DY 0
+
+gen_rotary gpsnav_background
+  POS 512.000000 61.000000
+  IMAGE gpsnav/background
+  DATAREF 
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 6.000000
+  DIGITS 7
+  ROTARY_TYPE ROTARY
+  CLICK_RADIUS 10.000000
+  CLICK_RADIUS_DY 0.000000
+  OFFSET 0.000000
+  STEP1 1.000000
+  STEP2 1.000000
+  CURSOR DEFAULT
+  CLICK_DX 0
+  CLICK_DY 0
+
+gen_trigger gpsnav_load
+  POS 484.000000 124.500000
+  IMAGE gpsnav/button_load
+  COMMAND b21/gpsnav/load
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 1.000000
+  CLICK_RADIUS 10.000000
+  CLICK_RADIUS_DY 0.000000
+  CURSOR DEFAULT
+  CLICK_DX 0
+  CLICK_DY 0
+
+gen_trigger gpsnav_view
+  POS 540.000000 125.500000
+  IMAGE gpsnav/button_view
+  COMMAND b21/gpsnav/view
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 1.000000
+  CLICK_RADIUS 10.000000
+  CLICK_RADIUS_DY 0.000000
+  CURSOR DEFAULT
+  CLICK_DX 0
+  CLICK_DY 0
+
+gen_trigger gpsnav_left
+  POS 482.000000 2.500000
+  IMAGE gpsnav/button_left
+  COMMAND b21/gpsnav/left
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 1.000000
+  CLICK_RADIUS 10.000000
+  CLICK_RADIUS_DY 0.000000
+  CURSOR DEFAULT
+  CLICK_DX 0
+  CLICK_DY 0
+
+gen_trigger gpsnav_right
+  POS 541.000000 3.500000
+  IMAGE gpsnav/button_right
+  COMMAND b21/gpsnav/right
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 1.000000
+  CLICK_RADIUS 10.000000
+  CLICK_RADIUS_DY 0.000000
   CURSOR DEFAULT
   CLICK_DX 0
   CLICK_DY 0
