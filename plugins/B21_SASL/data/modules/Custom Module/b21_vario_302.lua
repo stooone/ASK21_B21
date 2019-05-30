@@ -50,7 +50,7 @@ DATAREF.WIND_RADIANS = createGlobalPropertyf("b21/ask21/debug/wind_rad", 0.0, fa
 DATAREF.WIND_MPS = createGlobalPropertyf("b21/ask21/debug/wind_mps", 0.0, false, true, true)      -- debug
 DATAREF.TURN_RATE_DEG = globalProperty("sim/cockpit2/gauges/indicators/turn_rate_heading_deg_pilot")
 
--- datarefs from settings.lua
+-- datarefs from USER_SETTINGS.lua
 DATAREF.UNITS_VARIO = globalProperty("b21/ask21/units_vario") -- 0 = knots, 1 = m/s (from settings.lua)
 DATAREF.UNITS_ALTITUDE = globalProperty("b21/ask21/units_altitude") -- 0 = feet, 1 = meters (from settings.lua)
 DATAREF.UNITS_SPEED = globalProperty("b21/ask21/units_speed") -- 0 = knots, 1 = km/h (from settings.lua)
@@ -561,7 +561,7 @@ end
 ]]
 
 -- calculate B21_302_climb_average_mps
-function update_average_climb()
+function update_climb_average()
     -- only update 2+ seconds after last update
     if dataref_read("TIME_S") - 2 > average_start_s
     then
@@ -661,13 +661,23 @@ function update_top_number()
     prev_number_top_s = now
 end
 
---update left number of 302 vario with maccready setting
+--update left number of 302 vario with climb average
 function update_left_number()
     if dataref_read("UNITS_VARIO") == 1 -- meters per second
     then
-        dataref_write("NUMBER_LEFT", math.floor(B21_302_maccready_mps * 10.0 + 0.5))
+        dataref_write("NUMBER_LEFT", math.floor(B21_302_climb_average_mps * 10.0 + 0.5) / 10.0)
     else                                -- knots
-        dataref_write("NUMBER_LEFT", math.floor(B21_302_maccready_kts * 10.0 + 0.5))
+        dataref_write("NUMBER_LEFT", math.floor(B21_302_climb_average_mps * MPS_TO_KTS * 10.0 + 0.5) / 10.0)
+    end
+end
+
+--update right number of 302 vario with maccready setting
+function update_right_number()
+    if dataref_read("UNITS_VARIO") == 1 -- meters per second
+    then
+        dataref_write("NUMBER_RIGHT", math.floor(B21_302_maccready_mps * 10.0 + 0.5) / 10.0)
+    else                                -- knots
+        dataref_write("NUMBER_RIGHT", math.floor(B21_302_maccready_kts * 10.0 + 0.5) / 10.0)
     end
 end
 
@@ -686,11 +696,12 @@ function update()
     update_maccready_sink()
     update_arrival_height()
     update_glide_ratio()
-    update_average_climb()
+    update_climb_average()
     update_needle()
     update_vario_sound()
     update_pull()
     update_push()
     update_top_number()
     update_left_number()
+    update_right_number()
 end
