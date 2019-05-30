@@ -12,7 +12,12 @@ size = { 2048, 2048 }
 project_settings = { }
 
 -- USER SETTINGS (e.g. vario sound volume) IN "Custom Modules/settings.lua"
-include("settings.lua")
+include(sasl.getAircraftPath().."/USER_SETTINGS.lua")
+
+-- put units values into DataRefs so they can be read by gauges
+createGlobalPropertyi("b21/ask21/units_vario",project_settings.VARIO_UNITS,false,true,true)
+createGlobalPropertyi("b21/ask21/units_speed",project_settings.SPEED_UNITS,false,true,true)
+createGlobalPropertyi("b21/ask21/units_altitude",project_settings.ALTITUDE_UNITS,false,true,true)
 
 components = { 
                 b21_sounds {},

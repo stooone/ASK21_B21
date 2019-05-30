@@ -9,15 +9,19 @@ local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/true_psi")
 
 -- command callbacks from gpsnav buttons
 
-local command_load = sasl.createCommand("b21/gpsnav/load", "GPSNAV load flightplan")
+local command_load = sasl.createCommand("b21/gpsnav/load", 
+    "Sailplane GPSNAV load flightplan")
 
-local command_view = sasl.createCommand("b21/gpsnav/view", "GPSNAV view loaded flightplan")
+local command_view = sasl.createCommand("b21/gpsnav/view", 
+    "Sailplane GPSNAV view loaded flightplan")
 
-local command_left = sasl.createCommand("b21/gpsnav/left", "GPSNAV left-button function (e.g. prev waypoint)")
+local command_left = sasl.createCommand("b21/gpsnav/left", 
+    "Sailplane GPSNAV left-button function (e.g. prev waypoint)")
 
-local command_right = sasl.createCommand("b21/gpsnav/right", "GPSNAV right-button function (e.g. next waypoint)")
+local command_right = sasl.createCommand("b21/gpsnav/right", 
+    "Sailplane GPSNAV right-button function (e.g. next waypoint)")
 
-local xplane_load_flightplan = sasl.findCommand("FMS/key_load")
+local xplane_load_flightplan = sasl.findCommand("sim/FMS/key_load")
 
 function clicked_load(phase)
     print("GPSNAV LOAD")
@@ -45,7 +49,7 @@ sasl.registerCommandHandler(command_view, 1, clicked_view)
 sasl.registerCommandHandler(command_left, 1, clicked_left)
 sasl.registerCommandHandler(command_right, 1, clicked_right)
 
-local font = sasl.gl.loadFont ( "UbuntuMono-Regular.ttf" )
+local font = sasl.gl.loadFont ( "fonts/UbuntuMono-Regular.ttf" )
 --local green = { 0.0, 1.0, 0.0, 1.0 }
 local black = { 0.0, 0.0, 0.0, 1.0 }
 
