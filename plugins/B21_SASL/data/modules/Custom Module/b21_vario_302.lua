@@ -229,7 +229,7 @@ function update_stf_te()
     elseif stf_switch == 2 -- 'TE' mode
     then
         B21_302_mode_stf = false
-    else -- in 'AUTO' STF/TE mode (switch == 2)
+    else -- in 'AUTO' STF/TE mode (switch == 1)
         local time_delta_s = dataref_read("TIME_S") - speed_prev_time_s
         if time_delta_s < 1.0
         then
