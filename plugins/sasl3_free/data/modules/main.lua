@@ -9,10 +9,14 @@ panel2d = true
 
 size = { 2048, 2048 }
 
-project_settings = { }
+project_settings = { } -- Project Globals, i.e. plugin data values shared between modules
 
--- USER SETTINGS (e.g. vario sound volume) IN "Custom Modules/settings.lua"
-include(sasl.getAircraftPath().."/USER_SETTINGS.lua")
+-- INCLUDE USER SETTINGS (e.g. vario sound volume) IN AIRCRAFT ROOT FOLDER
+-- i.e. <X-Plane Install Folder>/Aircraft/<something>/ASK21_B21
+include(sasl.getAircraftPath().."/USER_SETTINGS.lua") -- adds values to project_settings
+
+-- INCLUDE GLIDER POLAR (from 'Custom Modules'/B21_POLAR.lua)
+include("B21_POLAR.lua") -- adds values to project_settings
 
 -- put units values into DataRefs so they can be read by gauges
 createGlobalPropertyi("b21/ask21/units_vario",project_settings.VARIO_UNITS,false,true,true)
