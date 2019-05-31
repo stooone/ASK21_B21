@@ -31,9 +31,8 @@
 -- the datarefs we will READ to get time, altitude and speed from the sim
 DATAREF = {}
 -- datarefs updated by panel:
-DATAREF.KNOB = createGlobalPropertyf("b21/ask21/vario_302/knob", 0, false, true, false) -- 2.0
-DATAREF.STF_TE_SWITCH = 
-    createGlobalPropertyi("b21/ask21/vario_302/stf_te_switch", project_settings.VARIO_302_MODE, false, true, false)
+DATAREF.KNOB = createGlobalPropertyf("b21/vario_302/knob", 0, false, true, false) -- 2.0
+DATAREF.STF_TE_SWITCH = createGlobalPropertyi("b21/vario_302/stf_te_switch", project_settings.VARIO_302_MODE, false, true, false)
      -- (0: stf, 1: auto, 2: te)
 
 -- datarefs from x-plane
