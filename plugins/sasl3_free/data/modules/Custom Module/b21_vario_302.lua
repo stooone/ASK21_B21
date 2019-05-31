@@ -23,10 +23,10 @@
         b21/vario_302/knob -- MacCready setting dialled in by pilot
 
     Display DataRefs
-        b21/ask21/vario_302/needle_fpm
-        b21/ask21/vario_302/number_left
-        b21/ask21/vario_302/number_right
-        b21/ask21/vario_302/number_top
+        b21/vario_302/needle_fpm
+        b21/vario_302/number_left
+        b21/vario_302/number_right
+        b21/vario_302/number_top
 ]]
 -- the datarefs we will READ to get time, altitude and speed from the sim
 DATAREF = {}
@@ -42,36 +42,36 @@ DATAREF.ALT_FT = globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pil
 DATAREF.AIRSPEED_KTS = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot") -- 60
 -- (for calibration) local sim_speed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
 DATAREF.WEIGHT_TOTAL_KG = globalPropertyf("sim/flightmodel/weight/m_total") -- 430
-DATAREF.WP_MSL_M = createGlobalPropertyf("b21/ask21/debug/wp_msl_m", 100.0, false, true, true)          -- debug
-DATAREF.WP_BEARING_RAD = createGlobalPropertyf("b21/ask21/debug/wp_bearing_rad", 0.0, false, true, true)           -- debug
-DATAREF.WP_DISTANCE_M = createGlobalPropertyf("b21/ask21/debug/wp_distance_m", 0.0, false, true, true) -- 2000.0               -- debug
-DATAREF.WIND_RADIANS = createGlobalPropertyf("b21/ask21/debug/wind_rad", 0.0, false, true, true) -- debug
-DATAREF.WIND_MPS = createGlobalPropertyf("b21/ask21/debug/wind_mps", 0.0, false, true, true)      -- debug
+DATAREF.WP_MSL_M = createGlobalPropertyf("b21/debug/wp_msl_m", 100.0, false, true, true)          -- debug
+DATAREF.WP_BEARING_RAD = createGlobalPropertyf("b21/debug/wp_bearing_rad", 0.0, false, true, true)           -- debug
+DATAREF.WP_DISTANCE_M = createGlobalPropertyf("b21/debug/wp_distance_m", 0.0, false, true, true) -- 2000.0               -- debug
+DATAREF.WIND_RADIANS = createGlobalPropertyf("b21/debug/wind_rad", 0.0, false, true, true) -- debug
+DATAREF.WIND_MPS = createGlobalPropertyf("b21/debug/wind_mps", 0.0, false, true, true)      -- debug
 DATAREF.TURN_RATE_DEG = globalProperty("sim/cockpit2/gauges/indicators/turn_rate_heading_deg_pilot")
 
 -- datarefs from USER_SETTINGS.lua
-DATAREF.UNITS_VARIO = globalProperty("b21/ask21/units_vario") -- 0 = knots, 1 = m/s (from settings.lua)
-DATAREF.UNITS_ALTITUDE = globalProperty("b21/ask21/units_altitude") -- 0 = feet, 1 = meters (from settings.lua)
-DATAREF.UNITS_SPEED = globalProperty("b21/ask21/units_speed") -- 0 = knots, 1 = km/h (from settings.lua)
+DATAREF.UNITS_VARIO = globalProperty("b21/units_vario") -- 0 = knots, 1 = m/s (from settings.lua)
+DATAREF.UNITS_ALTITUDE = globalProperty("b21/units_altitude") -- 0 = feet, 1 = meters (from settings.lua)
+DATAREF.UNITS_SPEED = globalProperty("b21/units_speed") -- 0 = knots, 1 = km/h (from settings.lua)
 
 -- create global DataRefs we will WRITE (name, default, isNotPublished, isShared, isReadOnly)
-DATAREF.TE_MPS = createGlobalPropertyf("b21/ask21/total_energy_mps", 0.0, false, true, true)
-DATAREF.TE_FPM = createGlobalPropertyf("b21/ask21/total_energy_fpm", 0.0, false, true, true)
-DATAREF.TE_KTS = createGlobalPropertyf("b21/ask21/total_energy_kts", 0.0, false, true, true)
-DATAREF.NETTO = createGlobalPropertyf("b21/ask21/netto_fpm", 0.0, false, true, true)
+DATAREF.TE_MPS = createGlobalPropertyf("b21/total_energy_mps", 0.0, false, true, true)
+DATAREF.TE_FPM = createGlobalPropertyf("b21/total_energy_fpm", 0.0, false, true, true)
+DATAREF.TE_KTS = createGlobalPropertyf("b21/total_energy_kts", 0.0, false, true, true)
+DATAREF.NETTO = createGlobalPropertyf("b21/netto_fpm", 0.0, false, true, true)
 
-DATAREF.PULL = createGlobalPropertyi("b21/ask21/vario_302/pull", 0, false, true, true)
-DATAREF.PUSH = createGlobalPropertyi("b21/ask21/vario_302/push", 0, false, true, true)
-DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/ask21/vario_302/needle_fpm", 0.0, false, true, true)
-DATAREF.B21_VARIO_SOUND_FPM = globalPropertyf("b21/ask21/vario_sound_fpm")
-DATAREF.NUMBER_LEFT = createGlobalPropertyf("b21/ask21/vario_302/number_left",12.3,false,true,true)
-DATAREF.NUMBER_RIGHT = createGlobalPropertyf("b21/ask21/vario_302/number_right",34.5,false,true,true)
-DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/ask21/vario_302/number_top",56789,false,true,true)
-DATAREF.STF_TE_IND = createGlobalPropertyi("b21/ask21/vario_302/stf_te_ind",0,false,true,true) -- stf/te indicator on lcd
+DATAREF.PULL = createGlobalPropertyi("b21/vario_302/pull", 0, false, true, true)
+DATAREF.PUSH = createGlobalPropertyi("b21/vario_302/push", 0, false, true, true)
+DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/vario_302/needle_fpm", 0.0, false, true, true)
+DATAREF.B21_VARIO_SOUND_FPM = globalPropertyf("b21/vario_sound_fpm")
+DATAREF.NUMBER_LEFT = createGlobalPropertyf("b21/vario_302/number_left",12.3,false,true,true)
+DATAREF.NUMBER_RIGHT = createGlobalPropertyf("b21/vario_302/number_right",34.5,false,true,true)
+DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/vario_302/number_top",56789,false,true,true)
+DATAREF.STF_TE_IND = createGlobalPropertyi("b21/vario_302/stf_te_ind",0,false,true,true) -- stf/te indicator on lcd
 
 -- some development debug values for testing
-DATAREF.DEBUG1 = createGlobalPropertyf("b21/ask21/debug/1",0.1,false,true,false)
-DATAREF.DEBUG2 = createGlobalPropertyf("b21/ask21/debug/2",0.1,false,true,false)
+DATAREF.DEBUG1 = createGlobalPropertyf("b21/debug/1",0.1,false,true,false)
+DATAREF.DEBUG2 = createGlobalPropertyf("b21/debug/2",0.1,false,true,false)
 
 --shim functions to help testing in desktop Lua
 function dataref_read(x)
@@ -589,7 +589,7 @@ function update_needle()
     --print("B21_302_needle_fpm",B21_302_needle_fpm)--debug
 end
 
--- write value to b21/ask21/vario_sound_fpm dataref
+-- write value to b21/vario_sound_fpm dataref
 function update_vario_sound()
     dataref_write("B21_VARIO_SOUND_FPM", B21_302_needle_fpm)
 end

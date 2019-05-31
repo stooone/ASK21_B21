@@ -22287,7 +22287,7 @@ gen_annun vario_winter_backgr
   POS 283.000000 133.000000
   IMAGE vario_winter/b21_vario_winter
   DATAREF 
-  SHOW_EQUAL 1.000000 b21/ask21/units_vario
+  SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -22295,7 +22295,7 @@ gen_annun vario_winter_backgr
 
 gen_needle vario_winter
   POS 281.000000 133.000000
-  DATAREF b21/ask21/total_energy_fpm
+  DATAREF b21/vario_winter/needle_fpm
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME -8000.000000 130.000000 1.000000
@@ -22350,7 +22350,7 @@ gen_annun vario_302_ring
   POS 510.500000 216.000000
   IMAGE b21_vario_302/ring
   DATAREF 
-  SHOW_EQUAL 1.000000 b21/ask21/units_vario
+  SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -22359,7 +22359,7 @@ gen_annun vario_302_ring
 gen_LED vario_302_number_l
   POS 500.500000 192.500000
   IMAGE b21_vario_302/num_left
-  DATAREF b21/ask21/vario_302/number_left
+  DATAREF b21/vario_302/number_left
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -22372,7 +22372,7 @@ gen_LED vario_302_number_l
 gen_LED vario_302_number_r
   POS 528.500000 215.500000
   IMAGE b21_vario_302/num_right
-  DATAREF b21/ask21/vario_302/number_right
+  DATAREF b21/vario_302/number_right
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -22385,7 +22385,7 @@ gen_LED vario_302_number_r
 gen_LED vario_203_number_t
   POS 508.500000 238.500000
   IMAGE b21_vario_302/num_top
-  DATAREF b21/ask21/vario_302/number_top
+  DATAREF b21/vario_302/number_top
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -22398,7 +22398,7 @@ gen_LED vario_203_number_t
 gen_needle vario_302_needle
   POS 511.000000 216.500000
   IMAGE b21_vario_302/vario_302
-  DATAREF b21/ask21/vario_302/needle_fpm
+  DATAREF b21/vario_302/needle_fpm
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME -5000.000000 -179.000000 1.000000
@@ -22450,7 +22450,7 @@ gen_annun vario_57_background
   POS 361.000000 280.000000
   IMAGE vario_57/vario_57_background
   DATAREF 
-  SHOW_EQUAL 1.000000 b21/ask21/units_vario
+  SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -22459,7 +22459,7 @@ gen_annun vario_57_background
 gen_needle vario_57_needle
   POS 359.000000 282.000000
   IMAGE vario_57/vario_57_needle
-  DATAREF b21/ask21/vario_57/needle_fpm
+  DATAREF b21/vario_57/needle_fpm
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME -10000.000000 -150.000000 1.000000
@@ -22493,7 +22493,7 @@ gen_rotary vario_57_center
 gen_rheostat vario_sound_volume
   POS 419.000000 216.000000
   IMAGE b21_vario_302/volume
-  DATAREF b21/ask21/vario_sound_volume
+  DATAREF b21/vario_sound_volume
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
