@@ -130,7 +130,7 @@ P _gear/0/_lonE 0.0
 P _gear/0/_lonN 0.0
 P _gear/0/_lonR 0.0
 P _gear/0/_scon 2963.000732422
-P _gear/0/_stat_def 0.388360560
+P _gear/0/_stat_def 0.388360590
 P _gear/0/_steerdeg_hispeed 0.0
 P _gear/0/_steerdeg_lospeed 0.0
 P _gear/0/_strut_comp 0.0
@@ -164,7 +164,7 @@ P _gear/1/_lonE 0.0
 P _gear/1/_lonN 0.0
 P _gear/1/_lonR 0.0
 P _gear/1/_scon 1735.471801758
-P _gear/1/_stat_def 0.097549766
+P _gear/1/_stat_def 0.097549759
 P _gear/1/_steerdeg_hispeed 0.0
 P _gear/1/_steerdeg_lospeed 0.0
 P _gear/1/_strut_comp 0.0
@@ -260,7 +260,7 @@ P _obja/4/_v10_att_z_acf_prt_ref 0.0
 P _obja/4/_v10_is_internal 960420056
 P _obja/4/_v10_steers_with_gear 0
 P _obja/count 5
-P _panel_inst_3d 34
+P _panel_inst_3d 39
 P _part/10/_bot_s1 0.006000000
 P _part/10/_bot_s2 0.048999999
 P _part/10/_bot_t1 0.006000000
@@ -10711,7 +10711,7 @@ P _part/8/_geo_xyz/10,9,0 -8.830852509
 P _part/8/_geo_xyz/10,9,1 1.176438093
 P _part/8/_geo_xyz/10,9,2 10.208029747
 P _part/8/_geo_xyz/11,0,0 -10.412437439
-P _part/8/_geo_xyz/11,0,1 1.347293615
+P _part/8/_geo_xyz/11,0,1 1.347293496
 P _part/8/_geo_xyz/11,0,2 8.358226776
 P _part/8/_geo_xyz/11,1,0 -10.412706375
 P _part/8/_geo_xyz/11,1,1 1.343458056
@@ -10726,7 +10726,7 @@ P _part/8/_geo_xyz/11,12,0 -10.412706375
 P _part/8/_geo_xyz/11,12,1 1.343458056
 P _part/8/_geo_xyz/11,12,2 8.477264404
 P _part/8/_geo_xyz/11,13,0 -10.412437439
-P _part/8/_geo_xyz/11,13,1 1.347293615
+P _part/8/_geo_xyz/11,13,1 1.347293496
 P _part/8/_geo_xyz/11,13,2 8.358226776
 P _part/8/_geo_xyz/11,14,0 0.0
 P _part/8/_geo_xyz/11,14,1 0.0
@@ -10765,7 +10765,7 @@ P _part/8/_geo_xyz/11,9,0 -10.416460991
 P _part/8/_geo_xyz/11,9,1 1.289760470
 P _part/8/_geo_xyz/11,9,2 10.143795013
 P _part/8/_geo_xyz/12,0,0 -10.412437439
-P _part/8/_geo_xyz/12,0,1 1.347293615
+P _part/8/_geo_xyz/12,0,1 1.347293496
 P _part/8/_geo_xyz/12,0,2 8.358226776
 P _part/8/_geo_xyz/12,1,0 -10.412706375
 P _part/8/_geo_xyz/12,1,1 1.343458056
@@ -10780,7 +10780,7 @@ P _part/8/_geo_xyz/12,12,0 -10.412706375
 P _part/8/_geo_xyz/12,12,1 1.343458056
 P _part/8/_geo_xyz/12,12,2 8.477264404
 P _part/8/_geo_xyz/12,13,0 -10.412437439
-P _part/8/_geo_xyz/12,13,1 1.347293615
+P _part/8/_geo_xyz/12,13,1 1.347293496
 P _part/8/_geo_xyz/12,13,2 8.358226776
 P _part/8/_geo_xyz/12,14,0 0.0
 P _part/8/_geo_xyz/12,14,1 0.0
@@ -13471,7 +13471,7 @@ P _part/85/_part_specs_invis 1
 P _part/85/_part_tex 0
 P _part/85/_part_the 0.0
 P _part/85/_part_x 0.0
-P _part/85/_part_y -0.511639416
+P _part/85/_part_y -0.511639357
 P _part/85/_part_z 10.500000000
 P _part/85/_patt_con 0
 P _part/85/_patt_prt 0
@@ -15118,7 +15118,7 @@ P _part/9/_geo_xyz/10,9,0 8.830852509
 P _part/9/_geo_xyz/10,9,1 1.176438093
 P _part/9/_geo_xyz/10,9,2 10.208029747
 P _part/9/_geo_xyz/11,0,0 10.412437439
-P _part/9/_geo_xyz/11,0,1 1.347293615
+P _part/9/_geo_xyz/11,0,1 1.347293496
 P _part/9/_geo_xyz/11,0,2 8.358226776
 P _part/9/_geo_xyz/11,1,0 10.412706375
 P _part/9/_geo_xyz/11,1,1 1.343458056
@@ -15133,7 +15133,7 @@ P _part/9/_geo_xyz/11,12,0 10.412706375
 P _part/9/_geo_xyz/11,12,1 1.343458056
 P _part/9/_geo_xyz/11,12,2 8.477264404
 P _part/9/_geo_xyz/11,13,0 10.412437439
-P _part/9/_geo_xyz/11,13,1 1.347293615
+P _part/9/_geo_xyz/11,13,1 1.347293496
 P _part/9/_geo_xyz/11,13,2 8.358226776
 P _part/9/_geo_xyz/11,14,0 0.0
 P _part/9/_geo_xyz/11,14,1 0.0
@@ -15172,7 +15172,7 @@ P _part/9/_geo_xyz/11,9,0 10.416460991
 P _part/9/_geo_xyz/11,9,1 1.289760470
 P _part/9/_geo_xyz/11,9,2 10.143795013
 P _part/9/_geo_xyz/12,0,0 10.412437439
-P _part/9/_geo_xyz/12,0,1 1.347293615
+P _part/9/_geo_xyz/12,0,1 1.347293496
 P _part/9/_geo_xyz/12,0,2 8.358226776
 P _part/9/_geo_xyz/12,1,0 10.412706375
 P _part/9/_geo_xyz/12,1,1 1.343458056
@@ -15187,7 +15187,7 @@ P _part/9/_geo_xyz/12,12,0 10.412706375
 P _part/9/_geo_xyz/12,12,1 1.343458056
 P _part/9/_geo_xyz/12,12,2 8.477264404
 P _part/9/_geo_xyz/12,13,0 10.412437439
-P _part/9/_geo_xyz/12,13,1 1.347293615
+P _part/9/_geo_xyz/12,13,1 1.347293496
 P _part/9/_geo_xyz/12,13,2 8.358226776
 P _part/9/_geo_xyz/12,14,0 0.0
 P _part/9/_geo_xyz/12,14,1 0.0
@@ -22357,7 +22357,7 @@ gen_annun vario_302_ring
   KEY_FRAME 1.000000 1.000000
 
 gen_LED vario_302_number_l
-  POS 500.500000 192.500000
+  POS 507.500000 192.500000
   IMAGE vario_302/num_left
   DATAREF b21/vario_302/number_left
   LIGHT_MODE MECHANICAL
@@ -22365,6 +22365,19 @@ gen_LED vario_302_number_l
   KEY_FRAME 0.000000 0.000000 1.000000
   KEY_FRAME 15.000000 15.000000
   DIGITS 3
+  DECIMALS 1
+  PERIOD_WIDTH 6
+  LED_ROWS 0
+
+gen_LED vario_302_numleft_s
+  POS 500.500000 192.500000
+  IMAGE vario_302/num_sign
+  DATAREF b21/vario_302/number_left_sign
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1000.000000 1000.000000
+  DIGITS 4
   DECIMALS 1
   PERIOD_WIDTH 6
   LED_ROWS 0
@@ -22391,6 +22404,19 @@ gen_LED vario_203_number_t
   KEY_FRAME 0.000000 0.000000 1.000000
   KEY_FRAME 20000.000000 20000.000000
   DIGITS 5
+  DECIMALS 0
+  PERIOD_WIDTH 0
+  LED_ROWS 0
+
+gen_LED vario_302_num_top_s
+  POS 502.500000 238.500000
+  IMAGE vario_302/num_sign
+  DATAREF b21/vario_302/number_top_sign
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 1.000000
+  DIGITS 6
   DECIMALS 0
   PERIOD_WIDTH 0
   LED_ROWS 0
@@ -22593,18 +22619,38 @@ gen_annun vario_302_stf_te_in
   KEY_FRAME 0.000000 0.000000 1.000000
   KEY_FRAME 1.000000 1.000000
 
-gen_LED vario_302_num_top_m
-  POS 502.500000 238.500000
-  IMAGE vario_302/num_top_minus
-  DATAREF b21/vario_302/number_top_minus
+gen_needle watch_h
+  POS 584.500000 323.000000
+  IMAGE watch/H
+  DATAREF sim/cockpit2/clock_timer/local_time_hours
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
-  KEY_FRAME 1.000000 1.000000
-  DIGITS 6
-  DECIMALS 0
-  PERIOD_WIDTH 0
-  LED_ROWS 0
+  KEY_FRAME 12.000000 360.000000
+  IS_DRAGGABLE 0
+  OFFSET 0.000000
+
+gen_needle watch_m
+  POS 583.500000 323.000000
+  IMAGE watch/M
+  DATAREF sim/cockpit2/clock_timer/local_time_minutes
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 60.000000 360.000000
+  IS_DRAGGABLE 0
+  OFFSET 0.000000
+
+gen_needle watch_s
+  POS 583.500000 323.000000
+  IMAGE watch/S
+  DATAREF sim/cockpit2/clock_timer/local_time_seconds
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 60.000000 360.000000
+  IS_DRAGGABLE 0
+  OFFSET 0.000000
 
 PANEL_2D_END
 PANEL_3D_BEGIN

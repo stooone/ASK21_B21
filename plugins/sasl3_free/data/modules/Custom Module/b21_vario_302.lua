@@ -69,9 +69,10 @@ DATAREF.PUSH = createGlobalPropertyi("b21/vario_302/push", 0, false, true, true)
 DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/vario_302/needle_fpm", 0.0, false, true, true)
 DATAREF.B21_VARIO_SOUND_FPM = globalPropertyf("b21/vario_sound_fpm")
 DATAREF.NUMBER_LEFT = createGlobalPropertyf("b21/vario_302/number_left",12.3,false,true,true)
+DATAREF.NUMBER_LEFT_SIGN = createGlobalPropertyi("b21/vario_302/number_left_sign",0,false,true,true)
 DATAREF.NUMBER_RIGHT = createGlobalPropertyf("b21/vario_302/number_right",34.5,false,true,true)
 DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/vario_302/number_top",123,false,true,true)
-DATAREF.NUMBER_TOP_MINUS = createGlobalPropertyi("b21/vario_302/number_top_minus",9000,false,true,true)
+DATAREF.NUMBER_TOP_SIGN = createGlobalPropertyi("b21/vario_302/number_top_sign",0,false,true,true)
 DATAREF.STF_TE_IND = createGlobalPropertyi("b21/vario_302/stf_te_ind",0,false,true,true) -- stf/te indicator on lcd
 
 --debug waypoint for arrival height testing approx 26nm East of 1N7 (Blairstown)
@@ -94,6 +95,7 @@ end
 
 -- Conversion constants
 FT_TO_M = 0.3048
+M_TO_FT = 1 / FT_TO_M
 KTS_TO_KPH = 1.852
 KTS_TO_MPS = 0.514444
 MPS_TO_FPM = 196.85
@@ -637,9 +639,9 @@ end
 
 --update top number of 302 vario with altitude
 function update_top_number()
-    -- only update every 2 seconds max
+    -- only update every 1 seconds max
     local now_s = dataref_read("TIME_S")
-    if now_s < prev_number_top_s + 2
+    if now_s < prev_number_top_s + 1
     then
         return
     end
@@ -648,13 +650,11 @@ function update_top_number()
 
     if dataref_read("UNITS_ALTITUDE") == 1 -- 0=feet, 1=meters
     then -- write meters
-        reading = dataref_read("ALT_FT") * FT_TO_M
+        reading = B21_302_arrival_height_m -- dataref_read("ALT_FT") * FT_TO_M
     else -- write feet
-        reading = dataref_read("ALT_FT")
+        reading = B21_302_arrival_height_m * M_TO_FT --dataref_read("ALT_FT")
     end
 
-    --debug
-    reading = -123
     dataref_write("NUMBER_TOP", math.abs(reading))
 
     prev_number_top_s = now_s -- record the time we just updated the display
@@ -663,29 +663,77 @@ function update_top_number()
     -- we use a gen_LED overlay which displays a '-' for '9' and blank for '0'
     -- e.g. 9000 will display "-   ", so overlaid over " 123" will show "-123"
     
-    local number_minus -- will be 9XXX where the X's represent the existing digits
+    local number_sign -- will be 9XXX where the X's represent the existing digits
 
     if reading >= 0
     then
-        number_minus = 0 -- will display a single 'blank'
+        if reading > 9999
+        then
+            reading = 9999
+        end
+        number_sign = 10^math.floor(math.log10(reading)+1)*8
     else
+        if reading < -9999
+        then
+            reading = -9999
+        end
         -- create number 'mask' to put '-' in the right place
         -- e.g. reading = 123 => number_minus=9000, hence '-123'
-        number_minus = 10^math.floor(math.log10(-reading)+1)*9
+        number_sign = 10^math.floor(math.log10(-reading)+1)*9
     end
 
-    dataref_write("NUMBER_TOP_MINUS", number_minus)
+    dataref_write("NUMBER_TOP_SIGN", number_sign)
 
 end
 
 --update left number of 302 vario with climb average
 function update_left_number()
+
+    local reading
+
     if dataref_read("UNITS_VARIO") == 1 -- meters per second
     then
-        dataref_write("NUMBER_LEFT", math.floor(B21_302_climb_average_mps * 10.0 + 0.5) / 10.0)
+        reading = math.floor(B21_302_climb_average_mps * 10.0 + 0.5) / 10.0
     else                                -- knots
-        dataref_write("NUMBER_LEFT", math.floor(B21_302_climb_average_mps * MPS_TO_KTS * 10.0 + 0.5) / 10.0)
+        reading = math.floor(B21_302_climb_average_mps * MPS_TO_KTS * 10.0 + 0.5) / 10.0
     end
+
+    dataref_write("NUMBER_LEFT", math.abs(reading))
+
+    -- put a +/- in front of the first digit
+
+    local number_sign
+
+    if reading >= 0
+    then
+        if reading > 999
+        then
+            reading = 999
+        end
+        local digits
+        if reading < 1
+        then
+            number_sign = 80
+        else
+            number_sign = 10^math.floor(math.log10(reading)+1)*8
+        end
+    else
+        if reading < -9999
+        then
+            reading = -9999
+        end
+        -- create number 'mask' to put '-' in the right place
+        -- e.g. reading = 123 => number_minus=9000, hence '-123'
+        if reading > -1
+        then
+            number_sign = 80
+        else
+            number_sign = 10^math.floor(math.log10(-reading)+1)*9
+        end
+    end
+
+    dataref_write("NUMBER_LEFT_SIGN", number_sign)
+
 end
 
 --update right number of 302 vario with maccready setting
