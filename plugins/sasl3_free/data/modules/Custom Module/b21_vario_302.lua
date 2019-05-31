@@ -48,7 +48,7 @@ DATAREF.AIRSPEED_KTS = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_
 -- (for calibration) local sim_speed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
 DATAREF.WEIGHT_TOTAL_KG = globalPropertyf("sim/flightmodel/weight/m_total") -- 430
 DATAREF.WIND_DEG = globalPropertyf("sim/weather/wind_direction_degt", 0.0, false, true, true)
-DATAREF.WIND_KTS = globalPropertyf("sim/weather/wind_speed_kts", 0.0, false, true, true)
+DATAREF.WIND_KTS = globalPropertyf("sim/weather/wind_speed_kt", 0.0, false, true, true)
 DATAREF.TURN_RATE_DEG = globalProperty("sim/cockpit2/gauges/indicators/turn_rate_heading_deg_pilot")
 DATAREF.LATITUDE = globalProperty("sim/flightmodel/position/latitude")
 DATAREF.LONGITUDE = globalProperty("sim/flightmodel/position/longitude")
@@ -244,15 +244,13 @@ function update_stf_te()
         -- if in STF mode then set indicator to 0 (= STF on lcd), else set indicator to 1 (= TE on lcd)
         dataref_write("STF_TE_IND", B21_302_mode_stf and 0 or 1)
 
-        dataref_write("DEBUG1", turn_rate_now_deg)
-        dataref_write("DEBUG2", average_turn_rate_deg)
     end
 end
 
 -- calcular polar sink in m/s for given airspeed in km/h
 function sink_mps(speed_kph, ballast_adjust)
     local prev_point = { 0, 10 } -- arbitrary starting polar point (for speed < polar[1][SPEED])
-    for i, point in pairs(polar) -- each point is { speed_kph, sink_mps }
+    for i, point in pairs(project_settings.polar) -- each point is { speed_kph, sink_mps }
     do
         -- adjust this polar point to account for ballast carried
         local adjusted_point = { point[1] * ballast_adjust, point[2] * ballast_adjust }
@@ -476,10 +474,11 @@ end
 ]]
 
 function update_arrival_height()
-    local aircraft_point = { "lat"= dataref_read("LATITUDE"), "lng"= dataref_read("LONGITUDE") }
+    local aircraft_point = { lat= dataref_read("LATITUDE"), 
+                             lng= dataref_read("LONGITUDE") }
 
     --debug
-    local wp_point = { "lat"=debug_wp_lat, "lng"=debug_wp_lng }
+    local wp_point = { lat=debug_wp_lat, lng=debug_wp_lng }
     local wp_alt_m = debug_wp_alt_m
 
     local wp_distance_m = geo.get_distance(aircraft_point, wp_point)
@@ -502,6 +501,8 @@ function update_arrival_height()
     --print("Wind",dataref_read("WIND_RADIANS"),"radians",dataref_read("WIND_MPS"),"mps") --debug
     --print("B21_302_height_needed_m", B21_302_height_needed_m) --debug
     --print("B21_302_arrival_height_m", B21_302_arrival_height_m) --debug
+    dataref_write("DEBUG1", wp_distance_m)
+    dataref_write("DEBUG2", B21_302_arrival_height_m)
 end
 
 --[[                    CALCULATE ACTUAL GLIDE RATIO
@@ -652,7 +653,9 @@ function update_top_number()
         reading = dataref_read("ALT_FT")
     end
 
-    dataref_write("NUMBER_TOP", reading)
+    --debug
+    reading = -123
+    dataref_write("NUMBER_TOP", math.abs(reading))
 
     prev_number_top_s = now_s -- record the time we just updated the display
 
