@@ -22,18 +22,23 @@
         b21/vario_302/mode_stf   -- (1/0) toggles vario between STF and TE mode
         b21/vario_302/knob -- MacCready setting dialled in by pilot
 
-    Display DataRefs
+    Display output DataRefs:
         b21/vario_302/needle_fpm
         b21/vario_302/number_left
         b21/vario_302/number_right
         b21/vario_302/number_top
+        b21/vario_302/number_top_minus
 ]]
+
+-- include generally useful lat/long functions
+local geo = require "geo"
+
 -- the datarefs we will READ to get time, altitude and speed from the sim
 DATAREF = {}
 -- datarefs updated by panel:
 DATAREF.KNOB = createGlobalPropertyf("b21/vario_302/knob", 0, false, true, false) -- 2.0
 DATAREF.STF_TE_SWITCH = createGlobalPropertyi("b21/vario_302/stf_te_switch", project_settings.VARIO_302_MODE, false, true, false)
-     -- (0: stf, 1: auto, 2: te)
+     -- (0=stf, 1=auto, 2=te)
 
 -- datarefs from x-plane
 DATAREF.TIME_S = globalPropertyf("sim/network/misc/network_time_sec") -- 100
@@ -42,12 +47,11 @@ DATAREF.ALT_FT = globalPropertyf("sim/cockpit2/gauges/indicators/altitude_ft_pil
 DATAREF.AIRSPEED_KTS = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot") -- 60
 -- (for calibration) local sim_speed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
 DATAREF.WEIGHT_TOTAL_KG = globalPropertyf("sim/flightmodel/weight/m_total") -- 430
-DATAREF.WP_MSL_M = createGlobalPropertyf("b21/debug/wp_msl_m", 100.0, false, true, true)          -- debug
-DATAREF.WP_BEARING_RAD = createGlobalPropertyf("b21/debug/wp_bearing_rad", 0.0, false, true, true)           -- debug
-DATAREF.WP_DISTANCE_M = createGlobalPropertyf("b21/debug/wp_distance_m", 0.0, false, true, true) -- 2000.0               -- debug
-DATAREF.WIND_RADIANS = createGlobalPropertyf("b21/debug/wind_rad", 0.0, false, true, true) -- debug
-DATAREF.WIND_MPS = createGlobalPropertyf("b21/debug/wind_mps", 0.0, false, true, true)      -- debug
+DATAREF.WIND_DEG = globalPropertyf("sim/weather/wind_direction_degt", 0.0, false, true, true)
+DATAREF.WIND_KTS = globalPropertyf("sim/weather/wind_speed_kts", 0.0, false, true, true)
 DATAREF.TURN_RATE_DEG = globalProperty("sim/cockpit2/gauges/indicators/turn_rate_heading_deg_pilot")
+DATAREF.LATITUDE = globalProperty("sim/flightmodel/position/latitude")
+DATAREF.LONGITUDE = globalProperty("sim/flightmodel/position/longitude")
 
 -- datarefs from USER_SETTINGS.lua
 DATAREF.UNITS_VARIO = globalProperty("b21/units_vario") -- 0 = knots, 1 = m/s (from settings.lua)
@@ -66,8 +70,14 @@ DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/vario_302/needle_fpm", 0.0, fals
 DATAREF.B21_VARIO_SOUND_FPM = globalPropertyf("b21/vario_sound_fpm")
 DATAREF.NUMBER_LEFT = createGlobalPropertyf("b21/vario_302/number_left",12.3,false,true,true)
 DATAREF.NUMBER_RIGHT = createGlobalPropertyf("b21/vario_302/number_right",34.5,false,true,true)
-DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/vario_302/number_top",56789,false,true,true)
+DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/vario_302/number_top",123,false,true,true)
+DATAREF.NUMBER_TOP_MINUS = createGlobalPropertyi("b21/vario_302/number_top_minus",9000,false,true,true)
 DATAREF.STF_TE_IND = createGlobalPropertyi("b21/vario_302/stf_te_ind",0,false,true,true) -- stf/te indicator on lcd
+
+--debug waypoint for arrival height testing approx 26nm East of 1N7 (Blairstown)
+local debug_wp_lat = 41.0
+local debug_wp_lng = -74.5
+local debug_wp_alt_m = 100.0
 
 -- some development debug values for testing
 DATAREF.DEBUG1 = createGlobalPropertyf("b21/debug/1",0.1,false,true,false)
@@ -90,6 +100,7 @@ MPS_TO_FPM = 196.85
 MPS_TO_KTS = 1.0 / KTS_TO_MPS
 MPS_TO_KPH = 3.6
 KPH_TO_MPS = 1 / MPS_TO_KPH
+DEG_TO_RAD = 0.0174533
 
 -- b21_302 globals
 B21_302_maccready_kts = 4 -- user input maccready setting in kts
@@ -465,19 +476,29 @@ end
 ]]
 
 function update_arrival_height()
-    local B21_theta_radians = dataref_read("WIND_RADIANS") - B21_302_wp_bearing_rad - math.pi
+    local aircraft_point = { "lat"= dataref_read("LATITUDE"), "lng"= dataref_read("LONGITUDE") }
 
-    local B21_wind_velocity_mps = dataref_read("WIND_MPS")
+    --debug
+    local wp_point = { "lat"=debug_wp_lat, "lng"=debug_wp_lng }
+    local wp_alt_m = debug_wp_alt_m
 
-    local B21_x_mps = math.cos(B21_theta_radians) * B21_wind_velocity_mps
+    local wp_distance_m = geo.get_distance(aircraft_point, wp_point)
 
-    local B21_y_mps = math.sin(B21_theta_radians) * B21_wind_velocity_mps
+    local wp_bearing_rad = geo.get_bearing(aircraft_point, wp_point) * DEG_TO_RAD
 
-    local B21_vw_mps = math.sqrt(B21_302_mc_stf_mps^2 - B21_y_mps^2) + B21_x_mps
+    local theta_radians = dataref_read("WIND_DEG") * DEG_TO_RAD - wp_bearing_rad - math.pi
 
-    B21_302_height_needed_m = B21_302_distance_to_go_m / B21_vw_mps * B21_302_mc_sink_mps
+    local wind_velocity_mps = dataref_read("WIND_KTS") * KTS_TO_MPS
 
-    B21_302_arrival_height_m = dataref_read("ALT_FT") * FT_TO_M - B21_302_height_needed_m - B21_302_wp_msl_m
+    local x_mps = math.cos(theta_radians) * wind_velocity_mps
+
+    local y_mps = math.sin(theta_radians) * wind_velocity_mps
+
+    local vw_mps = math.sqrt(B21_302_mc_stf_mps^2 - y_mps^2) + x_mps
+
+    B21_302_height_needed_m = wp_distance_m / vw_mps * B21_302_mc_sink_mps
+
+    B21_302_arrival_height_m = dataref_read("ALT_FT") * FT_TO_M - B21_302_height_needed_m - wp_alt_m
     --print("Wind",dataref_read("WIND_RADIANS"),"radians",dataref_read("WIND_MPS"),"mps") --debug
     --print("B21_302_height_needed_m", B21_302_height_needed_m) --debug
     --print("B21_302_arrival_height_m", B21_302_arrival_height_m) --debug
@@ -615,19 +636,43 @@ end
 
 --update top number of 302 vario with altitude
 function update_top_number()
-    -- only update every 3 seconds max
-    local now = dataref_read("TIME_S")
-    if now < prev_number_top_s + 3
+    -- only update every 2 seconds max
+    local now_s = dataref_read("TIME_S")
+    if now_s < prev_number_top_s + 2
     then
         return
     end
-    if dataref_read("UNITS_ALTITUDE") == 1 -- 0: feet, 1: meters
+
+    local reading -- numerical value to display, feet or meters
+
+    if dataref_read("UNITS_ALTITUDE") == 1 -- 0=feet, 1=meters
     then -- write meters
-        dataref_write("NUMBER_TOP", dataref_read("ALT_FT") * FT_TO_M)
+        reading = dataref_read("ALT_FT") * FT_TO_M
     else -- write feet
-        dataref_write("NUMBER_TOP", dataref_read("ALT_FT"))
+        reading = dataref_read("ALT_FT")
     end
-    prev_number_top_s = now
+
+    dataref_write("NUMBER_TOP", reading)
+
+    prev_number_top_s = now_s -- record the time we just updated the display
+
+    -- if negative we'll overlay a '-' to the left of the leftmost digit
+    -- we use a gen_LED overlay which displays a '-' for '9' and blank for '0'
+    -- e.g. 9000 will display "-   ", so overlaid over " 123" will show "-123"
+    
+    local number_minus -- will be 9XXX where the X's represent the existing digits
+
+    if reading >= 0
+    then
+        number_minus = 0 -- will display a single 'blank'
+    else
+        -- create number 'mask' to put '-' in the right place
+        -- e.g. reading = 123 => number_minus=9000, hence '-123'
+        number_minus = 10^math.floor(math.log10(-reading)+1)*9
+    end
+
+    dataref_write("NUMBER_TOP_MINUS", number_minus)
+
 end
 
 --update left number of 302 vario with climb average

@@ -22329,7 +22329,7 @@ gen_rotary vario_winter_center
 
 gen_rotary vario_302_backgroun
   POS 511.000000 213.500000
-  IMAGE b21_vario_302/vario_302_background
+  IMAGE vario_302/vario_302_background
   DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22348,7 +22348,7 @@ gen_rotary vario_302_backgroun
 
 gen_annun vario_302_ring
   POS 510.500000 216.000000
-  IMAGE b21_vario_302/ring
+  IMAGE vario_302/ring
   DATAREF 
   SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
@@ -22358,7 +22358,7 @@ gen_annun vario_302_ring
 
 gen_LED vario_302_number_l
   POS 500.500000 192.500000
-  IMAGE b21_vario_302/num_left
+  IMAGE vario_302/num_left
   DATAREF b21/vario_302/number_left
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22371,7 +22371,7 @@ gen_LED vario_302_number_l
 
 gen_LED vario_302_number_r
   POS 528.500000 215.500000
-  IMAGE b21_vario_302/num_right
+  IMAGE vario_302/num_right
   DATAREF b21/vario_302/number_right
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22384,7 +22384,7 @@ gen_LED vario_302_number_r
 
 gen_LED vario_203_number_t
   POS 508.500000 238.500000
-  IMAGE b21_vario_302/num_top
+  IMAGE vario_302/num_top
   DATAREF b21/vario_302/number_top
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22397,7 +22397,7 @@ gen_LED vario_203_number_t
 
 gen_needle vario_302_needle
   POS 511.000000 216.500000
-  IMAGE b21_vario_302/vario_302
+  IMAGE vario_302/vario_302
   DATAREF b21/vario_302/needle_fpm
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22411,7 +22411,7 @@ gen_needle vario_302_needle
 
 gen_rheostat vario_302_knob
   POS 450.000000 148.000000
-  IMAGE b21_vario_302/vario_302_knob
+  IMAGE vario_302/vario_302_knob
   DATAREF b21/vario_302/knob
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22429,7 +22429,7 @@ gen_rheostat vario_302_knob
 
 gen_rotary vario_302_stf_te_sw
   POS 403.000000 164.000000
-  IMAGE b21_vario_302/stf_te_switch
+  IMAGE vario_302/stf_te_switch
   DATAREF b21/vario_302/stf_te_switch
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22492,7 +22492,7 @@ gen_rotary vario_57_center
 
 gen_rheostat vario_sound_volume
   POS 419.000000 216.000000
-  IMAGE b21_vario_302/volume
+  IMAGE vario_302/volume
   DATAREF b21/vario_sound_volume
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
