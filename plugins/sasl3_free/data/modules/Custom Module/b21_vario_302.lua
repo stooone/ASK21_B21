@@ -475,8 +475,8 @@ function update_arrival_height()
     --print("Wind",dataref_read("WIND_RADIANS"),"radians",dataref_read("WIND_MPS"),"mps") --debug
     --print("B21_302_height_needed_m", B21_302_height_needed_m) --debug
     --print("B21_302_arrival_height_m", B21_302_arrival_height_m) --debug
-    dataref_write("DEBUG1", wp_distance_m)
-    dataref_write("DEBUG2", B21_302_arrival_height_m)
+    dataref_write("DEBUG1", math.floor(project_settings.gpsnav_wp_distance_m / 1000))
+    dataref_write("DEBUG2", math.floor(project_settings.gpsnav_wp_heading_deg))
 end
 
 --[[                    CALCULATE ACTUAL GLIDE RATIO

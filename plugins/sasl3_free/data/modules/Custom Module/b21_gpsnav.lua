@@ -14,8 +14,8 @@ size = { 100, 89 }
 local geo = require "geo"
 
 local task = {
-    { "1", "1N7", 375, 40.971146, -74.997475 },
-    { "1", "14N", 400, 40.844259, -75.635466 },
+    { "1", "1N7", 375.0, 40.971146, -74.997475 },
+    { "1", "14N", 898.0, 40.844259, -75.635466 },
     { "28", "WP_Ridge", 1400.0 , 40.686886, -75.930634 },
     { "1", "1N7", 375.0, 40.971146, -74.997475 }
 }
@@ -150,7 +150,7 @@ function update_wp_distance_and_heading()
     
     project_settings.gpsnav_wp_distance_m = geo.get_distance(aircraft_point, wp_point)
 
-    project_settings.gpsnav_wp_heading_deg = geo.get_bearing(aircraft_point, wp_point) * DEG_TO_RAD
+    project_settings.gpsnav_wp_heading_deg = geo.get_bearing(aircraft_point, wp_point)
 end
 
 function update()
