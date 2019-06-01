@@ -50,8 +50,6 @@ DATAREF.WEIGHT_TOTAL_KG = globalPropertyf("sim/flightmodel/weight/m_total") -- 4
 DATAREF.WIND_DEG = globalPropertyf("sim/weather/wind_direction_degt", 0.0, false, true, true)
 DATAREF.WIND_KTS = globalPropertyf("sim/weather/wind_speed_kt", 0.0, false, true, true)
 DATAREF.TURN_RATE_DEG = globalProperty("sim/cockpit2/gauges/indicators/turn_rate_heading_deg_pilot")
-DATAREF.LATITUDE = globalProperty("sim/flightmodel/position/latitude")
-DATAREF.LONGITUDE = globalProperty("sim/flightmodel/position/longitude")
 
 -- datarefs from USER_SETTINGS.lua
 DATAREF.UNITS_VARIO = globalProperty("b21/units_vario") -- 0 = knots, 1 = m/s (from settings.lua)
@@ -130,11 +128,6 @@ B21_302_te_mps = 0.0
 -- netto
 B21_302_polar_sink_mps = 0.0
 B21_302_netto_mps = 0.0
-
--- Next waypoint altitude msl (m), bearing (radians), distance (m)
-B21_302_wp_msl_m = 0.0
-B21_302_wp_bearing_rad = 0.0
-B21_302_distance_to_go_m = 0.0
 
 -- Maccready speed-to-fly and polar sink value at that speed
 B21_302_mc_stf_mps = 0.0
@@ -402,24 +395,6 @@ function update_stf()
 end
 
 --[[
-                    CALCULATE DESTINATION ALT METERS MSL
-                    Outputs:
-                        B21_302_wp_msl_m
-                        B21_302_wp_bearing_rad
-                        B21_302_distance_to_go_m
-]]
-
-function update_wp_alt_bearing_and_distance()
-    --debug we might need to do some trig here
-    B21_302_wp_msl_m = dataref_read("WP_MSL_M")
-    B21_302_wp_bearing_rad = dataref_read("WP_BEARING_RAD")
-    B21_302_distance_to_go_m = dataref_read("WP_DISTANCE_M")
-    --print("B21_302_wp_msl_m",B21_302_wp_msl_m) --debug
-    --print("B21_302_wp_bearing_rad",B21_302_wp_bearing_rad) --debug
-    --print("B21_302_distance_to_go_m", B21_302_distance_to_go_m) --debug
-end
-
---[[
                     CALCULATE STF FOR CURRENT MACCREADY (FOR ARRIVAL HEIGHT)
                     Outputs:
                         (L:B21_302_mc_stf, meters per second)
@@ -476,16 +451,13 @@ end
 ]]
 
 function update_arrival_height()
-    local aircraft_point = { lat= dataref_read("LATITUDE"), 
-                             lng= dataref_read("LONGITUDE") }
 
-    --debug
-    local wp_point = { lat=debug_wp_lat, lng=debug_wp_lng }
-    local wp_alt_m = debug_wp_alt_m
+    -- READ shared vars set by gpsnav for waypoint altitude, distance and heading
+    local wp_alt_m = project_settings.gpsnav_wp_altitude_m
 
-    local wp_distance_m = geo.get_distance(aircraft_point, wp_point)
+    local wp_distance_m = project_settings.gpsnav_wp_distance_m
 
-    local wp_bearing_rad = geo.get_bearing(aircraft_point, wp_point) * DEG_TO_RAD
+    local wp_bearing_rad = project_settings.gpsnav_wp_heading_deg * DEG_TO_RAD
 
     local theta_radians = dataref_read("WIND_DEG") * DEG_TO_RAD - wp_bearing_rad - math.pi
 
@@ -756,7 +728,6 @@ function update()
     update_total_energy()
     update_netto()
     update_stf()
-    update_wp_alt_bearing_and_distance()
     update_maccready_stf()
     update_maccready_sink()
     update_arrival_height()

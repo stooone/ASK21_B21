@@ -2,10 +2,47 @@
 
 print("b21_gpsnav.lua loaded")
 
+-- WRITES these shared variables:
+--
+-- project_settings.gpsnav_wp_distance_m
+-- project_settings.gpsnav_wp_heading_deg
+-- project_settings.gpsnav_wp_altitude_m
+--
+
 size = { 100, 89 }
 
+local geo = require "geo"
+
+local task = {
+    { "1", "1N7", 375, 40.971146, -74.997475 },
+    { "1", "14N", 400, 40.844259, -75.635466 },
+    { "28", "WP_Ridge", 1400.0 , 40.686886, -75.930634 },
+    { "1", "1N7", 375.0, 40.971146, -74.997475 }
+}
+
+M_TO_MI = 0.000621371
+FT_TO_M = 0.3048
+M_TO_FT = 1.0 / FT_TO_M
+DEG_TO_RAD = 0.0174533
+
+local task_index = 1 -- which task entry is current
+
+local wp_point = { lat = task[task_index][4], lng = task[task_index][5] }
+
+local prev_click_time_s = 0.0 -- time button was previously clicked (so only one action per click)
+
+-- gpsnav vars shared with other instruments (e.g. 302 vario)
+project_settings.gpsnav_wp_distance_m = 0.0 -- distance to next waypoint in meters
+
+project_settings.gpsnav_wp_heading_deg = 0.0 -- heading (true) to next waypoint in degrees
+
+project_settings.gpsnav_wp_altitude_m = task[task_index][3] * FT_TO_M -- altitude MSL of next waypoint in meters
+
 -- datarefs READ
-local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/true_psi")
+local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/true_psi") -- aircraft true heading
+local dataref_latitude = globalProperty("sim/flightmodel/position/latitude") -- aircraft latitude
+local dataref_longitude = globalProperty("sim/flightmodel/position/longitude") -- aircraft longitude
+local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec") -- time in seconds
 
 -- command callbacks from gpsnav buttons
 
@@ -36,11 +73,25 @@ end
 
 function clicked_left(phase)
     print("GPSNAV LEFT")
+    if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index > 1
+    then
+        prev_click_time_s = get(dataref_time_s)
+        task_index = task_index - 1
+        wp_point = { lat = task[task_index][4], lng = task[task_index][5] }
+        project_settings.gpsnav_wp_altitude_m = task[task_index][3] * FT_TO_M -- altitude MSL of next waypoint in meters
+    end
     return 1
 end
 
 function clicked_right(phase)
     print("GPSNAV RIGHT")
+    if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index < #task
+    then
+        prev_click_time_s = get(dataref_time_s)
+        task_index = task_index + 1
+        wp_point = { lat = task[task_index][4], lng = task[task_index][5] }
+        project_settings.gpsnav_wp_altitude_m = task[task_index][3] * FT_TO_M -- altitude MSL of next waypoint in meters
+    end
     return 1
 end
 
@@ -61,10 +112,9 @@ local bearing_img = sasl.gl.loadImage("images/gpsnav_bearing.png")
 
 local bearing_index = 3
 
-local heading_to_wp_deg = 0.0 -- debug this will be calculated from flightplan waypoint
-
-function calculate_bearing_index()
-    local heading_delta_deg = get(dataref_heading_deg) - heading_to_wp_deg
+-- calculate index into bearing PNG panel image to display correct turn indication
+function update_bearing_index()
+    local heading_delta_deg = get(dataref_heading_deg) - project_settings.gpsnav_wp_heading_deg
     local left_deg
     local right_deg
     if heading_delta_deg > 0
@@ -92,8 +142,20 @@ function calculate_bearing_index()
     end
 end --calculate_bearing_index
 
+-- update the shared variables for wp bearing and distance
+function update_wp_distance_and_heading()
+    local aircraft_point = { lat= get(dataref_latitude),
+                             lng= get(dataref_longitude) 
+                           }
+    
+    project_settings.gpsnav_wp_distance_m = geo.get_distance(aircraft_point, wp_point)
+
+    project_settings.gpsnav_wp_heading_deg = geo.get_bearing(aircraft_point, wp_point) * DEG_TO_RAD
+end
+
 function update()
-    calculate_bearing_index()
+    update_wp_distance_and_heading()
+    update_bearing_index()
 end --update
 
 
@@ -102,11 +164,36 @@ function draw()
     sasl.gl.drawTexture(background_img, 0, 0, 100, 89) -- draw background texture
     -- sasl.gl.drawLine(0,0,100,100,green)
 
+    -- "1/5: 1N7"
+    local top_string = task_index .. "/" .. #task .. ": " .. task[task_index][2]
+
+    -- "DIST: 37.5km"
+    local distance_string
+    if project_settings.DISTANCE_UNITS == 0 -- (0=mi, 1=km)
+    then
+        distance_string = (math.floor(project_settings.gpsnav_wp_distance_m * M_TO_MI * 10.0) / 10.0) .. " MI"
+    else
+        distance_string = (math.floor(project_settings.gpsnav_wp_distance_m / 100.0) / 10.0) .. " KM"
+    end
+    local mid_string = "DIST: " .. distance_string
+
+    local altitude_string
+    if project_settings.ALTITUDE_UNITS == 0 -- (0=feet, 1=meters)
+    then
+        altitude_string = math.floor(project_settings.gpsnav_wp_altitude_m * M_TO_FT) .. " FT"
+    else
+        altitude_string = math.floor(project_settings.gpsnav_wp_altitude_m) .. " M"
+    end
+    local bottom_string = "ALT: " .. altitude_string
+
     --                                        size isBold isItalic     
-    sasl.gl.drawText(font,5,70, "TO: OXF", 14, true, false, TEXT_ALIGN_LEFT, black)
+    sasl.gl.drawText(font,5,70, top_string, 14, true, false, TEXT_ALIGN_LEFT, black)
 
     sasl.gl.drawTexturePart(bearing_img, 10, 50, 79, 14, bearing_index * 79, 0, 79, 14)
 
-    sasl.gl.drawText(font,5,10, "ARRIVE: 1240", 12, true, false, TEXT_ALIGN_LEFT, black)
+    sasl.gl.drawText(font,5,30, mid_string, 12, true, false, TEXT_ALIGN_LEFT, black)
+
+    sasl.gl.drawText(font,5,10, bottom_string, 12, true, false, TEXT_ALIGN_LEFT, black)
+    
 end
 

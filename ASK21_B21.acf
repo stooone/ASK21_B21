@@ -164,7 +164,7 @@ P _gear/1/_lonE 0.0
 P _gear/1/_lonN 0.0
 P _gear/1/_lonR 0.0
 P _gear/1/_scon 1735.471801758
-P _gear/1/_stat_def 0.097549759
+P _gear/1/_stat_def 0.097549744
 P _gear/1/_steerdeg_hispeed 0.0
 P _gear/1/_steerdeg_lospeed 0.0
 P _gear/1/_strut_comp 0.0
@@ -260,7 +260,7 @@ P _obja/4/_v10_att_z_acf_prt_ref 0.0
 P _obja/4/_v10_is_internal 960420056
 P _obja/4/_v10_steers_with_gear 0
 P _obja/count 5
-P _panel_inst_3d 39
+P _panel_inst_3d 41
 P _part/10/_bot_s1 0.006000000
 P _part/10/_bot_s2 0.048999999
 P _part/10/_bot_t1 0.006000000
@@ -22209,22 +22209,8 @@ han_sbrake_manual han_sbrake_manual
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
 
-but_battery but_battery
-  POS 490.000000 -166.000000
-  DATAREF 
-  LIGHT_MODE MECHANICAL
-  LIGHT_RHEOSTAT 0
-  BUS_SRC 1
-
 alt_GA alt_GA
   POS 774.000000 133.000000
-  DATAREF 
-  LIGHT_MODE MECHANICAL
-  LIGHT_RHEOSTAT 0
-  BUS_SRC 1
-
-but_brakes but_brakes
-  POS 169.000000 114.500000
   DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22255,13 +22241,6 @@ gen_handle gen_handle
   CLICK_RADIUS 70.000000
   HAS_DETENTS 0
 
-rad_com1_GA rad_com1_GA
-  POS 512.000000 -91.500000
-  DATAREF 
-  LIGHT_MODE MECHANICAL
-  LIGHT_RHEOSTAT 0
-  BUS_SRC 1
-
 asi_adap_GA_nodig asi_adap_GA_nodig
   POS 673.000000 280.000000
   DATAREF 
@@ -22284,7 +22263,7 @@ elv_trim_ind elv_trim_ind.png
   BUS_SRC 1
 
 gen_annun vario_winter_backgr
-  POS 283.000000 133.000000
+  POS 283.000000 128.000000
   IMAGE vario_winter/b21_vario_winter
   DATAREF 
   SHOW_EQUAL 1.000000 b21/units_vario
@@ -22294,7 +22273,7 @@ gen_annun vario_winter_backgr
   KEY_FRAME 1.000000 1.000000
 
 gen_needle vario_winter
-  POS 281.000000 133.000000
+  POS 281.000000 128.000000
   DATAREF b21/vario_winter/needle_fpm
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -22309,7 +22288,7 @@ gen_needle vario_winter
   NEEDLE_OFFSET_Y 3.000000
 
 gen_rotary vario_winter_center
-  POS 282.000000 134.000000
+  POS 282.000000 129.000000
   IMAGE vario_winter/b21_vario_winter_center
   DATAREF 
   LIGHT_MODE MECHANICAL
@@ -22473,7 +22452,7 @@ gen_rotary vario_302_stf_te_sw
   CLICK_DY 0
 
 gen_annun vario_57_background
-  POS 361.000000 280.000000
+  POS 344.000000 280.000000
   IMAGE vario_57/vario_57_background
   DATAREF 
   SHOW_EQUAL 1.000000 b21/units_vario
@@ -22483,7 +22462,7 @@ gen_annun vario_57_background
   KEY_FRAME 1.000000 1.000000
 
 gen_needle vario_57_needle
-  POS 359.000000 282.000000
+  POS 342.000000 282.000000
   IMAGE vario_57/vario_57_needle
   DATAREF b21/vario_57/needle_fpm
   LIGHT_MODE MECHANICAL
@@ -22498,7 +22477,7 @@ gen_needle vario_57_needle
   NEEDLE_OFFSET_Y -5.000000
 
 gen_rotary vario_57_center
-  POS 360.500000 278.500000
+  POS 343.500000 278.500000
   IMAGE vario_57/vario_57_center
   DATAREF 
   LIGHT_MODE MECHANICAL
@@ -22620,7 +22599,7 @@ gen_annun vario_302_stf_te_in
   KEY_FRAME 1.000000 1.000000
 
 gen_needle watch_h
-  POS 584.500000 323.000000
+  POS 584.000000 323.500000
   IMAGE watch/H
   DATAREF sim/cockpit2/clock_timer/local_time_hours
   LIGHT_MODE MECHANICAL
@@ -22651,6 +22630,34 @@ gen_needle watch_s
   KEY_FRAME 60.000000 360.000000
   IS_DRAGGABLE 0
   OFFSET 0.000000
+
+elv_trim_ind elv_trim_ind.png
+  POS 579.000000 -84.000000
+  DATAREF 
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 1.000000
+
+gen_handle gen_handle.png
+  POS 152.500000 93.000000
+  IMAGE spoiler_indicator/gen_handle
+  DATAREF sim/cockpit2/controls/speedbrake_ratio
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 -25.000000 1.000000
+  KEY_FRAME 1.000000 25.000000
+  CLICK_RADIUS 10.000000
+  HAS_DETENTS 0
+
+rad_com1_GA rad_com1_GA.png
+  POS 496.000000 -96.500000
+  DATAREF 
+  SIZE 1.500000
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 1.000000
 
 PANEL_2D_END
 PANEL_3D_BEGIN
