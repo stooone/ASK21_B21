@@ -31,6 +31,9 @@ local wp_point = { lat = task[task_index][4], lng = task[task_index][5] }
 
 local prev_click_time_s = 0.0 -- time button was previously clicked (so only one action per click)
 
+-- FMS values
+local wp_count = 0
+
 -- gpsnav vars shared with other instruments (e.g. 302 vario)
 project_settings.gpsnav_wp_distance_m = 0.0 -- distance to next waypoint in meters
 
@@ -61,9 +64,13 @@ local command_right = sasl.createCommand("b21/gpsnav/right",
 local xplane_load_flightplan = sasl.findCommand("sim/FMS/key_load")
 
 function clicked_load(phase)
-    print("GPSNAV LOAD")
-    sasl.commandOnce(xplane_load_flightplan)
-    return 1
+    if get(dataref_time_s) > prev_click_time_s + 2.0 and phase == SASL_COMMAND_BEGIN
+    then
+        prev_click_time_s = get(dataref_time_s)
+        print("--GPSNAV LOAD")
+        sasl.commandOnce(xplane_load_flightplan)
+    end
+    return 0
 end
 
 function clicked_view(phase)
@@ -95,7 +102,7 @@ function clicked_right(phase)
     return 1
 end
 
-sasl.registerCommandHandler(command_load, 1, clicked_load)
+sasl.registerCommandHandler(command_load, 0, clicked_load)
 sasl.registerCommandHandler(command_view, 1, clicked_view)
 sasl.registerCommandHandler(command_left, 1, clicked_left)
 sasl.registerCommandHandler(command_right, 1, clicked_right)
@@ -153,9 +160,29 @@ function update_wp_distance_and_heading()
     project_settings.gpsnav_wp_heading_deg = geo.get_bearing(aircraft_point, wp_point)
 end
 
+function update_fms()
+    local new_wp_count = sasl.countFMSEntries()
+    if new_wp_count == wp_count
+    then
+        return
+    end
+
+    wp_count = new_wp_count
+    print("gpsnav wp_count",wp_count)
+    print(NAV_UNKNOWN, NAV_AIRPORT, NAV_NDB,NAV_VOR)
+    print(NAV_ILS,NAV_LOCALIZER,NAV_GLIDESLOPE,NAV_OUTERMARKER)
+    print(NAV_MIDDLEMARKER,NAV_INNERMARKER,NAV_FIX,NAV_DME)
+    for i=0, wp_count-1
+    do
+        local wp_type, wp_name, wp_id, wp_altitude, wp_latitude, wp_longitude = sasl.getFMSEntryInfo(i)
+        print("GPSNAV["..i.."]",wp_type, wp_name, wp_id, wp_altitude, wp_latitude, wp_longitude)
+    end
+end
+
 function update()
     update_wp_distance_and_heading()
     update_bearing_index()
+    update_fms()
 end --update
 
 
