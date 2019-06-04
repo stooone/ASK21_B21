@@ -33,9 +33,6 @@ local wp_point = { }
 
 local prev_click_time_s = 0.0 -- time button was previously clicked (so only one action per click)
 
--- FMS values
-local wp_count = 0
-
 -- gpsnav vars shared with other instruments (e.g. 302 vario)
 project_settings.gpsnav_wp_distance_m = 0.0 -- distance to next waypoint in meters
 
@@ -61,12 +58,15 @@ local xplane_load_flightplan = sasl.findCommand("sim/FMS/key_load")
 
 -- delete all waypoints in FMS
 function clear_fms()
-    local fms_wp_count = sasl.countFMSEntries()
-    for i = fms_wp_count - 1, 0, -1
+    print("GPSNAV CLEAR")
+    local fms_count = sasl.countFMSEntries()
+    for i = fms_count - 1, 0, -1
     do
         sasl.clearFMSEntry(i) -- remove last entry (shortens flight plan)
         print("GPSNAV deleted wp ",i)
     end
+    task = {}
+    task_index = 0
 end
 
 -- set waypoint to task[i]
@@ -97,9 +97,9 @@ function clicked_view(phase)
 end
 
 function clicked_left(phase)
-    print("GPSNAV LEFT")
-    if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index > 1
+    if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index > 1 and phase == SASL_COMMAND_BEGIN
     then
+        print("GPSNAV LEFT")
         prev_click_time_s = get(dataref_time_s)
         set_waypoint(task_index - 1)
     end
@@ -107,9 +107,9 @@ function clicked_left(phase)
 end
 
 function clicked_right(phase)
-    print("GPSNAV RIGHT")
-    if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index < #task
+    if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index < #task and phase == SASL_COMMAND_BEGIN
     then
+        print("GPSNAV RIGHT")
         prev_click_time_s = get(dataref_time_s)
         set_waypoint(task_index + 1)
     end
@@ -155,8 +155,8 @@ function update_bearing_index()
     end
     if turn_deg > 70 then bearing_index = 6
     elseif turn_deg > 40 then bearing_index = 5
-    elseif turn_deg > 20 then bearing_index = 4
-    elseif turn_deg > -20 then bearing_index = 3
+    elseif turn_deg > 10 then bearing_index = 4 
+    elseif turn_deg > -10 then bearing_index = 3 -- center
     elseif turn_deg > -40 then bearing_index = 2
     elseif turn_deg > -70 then bearing_index = 1
     else bearing_index = 0
@@ -179,18 +179,17 @@ end
 
 -- detect when FMS has loaded a new flightplan
 function update_fms()
-    local new_wp_count = sasl.countFMSEntries()
-    if new_wp_count <= wp_count
+    local fms_count = sasl.countFMSEntries()
+    if fms_count <= #task
     then
         return
     end
 
-    wp_count = new_wp_count
-    print("gpsnav wp_count",wp_count)
+    print("gpsnav fms_count",fms_count)
     
     task = {}
 
-    for i=0, wp_count-1
+    for i=0, fms_count-1
     do
         local wp_type, wp_name, wp_id, wp_altitude, wp_latitude, wp_longitude = sasl.getFMSEntryInfo(i)
         print("GPSNAV["..i.."]",wp_type, wp_name, wp_id, wp_altitude, wp_latitude, wp_longitude)
@@ -223,7 +222,7 @@ function draw()
     then
         top_string = "NO TASK"
     else
-        top_string = task_index .. "/" .. #task .. ": " .. task[task_index][2]
+        top_string = task_index .. "/" .. #task .. ": " .. task[task_index].ref
     end
 
     -- "DIST: 37.5km"
@@ -234,7 +233,7 @@ function draw()
     else
         distance_string = (math.floor(project_settings.gpsnav_wp_distance_m / 100.0) / 10.0) .. " KM"
     end
-    local mid_string = "DIST: " .. distance_string
+    local mid_string = distance_string
 
     local altitude_string
     if project_settings.ALTITUDE_UNITS == 0 -- (0=feet, 1=meters)
@@ -243,16 +242,20 @@ function draw()
     else
         altitude_string = math.floor(project_settings.gpsnav_wp_altitude_m) .. " M"
     end
-    local bottom_string = "ALT: " .. altitude_string
+    local bottom_string = altitude_string
 
-    --                                        size isBold isItalic     
+    --  TOP STRING                         size isBold isItalic     
     sasl.gl.drawText(font,5,70, top_string, 14, true, false, TEXT_ALIGN_LEFT, black)
 
+    -- BEARING GRAPHIC
     sasl.gl.drawTexturePart(bearing_img, 10, 50, 79, 14, bearing_index * 79, 0, 79, 14)
 
-    sasl.gl.drawText(font,5,30, mid_string, 12, true, false, TEXT_ALIGN_LEFT, black)
+    -- MIDDLE STRING
+    sasl.gl.drawText(font,5,30, mid_string, 16, true, false, TEXT_ALIGN_LEFT, black)
 
-    sasl.gl.drawText(font,5,10, bottom_string, 12, true, false, TEXT_ALIGN_LEFT, black)
+    -- BOTTOM STRING
+    sasl.gl.drawText(font,5,10, bottom_string, 16, true, false, TEXT_ALIGN_LEFT, black)
     
 end
 
+ 
