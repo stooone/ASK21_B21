@@ -11,7 +11,7 @@ print("b21_gpsnav.lua loaded")
 
 size = { 100, 89 }
 
-local geo = require "geo" -- contains useful geographic function like distance between lat/longs
+local geo = require "b21_geo" -- contains useful geographic function like distance between lat/longs
 
 -- datarefs READ
 local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/true_psi") -- aircraft true heading
@@ -19,21 +19,17 @@ local dataref_latitude = globalProperty("sim/flightmodel/position/latitude") -- 
 local dataref_longitude = globalProperty("sim/flightmodel/position/longitude") -- aircraft longitude
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec") -- time in seconds
 
-local task = {
-    { "1", "1N7", 375.0, 40.971146, -74.997475 },
-    { "1", "14N", 898.0, 40.844259, -75.635466 },
-    { "28", "WP_Ridge", 1400.0 , 40.686886, -75.930634 },
-    { "1", "1N7", 375.0, 40.971146, -74.997475 }
-}
-
 M_TO_MI = 0.000621371
 FT_TO_M = 0.3048
 M_TO_FT = 1.0 / FT_TO_M
 DEG_TO_RAD = 0.0174533
 
-local task_index = 1 -- which task entry is current
+-- e.g { { type = 1, ref = "X1N7", alt = 375.0 (note METERS), lat = 40.971146, lng = -74.997475 }, ..}
+local task = { }
 
-local wp_point = { lat = task[task_index][4], lng = task[task_index][5] }
+local task_index = 0 -- which task entry is current
+
+local wp_point = { }
 
 local prev_click_time_s = 0.0 -- time button was previously clicked (so only one action per click)
 
@@ -45,8 +41,7 @@ project_settings.gpsnav_wp_distance_m = 0.0 -- distance to next waypoint in mete
 
 project_settings.gpsnav_wp_heading_deg = 0.0 -- heading (true) to next waypoint in degrees
 
-project_settings.gpsnav_wp_altitude_m = task[task_index][3] * FT_TO_M -- altitude MSL of next waypoint in meters
-
+project_settings.gpsnav_wp_altitude_m = 0.0 -- altitude MSL of next waypoint in meters
 
 -- command callbacks from gpsnav buttons
 
@@ -74,6 +69,17 @@ function clear_fms()
     end
 end
 
+-- set waypoint to task[i]
+function set_waypoint(i)
+-- e.g  { type = 1, ref = "X1N7", alt = 375.0 (METERS), lat = 40.971146, lng = -74.997475 }
+    if i > 0 and i <= #task
+    then
+        task_index = i
+        wp_point = { lat = task[task_index].lat, lng = task[task_index].lng }
+        project_settings.gpsnav_wp_altitude_m = task[task_index].alt -- altitude MSL of next waypoint in meters
+    end
+end
+
 function clicked_load(phase)
     if get(dataref_time_s) > prev_click_time_s + 2.0 and phase == SASL_COMMAND_BEGIN
     then
@@ -95,9 +101,7 @@ function clicked_left(phase)
     if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index > 1
     then
         prev_click_time_s = get(dataref_time_s)
-        task_index = task_index - 1
-        wp_point = { lat = task[task_index][4], lng = task[task_index][5] }
-        project_settings.gpsnav_wp_altitude_m = task[task_index][3] * FT_TO_M -- altitude MSL of next waypoint in meters
+        set_waypoint(task_index - 1)
     end
     return 1
 end
@@ -107,9 +111,7 @@ function clicked_right(phase)
     if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index < #task
     then
         prev_click_time_s = get(dataref_time_s)
-        task_index = task_index + 1
-        wp_point = { lat = task[task_index][4], lng = task[task_index][5] }
-        project_settings.gpsnav_wp_altitude_m = task[task_index][3] * FT_TO_M -- altitude MSL of next waypoint in meters
+        set_waypoint(task_index + 1)
     end
     return 1
 end
@@ -163,13 +165,16 @@ end --calculate_bearing_index
 
 -- update the shared variables for wp bearing and distance
 function update_wp_distance_and_heading()
-    local aircraft_point = { lat= get(dataref_latitude),
-                             lng= get(dataref_longitude) 
-                           }
-    
-    project_settings.gpsnav_wp_distance_m = geo.get_distance(aircraft_point, wp_point)
+    if #task ~= 0
+    then
+        local aircraft_point = { lat= get(dataref_latitude),
+                                lng= get(dataref_longitude) 
+                            }
+        
+        project_settings.gpsnav_wp_distance_m = geo.get_distance(aircraft_point, wp_point)
 
-    project_settings.gpsnav_wp_heading_deg = geo.get_bearing(aircraft_point, wp_point)
+        project_settings.gpsnav_wp_heading_deg = geo.get_bearing(aircraft_point, wp_point)
+    end
 end
 
 -- detect when FMS has loaded a new flightplan
@@ -182,14 +187,22 @@ function update_fms()
 
     wp_count = new_wp_count
     print("gpsnav wp_count",wp_count)
-    print(NAV_UNKNOWN, NAV_AIRPORT, NAV_NDB,NAV_VOR)
-    print(NAV_ILS,NAV_LOCALIZER,NAV_GLIDESLOPE,NAV_OUTERMARKER)
-    print(NAV_MIDDLEMARKER,NAV_INNERMARKER,NAV_FIX,NAV_DME)
+    
+    task = {}
+
     for i=0, wp_count-1
     do
         local wp_type, wp_name, wp_id, wp_altitude, wp_latitude, wp_longitude = sasl.getFMSEntryInfo(i)
         print("GPSNAV["..i.."]",wp_type, wp_name, wp_id, wp_altitude, wp_latitude, wp_longitude)
+        table.insert(task,{ type = wp_type, 
+                            ref =  wp_name, 
+                            alt = wp_altitude * FT_TO_M,
+                            lat = wp_latitude, 
+                            lng = wp_longitude
+                        })
     end
+
+    set_waypoint(1)
 end
 
 function update()
@@ -205,7 +218,13 @@ function draw()
     -- sasl.gl.drawLine(0,0,100,100,green)
 
     -- "1/5: 1N7"
-    local top_string = task_index .. "/" .. #task .. ": " .. task[task_index][2]
+    local top_string
+    if #task == 0
+    then
+        top_string = "NO TASK"
+    else
+        top_string = task_index .. "/" .. #task .. ": " .. task[task_index][2]
+    end
 
     -- "DIST: 37.5km"
     local distance_string

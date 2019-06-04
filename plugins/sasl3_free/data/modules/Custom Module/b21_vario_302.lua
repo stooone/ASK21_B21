@@ -31,7 +31,7 @@
 ]]
 
 -- include generally useful lat/long functions
-local geo = require "geo"
+local geo = require "b21_geo"
 
 -- the datarefs we will READ to get time, altitude and speed from the sim
 DATAREF = {}
