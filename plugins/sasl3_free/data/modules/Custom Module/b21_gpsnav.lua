@@ -11,7 +11,13 @@ print("b21_gpsnav.lua loaded")
 
 size = { 100, 89 }
 
-local geo = require "geo"
+local geo = require "geo" -- contains useful geographic function like distance between lat/longs
+
+-- datarefs READ
+local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/true_psi") -- aircraft true heading
+local dataref_latitude = globalProperty("sim/flightmodel/position/latitude") -- aircraft latitude
+local dataref_longitude = globalProperty("sim/flightmodel/position/longitude") -- aircraft longitude
+local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec") -- time in seconds
 
 local task = {
     { "1", "1N7", 375.0, 40.971146, -74.997475 },
@@ -41,11 +47,6 @@ project_settings.gpsnav_wp_heading_deg = 0.0 -- heading (true) to next waypoint 
 
 project_settings.gpsnav_wp_altitude_m = task[task_index][3] * FT_TO_M -- altitude MSL of next waypoint in meters
 
--- datarefs READ
-local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/true_psi") -- aircraft true heading
-local dataref_latitude = globalProperty("sim/flightmodel/position/latitude") -- aircraft latitude
-local dataref_longitude = globalProperty("sim/flightmodel/position/longitude") -- aircraft longitude
-local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec") -- time in seconds
 
 -- command callbacks from gpsnav buttons
 
@@ -63,11 +64,22 @@ local command_right = sasl.createCommand("b21/gpsnav/right",
 
 local xplane_load_flightplan = sasl.findCommand("sim/FMS/key_load")
 
+-- delete all waypoints in FMS
+function clear_fms()
+    local fms_wp_count = sasl.countFMSEntries()
+    for i = fms_wp_count - 1, 0, -1
+    do
+        sasl.clearFMSEntry(i) -- remove last entry (shortens flight plan)
+        print("GPSNAV deleted wp ",i)
+    end
+end
+
 function clicked_load(phase)
     if get(dataref_time_s) > prev_click_time_s + 2.0 and phase == SASL_COMMAND_BEGIN
     then
         prev_click_time_s = get(dataref_time_s)
-        print("--GPSNAV LOAD")
+        print("GPSNAV LOAD")
+        clear_fms() -- remove existing waypoints
         sasl.commandOnce(xplane_load_flightplan)
     end
     return 0
@@ -160,9 +172,10 @@ function update_wp_distance_and_heading()
     project_settings.gpsnav_wp_heading_deg = geo.get_bearing(aircraft_point, wp_point)
 end
 
+-- detect when FMS has loaded a new flightplan
 function update_fms()
     local new_wp_count = sasl.countFMSEntries()
-    if new_wp_count == wp_count
+    if new_wp_count <= wp_count
     then
         return
     end
