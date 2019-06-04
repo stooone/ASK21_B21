@@ -38,13 +38,13 @@ Checklist of things still to be done.
 ### nav instrument
 
 * DONE get wind data
-* get waypoint location data
+* DONE get waypoint location data
 * define TP zone
 * design task creation
-* create nav instrument reading flight plan
+* DONE create nav instrument reading flight plan
 * add glider turnpoints to nav database
 * increase font sizes
-* create FMS file prompt, or use X-Plane built-in. Support v3 and v1100 FMS file formats
+* DONE create FMS file prompt, or use X-Plane built-in. Support v3 and v1100 FMS file formats
 * add commands
   - next waypoint
   - previous waypoint

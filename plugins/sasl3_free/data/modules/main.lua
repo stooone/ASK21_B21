@@ -24,6 +24,7 @@ createGlobalPropertyi("b21/units_speed",project_settings.SPEED_UNITS,false,true,
 createGlobalPropertyi("b21/units_altitude",project_settings.ALTITUDE_UNITS,false,true,true)
 
 components = { 
+                b21_total_energy {}, -- load before variometers
                 b21_sounds {},
                 b21_vario_302 {},
                 b21_vario_57 {},

@@ -122,9 +122,6 @@ B21_302_ballast_adjust = 1.0 -- adjustment factor for ballast, shifts polar by s
 -- vario modes
 B21_302_mode_stf = project_settings.VARIO_302_MODE  -- 0 = speed to fly, 1 = TE, 2 = AUTO
 
--- total energy
-B21_302_te_mps = 0.0
-
 -- netto
 B21_302_polar_sink_mps = 0.0
 B21_302_netto_mps = 0.0
@@ -148,15 +145,6 @@ B21_302_needle_fpm = 0.0
 -- vars used by routines to track changes between update() calls
 
 prev_ballast = 0.0
-
--- previous TE update time (float seconds)
-te_prev_time_s = dataref_read("TIME_S")
-
--- previous altitude (float meters)
-prev_alt_m = 0.0 -- debug 913
-
--- previous speed squared (float (m/s)^2 )
-prev_speed_mps_2 = 952.75 --debug 60knots
 
 -- time period start used by average
 average_start_s = 0.0
@@ -271,66 +259,10 @@ function update_polar_sink()
     --print("B21_302_polar_sink_mps",B21_302_polar_sink_mps) --debug
 end
 
--- calculate TE value from time, altitude and airspeed
-function update_total_energy()
-    
-	-- calculate time (float seconds) since previous update
-	local time_delta_s = dataref_read("TIME_S") - te_prev_time_s
-	--print("time_delta_s ",time_delta_s) --debug
-	-- only update max 20 times per second (i.e. time delta > 0.05 seconds)
-	if time_delta_s > 0.05
-	then
-		-- get current speed in m/s
-		local speed_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
-		-- (for calibration) local speed_mps = dataref_read(sim_speed_mps)
-
-		-- calculate current speed squared (m/s)^2
-		local speed_mps_2 = speed_mps * speed_mps
-		--print("speed_mps^2 now",speed_mps_2)
-		-- TE speed adjustment (m/s)
-		local te_adj_mps = (speed_mps_2 - prev_speed_mps_2) / (2 * 9.81 * time_delta_s)
-		--print("te_adj_mps", te_adj_mps) --debug
-		-- calculate altitude delta (meters) since last update
-		local alt_delta_m = dataref_read("ALT_FT") * 0.3048 - prev_alt_m
-		-- (for calibration) local alt_delta_m = dataref_read(sim_alt_m) - prev_alt_m
-		--print("alt_delta_m",alt_delta_m) --debug
-		-- calculate plain climb rate
-		local climb_mps = alt_delta_m / time_delta_s
-		--print("rate of climb m/s", climb_mps) -- debug
-		-- calculate new vario compensated reading using 70% current and 30% new (for smoothing)
-		local te_mps = B21_302_te_mps * 0.7 + (climb_mps + te_adj_mps) * 0.3
-		
-		-- limit the reading to 7 m/s max to avoid a long recovery time from the smoothing
-		if te_mps > 7
-		then
-			te_mps = 7
-		end
-		
-		-- all good, transfer value to the needle
-        -- write value to datarefs
-        dataref_write("TE_MPS", te_mps) -- meters per second
-
-        dataref_write("TE_FPM", te_mps * MPS_TO_FPM) -- feet per minute
-
-        dataref_write("TE_KTS", te_mps * MPS_TO_KTS) -- knots
-		
-		-- store time, altitude and speed^2 as starting values for next iteration
-		te_prev_time_s = dataref_read("TIME_S")
-		prev_alt_m = dataref_read("ALT_FT") * FT_TO_M
-		-- (for calibration) prev_alt_m = dataref_read(sim_alt_m)
-        prev_speed_mps_2 = speed_mps_2
-        -- finally write value
-        B21_302_te_mps = te_mps
-        --print("B21_302_te_mps", B21_302_te_mps)
-	end
-    
-		
-end -- update_total_energy
-
 --[[ *******************************************************
 CALCULATE NETTO (sink is negative)
 Inputs:
-    B21_302_te_mps
+    project_settings.total_energy_mps
     B21_302_polar_sink_mps
 Outputs:
     L:B21_302_netto_mps
@@ -342,7 +274,7 @@ E.g. TE says airplane sinking at 2.5 m/s (te = -2.5)
 ]]
 
 function update_netto()
-    B21_302_netto_mps = B21_302_te_mps + B21_302_polar_sink_mps
+    B21_302_netto_mps = project_settings.total_energy_mps + B21_302_polar_sink_mps
     
     local airspeed_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
     
@@ -495,7 +427,7 @@ end
 
 ]]
 function update_glide_ratio()
-    local sink = -B21_302_te_mps -- sink is +ve
+    local sink = -project_settings.total_energy_mps -- sink is +ve
     if sink < 0.1 -- sink rate obviously below best glide so cap to avoid meaningless high L/D or divide by zero
     then
         B21_302_glide_ratio = 99
@@ -533,12 +465,12 @@ function update_climb_average()
         average_start_s = dataref_read("TIME_S")
 
         -- update climb average with smoothing
-        B21_302_climb_average_mps = B21_302_climb_average_mps * 0.85 + B21_302_te_mps * 0.15
+        B21_302_climb_average_mps = B21_302_climb_average_mps * 0.85 + project_settings.total_energy_mps * 0.15
 
         -- if the gap between average and TE > 3m/s then reset to average = TE
-        if math.abs(B21_302_climb_average_mps - B21_302_te_mps) > 3.0
+        if math.abs(B21_302_climb_average_mps - project_settings.total_energy_mps) > 3.0
         then
-            B21_302_climb_average_mps = B21_302_te_mps
+            B21_302_climb_average_mps = project_settings.total_energy_mps
         end
     end
     --print("B21_302_climb_average_mps",B21_302_climb_average_mps) --debug
@@ -565,7 +497,7 @@ function update_needle()
     then
         needle_mps = (dataref_read("AIRSPEED_KTS") * KTS_TO_MPS - B21_302_stf_mps)/ 7
     else
-        needle_mps = B21_302_te_mps
+        needle_mps = project_settings.total_energy_mps
     end
     
     -- correct for speed
