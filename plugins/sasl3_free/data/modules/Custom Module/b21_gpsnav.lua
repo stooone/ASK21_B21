@@ -220,9 +220,9 @@ function draw()
     local top_string
     if #task == 0
     then
-        top_string = "NO TASK"
+        top_string = " LOAD TASK"
     else
-        top_string = task_index .. "/" .. #task .. ": " .. task[task_index].ref
+        top_string = task_index .. "/" .. #task .. ":" .. task[task_index].ref
     end
 
     -- "DIST: 37.5km"
@@ -245,16 +245,16 @@ function draw()
     local bottom_string = altitude_string
 
     --  TOP STRING                         size isBold isItalic     
-    sasl.gl.drawText(font,5,70, top_string, 14, true, false, TEXT_ALIGN_LEFT, black)
+    sasl.gl.drawText(font,5,70, top_string, 16, true, false, TEXT_ALIGN_LEFT, black)
 
     -- BEARING GRAPHIC
-    sasl.gl.drawTexturePart(bearing_img, 10, 50, 79, 14, bearing_index * 79, 0, 79, 14)
+    sasl.gl.drawTexturePart(bearing_img, 10, 45, 79, 14, bearing_index * 79, 0, 79, 14)
 
     -- MIDDLE STRING
-    sasl.gl.drawText(font,5,30, mid_string, 16, true, false, TEXT_ALIGN_LEFT, black)
+    sasl.gl.drawText(font,5,25, mid_string, 18, true, false, TEXT_ALIGN_LEFT, black)
 
     -- BOTTOM STRING
-    sasl.gl.drawText(font,5,10, bottom_string, 16, true, false, TEXT_ALIGN_LEFT, black)
+    sasl.gl.drawText(font,5,5, bottom_string, 18, true, false, TEXT_ALIGN_LEFT, black)
     
 end
 
