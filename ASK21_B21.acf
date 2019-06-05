@@ -3,84 +3,94 @@ I
 ACF
 
 PROPERTIES_BEGIN
-P _cgpt/0/_w_max 0.0
-P _cgpt/0/_w_now 0.0
-P _cgpt/0/_w_test 0.0
-P _cgpt/0/_z_ref 0.0
+P _cgpt/0/_name empty craft
+P _cgpt/0/_w_max 830.0
+P _cgpt/0/_w_now 830.0
+P _cgpt/0/_w_test 830.0
+P _cgpt/0/_z_ref 9.500000000
+P _cgpt/1/_name fuel tank #1
 P _cgpt/1/_w_max 0.0
-P _cgpt/1/_w_now 0.0
+P _cgpt/1/_w_now 1.0
 P _cgpt/1/_w_test 0.0
 P _cgpt/1/_z_ref 0.0
 P _cgpt/10/_w_max 0.0
-P _cgpt/10/_w_now 0.0
+P _cgpt/10/_w_now 1.0
 P _cgpt/10/_w_test 0.0
 P _cgpt/10/_z_ref 0.0
 P _cgpt/11/_w_max 0.0
-P _cgpt/11/_w_now 0.0
+P _cgpt/11/_w_now 1.0
 P _cgpt/11/_w_test 0.0
 P _cgpt/11/_z_ref 0.0
 P _cgpt/12/_w_max 0.0
-P _cgpt/12/_w_now 0.0
+P _cgpt/12/_w_now 1.0
 P _cgpt/12/_w_test 0.0
 P _cgpt/12/_z_ref 0.0
 P _cgpt/13/_w_max 0.0
-P _cgpt/13/_w_now 0.0
+P _cgpt/13/_w_now 1.0
 P _cgpt/13/_w_test 0.0
 P _cgpt/13/_z_ref 0.0
 P _cgpt/14/_w_max 0.0
-P _cgpt/14/_w_now 0.0
+P _cgpt/14/_w_now 1.0
 P _cgpt/14/_w_test 0.0
 P _cgpt/14/_z_ref 0.0
 P _cgpt/15/_w_max 0.0
-P _cgpt/15/_w_now 0.0
+P _cgpt/15/_w_now 1.0
 P _cgpt/15/_w_test 0.0
 P _cgpt/15/_z_ref 0.0
 P _cgpt/16/_w_max 0.0
-P _cgpt/16/_w_now 0.0
+P _cgpt/16/_w_now 1.0
 P _cgpt/16/_w_test 0.0
 P _cgpt/16/_z_ref 0.0
 P _cgpt/17/_w_max 0.0
-P _cgpt/17/_w_now 0.0
+P _cgpt/17/_w_now 1.0
 P _cgpt/17/_w_test 0.0
 P _cgpt/17/_z_ref 0.0
 P _cgpt/18/_w_max 0.0
-P _cgpt/18/_w_now 0.0
+P _cgpt/18/_w_now 1.0
 P _cgpt/18/_w_test 0.0
 P _cgpt/18/_z_ref 0.0
 P _cgpt/19/_w_max 0.0
-P _cgpt/19/_w_now 0.0
+P _cgpt/19/_w_now 1.0
 P _cgpt/19/_w_test 0.0
 P _cgpt/19/_z_ref 0.0
+P _cgpt/2/_name fuel tank #2
 P _cgpt/2/_w_max 0.0
-P _cgpt/2/_w_now 0.0
+P _cgpt/2/_w_now 1.0
 P _cgpt/2/_w_test 0.0
 P _cgpt/2/_z_ref 0.0
+P _cgpt/3/_name fuel tank #3
 P _cgpt/3/_w_max 0.0
-P _cgpt/3/_w_now 0.0
+P _cgpt/3/_w_now 1.0
 P _cgpt/3/_w_test 0.0
 P _cgpt/3/_z_ref 0.0
+P _cgpt/4/_name fuel tank #4
 P _cgpt/4/_w_max 0.0
-P _cgpt/4/_w_now 0.0
+P _cgpt/4/_w_now 1.0
 P _cgpt/4/_w_test 0.0
 P _cgpt/4/_z_ref 0.0
+P _cgpt/5/_name fuel tank #5
 P _cgpt/5/_w_max 0.0
-P _cgpt/5/_w_now 0.0
+P _cgpt/5/_w_now 1.0
 P _cgpt/5/_w_test 0.0
 P _cgpt/5/_z_ref 0.0
+P _cgpt/6/_name fuel tank #6
 P _cgpt/6/_w_max 0.0
-P _cgpt/6/_w_now 0.0
+P _cgpt/6/_w_now 1.0
 P _cgpt/6/_w_test 0.0
 P _cgpt/6/_z_ref 0.0
+P _cgpt/7/_name fuel tank #7
 P _cgpt/7/_w_max 0.0
-P _cgpt/7/_w_now 0.0
+P _cgpt/7/_w_now 1.0
 P _cgpt/7/_w_test 0.0
 P _cgpt/7/_z_ref 0.0
+P _cgpt/8/_name fuel tank #8
 P _cgpt/8/_w_max 0.0
-P _cgpt/8/_w_now 0.0
+P _cgpt/8/_w_now 1.0
 P _cgpt/8/_w_test 0.0
 P _cgpt/8/_z_ref 0.0
+P _cgpt/9/_name fuel tank #9
 P _cgpt/9/_w_max 0.0
-P _cgpt/9/_w_now 0.0
+P _cgpt/9/_w_now 1.0
 P _cgpt/9/_w_test 0.0
 P _cgpt/9/_z_ref 0.0
 P _cgpt/count 20
@@ -117,7 +127,7 @@ P _gear/0/_gear_can_retract 0
 P _gear/0/_gear_castors 0
 P _gear/0/_gear_def_empty 0.0
 P _gear/0/_gear_def_gross 0.0
-P _gear/0/_gear_load_fraction 0.871747017
+P _gear/0/_gear_load_fraction 0.795471609
 P _gear/0/_gear_type 2
 P _gear/0/_gear_x 0.0
 P _gear/0/_gear_y -0.899999976
@@ -130,7 +140,7 @@ P _gear/0/_lonE 0.0
 P _gear/0/_lonN 0.0
 P _gear/0/_lonR 0.0
 P _gear/0/_scon 2963.000732422
-P _gear/0/_stat_def 0.388360590
+P _gear/0/_stat_def 0.354198813
 P _gear/0/_steerdeg_hispeed 0.0
 P _gear/0/_steerdeg_lospeed 0.0
 P _gear/0/_strut_comp 0.0
@@ -151,7 +161,7 @@ P _gear/1/_gear_can_retract 0
 P _gear/1/_gear_castors 0
 P _gear/1/_gear_def_empty 0.0
 P _gear/1/_gear_def_gross 0.0
-P _gear/1/_gear_load_fraction 0.128252953
+P _gear/1/_gear_load_fraction 0.204528347
 P _gear/1/_gear_type 2
 P _gear/1/_gear_x 0.0
 P _gear/1/_gear_y -1.179999948
@@ -164,7 +174,7 @@ P _gear/1/_lonE 0.0
 P _gear/1/_lonN 0.0
 P _gear/1/_lonR 0.0
 P _gear/1/_scon 1735.471801758
-P _gear/1/_stat_def 0.097549766
+P _gear/1/_stat_def 0.155720651
 P _gear/1/_steerdeg_hispeed 0.0
 P _gear/1/_steerdeg_lospeed 0.0
 P _gear/1/_strut_comp 0.0
@@ -260,7 +270,7 @@ P _obja/4/_v10_att_z_acf_prt_ref 0.0
 P _obja/4/_v10_is_internal 960420056
 P _obja/4/_v10_steers_with_gear 0
 P _obja/count 5
-P _panel_inst_3d 39
+P _panel_inst_3d 38
 P _part/10/_bot_s1 0.006000000
 P _part/10/_bot_s2 0.048999999
 P _part/10/_bot_t1 0.006000000
@@ -10711,7 +10721,7 @@ P _part/8/_geo_xyz/10,9,0 -8.830852509
 P _part/8/_geo_xyz/10,9,1 1.176438093
 P _part/8/_geo_xyz/10,9,2 10.208029747
 P _part/8/_geo_xyz/11,0,0 -10.412437439
-P _part/8/_geo_xyz/11,0,1 1.347293615
+P _part/8/_geo_xyz/11,0,1 1.347293496
 P _part/8/_geo_xyz/11,0,2 8.358226776
 P _part/8/_geo_xyz/11,1,0 -10.412706375
 P _part/8/_geo_xyz/11,1,1 1.343458056
@@ -10726,7 +10736,7 @@ P _part/8/_geo_xyz/11,12,0 -10.412706375
 P _part/8/_geo_xyz/11,12,1 1.343458056
 P _part/8/_geo_xyz/11,12,2 8.477264404
 P _part/8/_geo_xyz/11,13,0 -10.412437439
-P _part/8/_geo_xyz/11,13,1 1.347293615
+P _part/8/_geo_xyz/11,13,1 1.347293496
 P _part/8/_geo_xyz/11,13,2 8.358226776
 P _part/8/_geo_xyz/11,14,0 0.0
 P _part/8/_geo_xyz/11,14,1 0.0
@@ -10765,7 +10775,7 @@ P _part/8/_geo_xyz/11,9,0 -10.416460991
 P _part/8/_geo_xyz/11,9,1 1.289760470
 P _part/8/_geo_xyz/11,9,2 10.143795013
 P _part/8/_geo_xyz/12,0,0 -10.412437439
-P _part/8/_geo_xyz/12,0,1 1.347293615
+P _part/8/_geo_xyz/12,0,1 1.347293496
 P _part/8/_geo_xyz/12,0,2 8.358226776
 P _part/8/_geo_xyz/12,1,0 -10.412706375
 P _part/8/_geo_xyz/12,1,1 1.343458056
@@ -10780,7 +10790,7 @@ P _part/8/_geo_xyz/12,12,0 -10.412706375
 P _part/8/_geo_xyz/12,12,1 1.343458056
 P _part/8/_geo_xyz/12,12,2 8.477264404
 P _part/8/_geo_xyz/12,13,0 -10.412437439
-P _part/8/_geo_xyz/12,13,1 1.347293615
+P _part/8/_geo_xyz/12,13,1 1.347293496
 P _part/8/_geo_xyz/12,13,2 8.358226776
 P _part/8/_geo_xyz/12,14,0 0.0
 P _part/8/_geo_xyz/12,14,1 0.0
@@ -13471,7 +13481,7 @@ P _part/85/_part_specs_invis 1
 P _part/85/_part_tex 0
 P _part/85/_part_the 0.0
 P _part/85/_part_x 0.0
-P _part/85/_part_y -0.511639357
+P _part/85/_part_y -0.545801163
 P _part/85/_part_z 10.500000000
 P _part/85/_patt_con 0
 P _part/85/_patt_prt 0
@@ -14940,7 +14950,7 @@ P _part/86/_part_specs_invis 1
 P _part/86/_part_tex 0
 P _part/86/_part_the 0.0
 P _part/86/_part_x 0.0
-P _part/86/_part_y -1.082450151
+P _part/86/_part_y -1.024279356
 P _part/86/_part_z 3.130000114
 P _part/86/_patt_con 0
 P _part/86/_patt_prt 0
@@ -15118,7 +15128,7 @@ P _part/9/_geo_xyz/10,9,0 8.830852509
 P _part/9/_geo_xyz/10,9,1 1.176438093
 P _part/9/_geo_xyz/10,9,2 10.208029747
 P _part/9/_geo_xyz/11,0,0 10.412437439
-P _part/9/_geo_xyz/11,0,1 1.347293615
+P _part/9/_geo_xyz/11,0,1 1.347293496
 P _part/9/_geo_xyz/11,0,2 8.358226776
 P _part/9/_geo_xyz/11,1,0 10.412706375
 P _part/9/_geo_xyz/11,1,1 1.343458056
@@ -15133,7 +15143,7 @@ P _part/9/_geo_xyz/11,12,0 10.412706375
 P _part/9/_geo_xyz/11,12,1 1.343458056
 P _part/9/_geo_xyz/11,12,2 8.477264404
 P _part/9/_geo_xyz/11,13,0 10.412437439
-P _part/9/_geo_xyz/11,13,1 1.347293615
+P _part/9/_geo_xyz/11,13,1 1.347293496
 P _part/9/_geo_xyz/11,13,2 8.358226776
 P _part/9/_geo_xyz/11,14,0 0.0
 P _part/9/_geo_xyz/11,14,1 0.0
@@ -15172,7 +15182,7 @@ P _part/9/_geo_xyz/11,9,0 10.416460991
 P _part/9/_geo_xyz/11,9,1 1.289760470
 P _part/9/_geo_xyz/11,9,2 10.143795013
 P _part/9/_geo_xyz/12,0,0 10.412437439
-P _part/9/_geo_xyz/12,0,1 1.347293615
+P _part/9/_geo_xyz/12,0,1 1.347293496
 P _part/9/_geo_xyz/12,0,2 8.358226776
 P _part/9/_geo_xyz/12,1,0 10.412706375
 P _part/9/_geo_xyz/12,1,1 1.343458056
@@ -15187,7 +15197,7 @@ P _part/9/_geo_xyz/12,12,0 10.412706375
 P _part/9/_geo_xyz/12,12,1 1.343458056
 P _part/9/_geo_xyz/12,12,2 8.477264404
 P _part/9/_geo_xyz/12,13,0 10.412437439
-P _part/9/_geo_xyz/12,13,1 1.347293615
+P _part/9/_geo_xyz/12,13,1 1.347293496
 P _part/9/_geo_xyz/12,13,2 8.358226776
 P _part/9/_geo_xyz/12,14,0 0.0
 P _part/9/_geo_xyz/12,14,1 0.0
@@ -20002,9 +20012,9 @@ P acf/_camera_offset_the 0.0
 P acf/_cdi_auto_crs_gps0 0
 P acf/_cdi_auto_crs_gps1 0
 P acf/_cgY 0.500000000
-P acf/_cgZ 9.500000000
+P acf/_cgZ 9.0
 P acf/_cgZ_aft 10.500000000
-P acf/_cgZ_fwd 8.500000000
+P acf/_cgZ_fwd 7.500000000
 P acf/_chaff_max 0
 P acf/_chute_psi/0 0.0
 P acf/_chute_psi/1 0.0
@@ -20821,7 +20831,7 @@ P acf/_elev1_dn 14.0
 P acf/_elev1_max_sweep_rat 1.0
 P acf/_elev1_rat1 1.0
 P acf/_elev1_rat2 1.0
-P acf/_elev1_up 18.0
+P acf/_elev1_up 17.0
 P acf/_elev1_v1 0.0
 P acf/_elev1_v2 999.0
 P acf/_elev2_cratR 0.0
@@ -21367,7 +21377,7 @@ P acf/_ground_pwr/0 0.0
 P acf/_ground_pwr/1 0.0
 P acf/_ground_pwr/2 0.0
 P acf/_ground_pwr/count 3
-P acf/_h_eqlbm 1.748698592
+P acf/_h_eqlbm 1.783630729
 P acf/_has_ADG 0
 P acf/_has_APU_bleed_air 0
 P acf/_has_APU_generator 0
@@ -21553,8 +21563,8 @@ P acf/_no_default_gear_fx 0
 P acf/_no_default_gun_fx 0
 P acf/_no_default_wash_fx 0
 P acf/_no_default_wing_fx 0
-P acf/_no_hydro_force_mult_brakes 0.0
-P acf/_no_hydro_force_mult_flcons 0.0
+P acf/_no_hydro_force_mult_brakes 1.0
+P acf/_no_hydro_force_mult_flcons 1.0
 P acf/_nom_bat_volt 24.0
 P acf/_nom_fuelP 30.0
 P acf/_nom_gen_volt 26.399999619
@@ -22025,7 +22035,7 @@ P acf/_tank_xyz/8,1 0.0
 P acf/_tank_xyz/8,2 0.0
 P acf/_tank_xyz/i_count 9
 P acf/_tank_xyz/j_count 3
-P acf/_the_eqlbm 2.182024956
+P acf/_the_eqlbm 1.467110515
 P acf/_thro_non_vect_props_at_sin_vect 0
 P acf/_thro_x_ctr 0.0
 P acf/_throt_max_fwd_emr 1.0
@@ -22607,7 +22617,7 @@ gen_needle watch_m
   OFFSET 0.000000
 
 gen_needle watch_s
-  POS 783.500000 244.000000
+  POS 783.500000 242.000000
   IMAGE watch/S
   DATAREF sim/cockpit2/clock_timer/local_time_seconds
   LIGHT_MODE MECHANICAL
@@ -22646,7 +22656,7 @@ rad_com1_GA rad_com1_GA.png
   KEY_FRAME 1.000000 1.000000
 
 rad_CDU739_2d CDU739_2d.png
-  POS 648.500000 85.000000
+  POS 761.500000 -31.000000
   DATAREF 
   SIZE 0.100000
   LIGHT_MODE MECHANICAL

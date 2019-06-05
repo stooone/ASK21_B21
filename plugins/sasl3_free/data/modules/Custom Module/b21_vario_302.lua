@@ -35,6 +35,10 @@ local geo = require "b21_geo"
 
 -- the datarefs we will READ to get time, altitude and speed from the sim
 DATAREF = {}
+
+-- datarefs from other B21 modules
+DATAREF.TE_MPS = globalProperty("b21/total_energy_mps")
+
 -- datarefs updated by panel:
 DATAREF.KNOB = createGlobalPropertyf("b21/vario_302/knob", 0, false, true, false) -- 2.0
 DATAREF.STF_TE_SWITCH = createGlobalPropertyi("b21/vario_302/stf_te_switch", project_settings.VARIO_302_MODE, false, true, false)
@@ -57,11 +61,7 @@ DATAREF.UNITS_ALTITUDE = globalProperty("b21/units_altitude") -- 0 = feet, 1 = m
 DATAREF.UNITS_SPEED = globalProperty("b21/units_speed") -- 0 = knots, 1 = km/h (from settings.lua)
 
 -- create global DataRefs we will WRITE (name, default, isNotPublished, isShared, isReadOnly)
-DATAREF.TE_MPS = createGlobalPropertyf("b21/total_energy_mps", 0.0, false, true, true)
-DATAREF.TE_FPM = createGlobalPropertyf("b21/total_energy_fpm", 0.0, false, true, true)
-DATAREF.TE_KTS = createGlobalPropertyf("b21/total_energy_kts", 0.0, false, true, true)
 DATAREF.NETTO = createGlobalPropertyf("b21/netto_fpm", 0.0, false, true, true)
-
 DATAREF.PULL = createGlobalPropertyi("b21/vario_302/pull", 0, false, true, true)
 DATAREF.PUSH = createGlobalPropertyi("b21/vario_302/push", 0, false, true, true)
 DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/vario_302/needle_fpm", 0.0, false, true, true)
@@ -262,7 +262,7 @@ end
 --[[ *******************************************************
 CALCULATE NETTO (sink is negative)
 Inputs:
-    project_settings.total_energy_mps
+    dataref(b21_total_energy_mps) from b21_total_energy.lua
     B21_302_polar_sink_mps
 Outputs:
     L:B21_302_netto_mps
@@ -274,7 +274,7 @@ E.g. TE says airplane sinking at 2.5 m/s (te = -2.5)
 ]]
 
 function update_netto()
-    B21_302_netto_mps = project_settings.total_energy_mps + B21_302_polar_sink_mps
+    B21_302_netto_mps = dataref_read("TE_MPS") + B21_302_polar_sink_mps
     
     local airspeed_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
     
@@ -427,7 +427,7 @@ end
 
 ]]
 function update_glide_ratio()
-    local sink = -project_settings.total_energy_mps -- sink is +ve
+    local sink = -dataref_read("TE_MPS") -- sink is +ve
     if sink < 0.1 -- sink rate obviously below best glide so cap to avoid meaningless high L/D or divide by zero
     then
         B21_302_glide_ratio = 99
@@ -465,12 +465,12 @@ function update_climb_average()
         average_start_s = dataref_read("TIME_S")
 
         -- update climb average with smoothing
-        B21_302_climb_average_mps = B21_302_climb_average_mps * 0.85 + project_settings.total_energy_mps * 0.15
+        B21_302_climb_average_mps = B21_302_climb_average_mps * 0.85 + dataref_read("TE_MPS") * 0.15
 
         -- if the gap between average and TE > 3m/s then reset to average = TE
-        if math.abs(B21_302_climb_average_mps - project_settings.total_energy_mps) > 3.0
+        if math.abs(B21_302_climb_average_mps - dataref_read("TE_MPS")) > 3.0
         then
-            B21_302_climb_average_mps = project_settings.total_energy_mps
+            B21_302_climb_average_mps = dataref_read("TE_MPS")
         end
     end
     --print("B21_302_climb_average_mps",B21_302_climb_average_mps) --debug
@@ -497,7 +497,7 @@ function update_needle()
     then
         needle_mps = (dataref_read("AIRSPEED_KTS") * KTS_TO_MPS - B21_302_stf_mps)/ 7
     else
-        needle_mps = project_settings.total_energy_mps
+        needle_mps = dataref_read("TE_MPS")
     end
     
     -- correct for speed
@@ -657,7 +657,6 @@ function update()
     update_stf_te()
     
     update_polar_sink()
-    update_total_energy()
     update_netto()
     update_stf()
     update_maccready_stf()

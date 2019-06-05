@@ -14,7 +14,7 @@ DATAREF.TE_FPM = createGlobalPropertyf("b21/total_energy_fpm", 0.0, false, true,
 DATAREF.TE_KTS = createGlobalPropertyf("b21/total_energy_kts", 0.0, false, true, true)
 
 -- shared project data
-project_settings.total_energy_mps = 0.0
+local prev_total_energy_mps = 0.0
 
 --shim functions to help testing in desktop Lua
 function dataref_read(x)
@@ -72,7 +72,7 @@ function update_total_energy()
 		local climb_mps = alt_delta_m / time_delta_s
 		--print("rate of climb m/s", climb_mps) -- debug
 		-- calculate new vario compensated reading using 70% current and 30% new (for smoothing)
-		local te_mps = project_settings.total_energy_mps * 0.7 + (climb_mps + te_adj_mps) * 0.3
+		local te_mps = prev_total_energy_mps * 0.7 + (climb_mps + te_adj_mps) * 0.3
 		
 		-- limit the reading to 7 m/s max to avoid a long recovery time from the smoothing
 		if te_mps > 7
@@ -83,9 +83,7 @@ function update_total_energy()
 		-- all good, transfer value to the needle
         -- write value to datarefs
         dataref_write("TE_MPS", te_mps) -- meters per second
-
         dataref_write("TE_FPM", te_mps * MPS_TO_FPM) -- feet per minute
-
         dataref_write("TE_KTS", te_mps * MPS_TO_KTS) -- knots
 		
 		-- store time, altitude and speed^2 as starting values for next iteration
@@ -94,7 +92,7 @@ function update_total_energy()
 		-- (for calibration) prev_alt_m = dataref_read(sim_alt_m)
         prev_speed_mps_2 = speed_mps_2
         -- finally write value
-        project_settings.total_energy_mps = te_mps
+        prev_total_energy_mps = te_mps
         --print("B21_302_te_mps", B21_302_te_mps)
 	end
 		
