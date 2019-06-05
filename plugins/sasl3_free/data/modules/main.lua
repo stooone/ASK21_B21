@@ -32,7 +32,8 @@ components = {
                 b21_airbrakes {},
 	            b21_gpsnav { 
                    position = { 462, 275, 100, 89}
-                }
+                },
+                b21_clock {}
              }
 
 function draw()

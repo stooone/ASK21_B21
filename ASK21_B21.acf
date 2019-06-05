@@ -127,7 +127,7 @@ P _gear/0/_gear_can_retract 0
 P _gear/0/_gear_castors 0
 P _gear/0/_gear_def_empty 0.0
 P _gear/0/_gear_def_gross 0.0
-P _gear/0/_gear_load_fraction 0.795471609
+P _gear/0/_gear_load_fraction 0.801533520
 P _gear/0/_gear_type 2
 P _gear/0/_gear_x 0.0
 P _gear/0/_gear_y -0.899999976
@@ -140,7 +140,7 @@ P _gear/0/_lonE 0.0
 P _gear/0/_lonN 0.0
 P _gear/0/_lonR 0.0
 P _gear/0/_scon 2963.000732422
-P _gear/0/_stat_def 0.354198813
+P _gear/0/_stat_def 0.357073426
 P _gear/0/_steerdeg_hispeed 0.0
 P _gear/0/_steerdeg_lospeed 0.0
 P _gear/0/_strut_comp 0.0
@@ -161,7 +161,7 @@ P _gear/1/_gear_can_retract 0
 P _gear/1/_gear_castors 0
 P _gear/1/_gear_def_empty 0.0
 P _gear/1/_gear_def_gross 0.0
-P _gear/1/_gear_load_fraction 0.204528347
+P _gear/1/_gear_load_fraction 0.198466480
 P _gear/1/_gear_type 2
 P _gear/1/_gear_x 0.0
 P _gear/1/_gear_y -1.179999948
@@ -174,7 +174,7 @@ P _gear/1/_lonE 0.0
 P _gear/1/_lonN 0.0
 P _gear/1/_lonR 0.0
 P _gear/1/_scon 1735.471801758
-P _gear/1/_stat_def 0.155720651
+P _gear/1/_stat_def 0.150957927
 P _gear/1/_steerdeg_hispeed 0.0
 P _gear/1/_steerdeg_lospeed 0.0
 P _gear/1/_strut_comp 0.0
@@ -13481,7 +13481,7 @@ P _part/85/_part_specs_invis 1
 P _part/85/_part_tex 0
 P _part/85/_part_the 0.0
 P _part/85/_part_x 0.0
-P _part/85/_part_y -0.545801163
+P _part/85/_part_y -0.542926550
 P _part/85/_part_z 10.500000000
 P _part/85/_patt_con 0
 P _part/85/_patt_prt 0
@@ -14950,7 +14950,7 @@ P _part/86/_part_specs_invis 1
 P _part/86/_part_tex 0
 P _part/86/_part_the 0.0
 P _part/86/_part_x 0.0
-P _part/86/_part_y -1.024279356
+P _part/86/_part_y -1.029042006
 P _part/86/_part_z 3.130000114
 P _part/86/_patt_con 0
 P _part/86/_patt_prt 0
@@ -21377,7 +21377,7 @@ P acf/_ground_pwr/0 0.0
 P acf/_ground_pwr/1 0.0
 P acf/_ground_pwr/2 0.0
 P acf/_ground_pwr/count 3
-P acf/_h_eqlbm 1.783630729
+P acf/_h_eqlbm 1.782324672
 P acf/_has_ADG 0
 P acf/_has_APU_bleed_air 0
 P acf/_has_APU_generator 0
@@ -22035,7 +22035,7 @@ P acf/_tank_xyz/8,1 0.0
 P acf/_tank_xyz/8,2 0.0
 P acf/_tank_xyz/i_count 9
 P acf/_tank_xyz/j_count 3
-P acf/_the_eqlbm 1.467110515
+P acf/_the_eqlbm 1.524115205
 P acf/_thro_non_vect_props_at_sin_vect 0
 P acf/_thro_x_ctr 0.0
 P acf/_throt_max_fwd_emr 1.0
@@ -22597,7 +22597,7 @@ gen_annun vario_302_stf_te_in
 gen_needle watch_h
   POS 783.500000 241.000000
   IMAGE watch/H
-  DATAREF sim/cockpit2/clock_timer/local_time_hours
+  DATAREF b21/clock/hours
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -22608,7 +22608,7 @@ gen_needle watch_h
 gen_needle watch_m
   POS 782.500000 242.000000
   IMAGE watch/M
-  DATAREF sim/cockpit2/clock_timer/local_time_minutes
+  DATAREF b21/clock/minutes
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -22619,7 +22619,7 @@ gen_needle watch_m
 gen_needle watch_s
   POS 783.500000 242.000000
   IMAGE watch/S
-  DATAREF sim/cockpit2/clock_timer/local_time_seconds
+  DATAREF b21/clock/seconds
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000

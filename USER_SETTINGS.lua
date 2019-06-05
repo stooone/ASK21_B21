@@ -14,3 +14,6 @@ project_settings.QUIET_SINK = -150 -- vario sink sound muted above 150 fpm (~1.5
 project_settings.VARIO_VOLUME = 500 -- vario sound volume, set to 0 to mute
 project_settings.VARIO_302_MODE = 1 -- initial operating mode for the 302 vario (0=stf, 1=auto, 2=te)
 
+project_settings.CLOCK_MODE = 2 -- cockpit panel clock display simulator local time (CLOCK_MODE=0)
+                                -- simulator Zulu time (CLOCK_MODE = 1)
+                                -- or real-world local time (CLOCK_MODE = 2)
