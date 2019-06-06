@@ -24,9 +24,9 @@ then
 end
 
 -- WRITE datarefs
-local needle_hours = createGlobalPropertyi("b21/clock/hours", 1, false, true, true)
-local needle_minutes = createGlobalPropertyi("b21/clock/minutes", 0, false, true, true)
-local needle_seconds = createGlobalPropertyi("b21/clock/seconds", 0, false, true, true)
+local needle_hours = createGlobalPropertyf("b21/clock/hours", 1, false, true, true)
+local needle_minutes = createGlobalPropertyf("b21/clock/minutes", 0, false, true, true)
+local needle_seconds = createGlobalPropertyf("b21/clock/seconds", 0, false, true, true)
 
 -- 
 function update()
@@ -38,7 +38,7 @@ function update()
     elseif project_settings.CLOCK_MODE == 2
     then
         local t = os.date("*t",os.time()) -- get local system time
-        set(needle_hours, t.hour)
+        set(needle_hours, t.hour + t.min / 60.0)
         set(needle_minutes, t.min)
         set(needle_seconds, t.sec)
     end

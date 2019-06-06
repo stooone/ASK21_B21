@@ -45,9 +45,6 @@ project_settings.gpsnav_wp_altitude_m = 0.0 -- altitude MSL of next waypoint in 
 local command_load = sasl.createCommand("b21/gpsnav/load", 
     "Sailplane GPSNAV load flightplan")
 
-local command_view = sasl.createCommand("b21/gpsnav/view", 
-    "Sailplane GPSNAV view loaded flightplan")
-
 local command_left = sasl.createCommand("b21/gpsnav/left", 
     "Sailplane GPSNAV left-button function (e.g. prev waypoint)")
 
@@ -91,11 +88,6 @@ function clicked_load(phase)
     return 0
 end
 
-function clicked_view(phase)
-    print("GPSNAV VIEW")
-    return 1
-end
-
 function clicked_left(phase)
     if get(dataref_time_s) > prev_click_time_s + 0.2 and task_index > 1 and phase == SASL_COMMAND_BEGIN
     then
@@ -117,7 +109,6 @@ function clicked_right(phase)
 end
 
 sasl.registerCommandHandler(command_load, 0, clicked_load)
-sasl.registerCommandHandler(command_view, 1, clicked_view)
 sasl.registerCommandHandler(command_left, 1, clicked_left)
 sasl.registerCommandHandler(command_right, 1, clicked_right)
 

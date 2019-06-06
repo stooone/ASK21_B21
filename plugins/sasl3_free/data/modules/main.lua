@@ -33,7 +33,8 @@ components = {
 	            b21_gpsnav { 
                    position = { 462, 275, 100, 89}
                 },
-                b21_clock {}
+                b21_clock {},
+                b21_trim {}
              }
 
 function draw()

@@ -17,3 +17,5 @@ project_settings.VARIO_302_MODE = 1 -- initial operating mode for the 302 vario 
 project_settings.CLOCK_MODE = 2 -- cockpit panel clock display simulator local time (CLOCK_MODE=0)
                                 -- simulator Zulu time (CLOCK_MODE = 1)
                                 -- or real-world local time (CLOCK_MODE = 2)
+
+project_settings.TRIM_SPEEDS_KTS = { 45, 65, 95 } -- cruise speeds (knots) for trim range -1..0..+1
