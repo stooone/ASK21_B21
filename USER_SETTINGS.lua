@@ -18,4 +18,4 @@ project_settings.CLOCK_MODE = 2 -- cockpit panel clock display simulator local t
                                 -- simulator Zulu time (CLOCK_MODE = 1)
                                 -- or real-world local time (CLOCK_MODE = 2)
 
-project_settings.TRIM_SPEEDS_KTS = { 45, 65, 95 } -- cruise speeds (knots) for trim range -1..0..+1
+project_settings.TRIM_SPEEDS_KTS = { 45, 57, 84 } -- cruise speeds (knots) for trim range +1..0..-1

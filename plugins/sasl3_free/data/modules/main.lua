@@ -22,6 +22,7 @@ include("B21_POLAR.lua") -- adds values to project_settings
 createGlobalPropertyi("b21/units_vario",project_settings.VARIO_UNITS,false,true,true)
 createGlobalPropertyi("b21/units_speed",project_settings.SPEED_UNITS,false,true,true)
 createGlobalPropertyi("b21/units_altitude",project_settings.ALTITUDE_UNITS,false,true,true)
+createGlobalPropertyi("b21/units_distance",project_settings.DISTANCE_UNITS,false,true,true)
 
 components = { 
                 b21_total_energy {}, -- load before variometers

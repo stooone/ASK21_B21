@@ -14,6 +14,9 @@ local dataref_airspeed_kts = globalPropertyf("sim/cockpit2/gauges/indicators/air
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec")
 -- 
 local prev_click_time_s = 0.0 -- time button was previously clicked (so only one action per click)
+local current_trim = 0.0
+local required_trim = 0.0
+local prev_trim_time_s = get(dataref_time_s)
 
 local command_trim = sasl.createCommand("b21/trim/trigger", 
     "Sailplane elevator trim set immediately to current speed")
@@ -32,20 +35,46 @@ function clicked_trim(phase)
 
         if S < Smin
         then
-            set(dataref_trim, 1.0)                         -- i.e. set +1
+            required_trim = 1.0                           -- i.e. set +1
         elseif S < Szero
         then
-            set(dataref_trim, (Szero - S) / (Szero - Smin)) -- i.e. set +1 .. 0
+            required_trim = (Szero - S) / (Szero - Smin)  -- i.e. set +1 .. 0
         elseif S < Smax
         then
-            set(dataref_trim, (S - Smax)/(Smax - Szero))    -- i.e. set 0 .. -1
+            required_trim = (Szero - S)/(Smax - Szero)    -- i.e. set 0 .. -1
         else
-            set(dataref_trim, -1.0)                          -- i.e. set -1
+            required_trim = -1.0                          -- i.e. set -1
         end
-        print("b21_trim set to",get(dataref_trim))
+        print("required trim set to",required_trim)
     end
     return 1
 end
 
 sasl.registerCommandHandler(command_trim, 0, clicked_trim)
-    
+
+local TRIM_PER_SECOND = 1.0 -- amount of trim smoothing
+
+-- update the actual trim setting gradually
+function update()
+    local time_now_s = get(dataref_time_s)
+    local time_delta_s = time_now_s - prev_trim_time_s
+    local trim_delta = required_trim - current_trim
+    if  time_delta_s > 0.5 -- update 10 per second max
+    then
+        if  math.abs(trim_delta) > 0.05
+        then
+            print("time_delta",time_delta_s, current_trim, trim_delta)
+            current_trim = current_trim + trim_delta * time_delta_s * TRIM_PER_SECOND
+            print("new trim", current_trim)
+            if current_trim > 1.0
+            then
+                current_trim = 1.0
+            elseif current_trim < -1.0
+            then
+                current_trim = -1.0
+            end
+            set(dataref_trim, current_trim)
+        end
+        prev_trim_time_s = time_now_s
+    end
+end
