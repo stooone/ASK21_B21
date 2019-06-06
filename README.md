@@ -1,32 +1,22 @@
 # X-Plane glider ASK21 - B21 updated
 
-## Done so far
 
-* Flight model updated (stall, polar L/D, sensitivity)
-* TE algorithm implemented in Lua plugin (works xlua, sasl)
-* Winter vario programmed for TE
-* Cambridge 302 vario implemented with TE, Netto, Speed-to-Fly, adjustable maccready
-* 57mm vario added for Netto
-* vario sound plugin created
-  - volume control
-  - 'quiet band' parameters
-* user settings supported in 'USER_SETTINGS.lua'
-* wheel brake action range set to 75%..100% airbrakes
-* sounds improved
-  - brakes closed
-  - rolling on runway
-  - rolling on grass
-  - airspeed wind
+### TE Calculation
 
-## dev checklist
+* DONE TE algorithm implemented in Lua plugin (works xlua, sasl)
 
-Checklist of things still to be done.
+### winter vario
+
+* DONE get the TE reading from a separate b21_total_energy module, shared with 302 vario
+* implement gust filter
+* implement rotating maccready ring
 
 ### flight model
 
+* DONE Flight model updated (stall, polar L/D, sensitivity)
 * reduce sensitivity in yaw
 * maybe improve stall behaviour
-* increase available forward trim (move CG forward?)
+* DONE increase available forward trim (move CG forward?)
 * find way to increase lateral wheel friction on ground - maybe add force opposing side wind.
 
 ### yawstring
@@ -43,9 +33,9 @@ Checklist of things still to be done.
 * design task creation
 * DONE create nav instrument reading flight plan
 * add glider turnpoints to nav database
-* increase font sizes
+* DONE increase font sizes
 * DONE create FMS file prompt, or use X-Plane built-in. Support v3 and v1100 FMS file formats
-* add commands
+* DONE add commands
   - next waypoint
   - previous waypoint
 
@@ -56,7 +46,7 @@ Checklist of things still to be done.
 * DONE auto-switch between stf, te
 * DONE update averager reading on display
 * DONE get a decimal point into maccready display
-* separate the TE calculation into a separate module
+* DONE separate the TE calculation into a separate module
 * DONE include sim time difference in the smoothing formula
 * use needle acceleration to calculate needle position for smoothing
 * change smoothing to NEEDLE not the total energy calculation
@@ -74,8 +64,9 @@ Checklist of things still to be done.
 
 ### spoilers (aka speedbrakes) / wheel brake
 
-* Have spoilers operate parking brake when deployed 75%..100%
+* DONE Have spoilers operate parking brake when deployed 75%..100%
 * Much reduce drag impact of spoilers at small openings
+* DONE wheel brake action range set to 75%..100% airbrakes
 * DONE design airbrake indicator on panel
 * DONE check meaning of DataRefs:
   - sim/cockpit2/controls/left_brake_ratio
@@ -83,11 +74,6 @@ Checklist of things still to be done.
   - sim/flightmodel2/controls/speedbrake_ratio
   - sim/cockpit2/controls/parking_brake_ratio
 
-### winter vario
-
-* get the TE reading from a separate b21_total_energy module, shared with 302 vario
-* implement gust filter
-* implement rotating maccready ring
 
 # Air Speed Indicator
 
@@ -104,10 +90,18 @@ Checklist of things still to be done.
 
 ### Trim
 
-* support command/button for 'trigger' trim, i.e. immediately set trim to current speed
+* DONE support command/button for 'trigger' trim, i.e. immediately set trim to current speed
 
 ### sounds
 
+* DONE vario sound plugin created
+  - volume control
+  - 'quiet band' parameters
+* DONE sounds improved
+  - brakes closed
+  - rolling on runway
+  - rolling on grass
+  - airspeed wind
 * add 'all-out' sound
 * make flight wind noise more of a whitenoise hiss, lower volume
 
@@ -130,3 +124,6 @@ Checklist of things still to be done.
 
 * check strength and size as implemented in X-Plane
 
+### General
+
+* DONE user settings supported in 'USER_SETTINGS.lua'
