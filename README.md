@@ -30,7 +30,7 @@
 * DONE get wind data
 * DONE get waypoint location data
 * define TP zone
-* design task creation
+* DONE design task creation
 * DONE create nav instrument reading flight plan
 * add glider turnpoints to nav database
 * DONE increase font sizes
@@ -77,7 +77,7 @@
 
 # Air Speed Indicator
 
-* provide Knots and Km/h switch from USER_SETTINGS.lua
+* DONE provide Knots and Km/h switch from USER_SETTINGS.lua
 
 # Altimeter
 
