@@ -35,7 +35,8 @@ components = {
                    position = { 462, 275, 100, 89}
                 },
                 b21_clock {},
-                b21_trim {}
+                b21_trim {},
+                b21_altimeter {}
              }
 
 function draw()

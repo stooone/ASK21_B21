@@ -2,7 +2,7 @@
 -- Trigger trim: set trim for aircraft to match current airspeed
 -- Take current airspeed for range Min-Mid-Max and set trim dataref to +1 .. 0 .. -1
 
-print("b21_trim starting, TRIM_SPEEDS_KTS =", 
+print("b21_trim starting... TRIM_SPEEDS_KTS =", 
         project_settings.TRIM_SPEEDS_KTS[1], -- cruise speed with trim fully back (Min)
         project_settings.TRIM_SPEEDS_KTS[2], -- cruise speed trim zero (Mid)
         project_settings.TRIM_SPEEDS_KTS[3]) -- cruise speed trim fully forwards (Max)
@@ -16,7 +16,7 @@ local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec")
 local prev_click_time_s = 0.0 -- time button was previously clicked (so only one action per click)
 local current_trim = 0.0
 local required_trim = 0.0
-local prev_trim_time_s = get(dataref_time_s)
+local prev_trim_time_s = 0.0
 
 local command_trim = sasl.createCommand("b21/trim/trigger", 
     "Sailplane elevator trim set immediately to current speed")
@@ -24,7 +24,7 @@ local command_trim = sasl.createCommand("b21/trim/trigger",
 function clicked_trim(phase)
     if get(dataref_time_s) > prev_click_time_s + 0.2 and phase == SASL_COMMAND_BEGIN
     then
-        print("CLICKED TRIM")
+        print("CLICKED TRIM, current_trim = "..current_trim)
         prev_click_time_s = get(dataref_time_s)
 
         local Smin = project_settings.TRIM_SPEEDS_KTS[1]
@@ -59,8 +59,10 @@ function update()
     local time_now_s = get(dataref_time_s)
     local time_delta_s = time_now_s - prev_trim_time_s
     local trim_delta = required_trim - current_trim
+    -- print("time_delta_s = "..time_delta_s)
     if  time_delta_s > 0.5 -- update 10 per second max
     then
+        --print("update trim trim_delta="..trim_delta)
         if  math.abs(trim_delta) > 0.05
         then
             print("time_delta",time_delta_s, current_trim, trim_delta)
