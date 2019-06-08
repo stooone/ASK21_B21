@@ -9,7 +9,7 @@
 
 * DONE get the TE reading from a separate b21_total_energy module, shared with 302 vario
 * implement gust filter
-* implement rotating maccready ring
+* DONE implement rotating maccready ring
 
 ### flight model
 
@@ -81,7 +81,7 @@
 
 # Altimeter
 
-* provide Feet, Meters switch from USER_SETTINGS.lua
+* DONE provide Feet, Meters switch from USER_SETTINGS.lua
 
 ### clock
 

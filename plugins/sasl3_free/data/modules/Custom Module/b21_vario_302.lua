@@ -81,6 +81,7 @@ local debug_wp_alt_m = 100.0
 -- some development debug values for testing
 DATAREF.DEBUG1 = createGlobalPropertyf("b21/debug/1",0.1,false,true,false)
 DATAREF.DEBUG2 = createGlobalPropertyf("b21/debug/2",0.1,false,true,false)
+DATAREF.DEBUG3 = createGlobalPropertyf("b21/debug/3",0.1,false,true,false)
 
 --shim functions to help testing in desktop Lua
 function dataref_read(x)
@@ -407,8 +408,8 @@ function update_arrival_height()
     --print("Wind",dataref_read("WIND_RADIANS"),"radians",dataref_read("WIND_MPS"),"mps") --debug
     --print("B21_302_height_needed_m", B21_302_height_needed_m) --debug
     --print("B21_302_arrival_height_m", B21_302_arrival_height_m) --debug
-    dataref_write("DEBUG1", math.floor(project_settings.gpsnav_wp_distance_m / 1000))
-    dataref_write("DEBUG2", math.floor(project_settings.gpsnav_wp_heading_deg))
+    -- dataref_write("DEBUG1", math.floor(project_settings.gpsnav_wp_distance_m / 1000))
+    -- dataref_write("DEBUG2", math.floor(project_settings.gpsnav_wp_heading_deg))
 end
 
 --[[                    CALCULATE ACTUAL GLIDE RATIO

@@ -2,48 +2,81 @@
 
 -- #################################################
 -- Vario sound controlled by this DataRef:
-climbrate = createGlobalPropertyf("b21/vario_sound_fpm", 0.0, false, true, true)
+local vario_sound_fpm = createGlobalPropertyf("b21/vario_sound_fpm", 0.0, false, true, true)
 -- #################################################
 
 local QUIET_CLIMB = project_settings.QUIET_CLIMB
 local QUIET_SINK = project_settings.QUIET_SINK
 local prev_volume = project_settings.VARIO_VOLUME
 
-local spoilers_unlock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesOut.wav')
+local sound_spoilers_unlock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesOut.wav')
+local sound_spoilers_lock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesIn.wav')
+local sound_spoilers_deployed = loadSample(sasl.getAircraftPath()..'/sounds/systems/spoilers.wav')
 
-local spoilers_lock = loadSample(sasl.getAircraftPath()..'/sounds/systems/BrakesIn.wav')
-
-local sounds = { climb = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_climb.wav'),
-				 sink = loadSample(sasl.getAircraftPath()..'/sounds/alert/vario_sink.wav')
+local sounds = { climb = loadSample(sasl.getAircraftPath()..'/sounds/systems/vario_climb.wav'),
+				 sink = loadSample(sasl.getAircraftPath()..'/sounds/systems/vario_sink.wav')
                }
 
-defineProperty("spoiler_ratio", globalPropertyf("sim/cockpit2/controls/speedbrake_ratio")) -- get value of spoiler lever setting
+local dataref_spoiler_ratio = globalPropertyf("sim/cockpit2/controls/speedbrake_ratio") -- get value of spoiler lever setting
+local dataref_airspeed_mps = globalPropertyf("sim/flightmodel/position/true_airspeed")
+local DEBUG1 = globalPropertyf("b21/debug/1")
+local DEBUG2 = globalPropertyf("b21/debug/2")
+local DEBUG3 = globalPropertyf("b21/debug/3")
+
 pause = globalPropertyf("sim/time/paused") -- check if sim is paused
 DATAREF_VOLUME = createGlobalPropertyi("b21/vario_sound_volume", project_settings.VARIO_VOLUME, false, true, false) -- dataref for the "off/volume" switch
 
-local spoiler_init = 0 -- flag to ensure spoiler sounds played once on open/close
+local spoilers_deployed = 0 -- flag to ensure spoiler sounds played once on open/close
 
-setSampleGain(spoilers_lock, 500)
-setSampleGain(spoilers_unlock, 500)
+setSampleGain(sound_spoilers_lock, 500)
+setSampleGain(sound_spoilers_unlock, 500)
+setSampleGain(sound_spoilers_deployed, 0)
 
 setSampleGain(sounds.climb, project_settings.VARIO_VOLUME)
 setSampleGain(sounds.sink, project_settings.VARIO_VOLUME)
 
---playSample(spoilers_unlock)
+--playSample(sound_spoilers_unlock)
 
 function update_spoilers()
+    local spoiler_ratio = get(dataref_spoiler_ratio)
+    -- spoiler sound volume due to airspeed
+    local spoiler_volume_speed = (get(dataref_airspeed_mps) - 20) / 20
+    if spoiler_volume_speed < 0
+    then
+        spoiler_volume_speed = 0
+    elseif spoiler_volume_speed > 1
+    then
+        spoiler_volume_speed = 1
+    end
+    -- spoiler noise volume do to extension of spoilers
+    local spoiler_volume_extent = spoiler_ratio * 0.75
+    if spoiler_volume_extent > 0.06
+    then
+        spoiler_volume_extent = spoiler_volume_extent + 0.25
+    end
+
+    local spoiler_volume = spoiler_volume_speed * spoiler_volume_extent * 500
+
+    setSampleGain(sound_spoilers_deployed, spoiler_volume)
+
+    set(DEBUG1, spoiler_volume_speed)
+    set(DEBUG2, spoiler_volume_extent)
+    set(DEBUG3, spoiler_volume)
+
 	-------------- generate airbrake lock / unlock sounds
-	if get(spoiler_ratio) > 0.03 and spoiler_init == 0 
+	if get(dataref_spoiler_ratio) > 0.03 and spoilers_deployed == 0 
 	then 
-		playSample(spoilers_unlock, false)
-        spoiler_init = 1
+        playSample(sound_spoilers_unlock, false)
+        playSample(sound_spoilers_deployed, true)
+        spoilers_deployed = 1
         return
 	end
 
-	if get(spoiler_ratio) < 0.03 and spoiler_init == 1 
+	if get(dataref_spoiler_ratio) < 0.03 and spoilers_deployed == 1 
 	then
-		playSample(spoilers_lock, false)
-		spoiler_init = 0
+        playSample(sound_spoilers_lock, false)
+        stopSample(sound_spoilers_deployed)
+		spoilers_deployed = 0
 	end
 end
 
@@ -135,6 +168,6 @@ end -- update_climb()
 function update()
 	update_spoilers()
 	update_volume()
-	update_climb(get(climbrate))
+	update_climb(get(vario_sound_fpm))
 end --update()
 
