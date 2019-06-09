@@ -29,10 +29,10 @@
 
 * DONE get wind data
 * DONE get waypoint location data
-* define TP zone
 * DONE design task creation
 * DONE create nav instrument reading flight plan
-* add glider turnpoints to nav database
+* DEFERRED add glider turnpoints to nav database
+* DEFERRED define TP zone
 * DONE increase font sizes
 * DONE create FMS file prompt, or use X-Plane built-in. Support v3 and v1100 FMS file formats
 * DONE add commands
@@ -48,6 +48,7 @@
 * DONE get a decimal point into maccready display
 * DONE separate the TE calculation into a separate module
 * DONE include sim time difference in the smoothing formula
+* get waypoint elevation from X-Plane terrain probe
 * use needle acceleration to calculate needle position for smoothing
 * change smoothing to NEEDLE not the total energy calculation
 * implement gust filter

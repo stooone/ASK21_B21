@@ -168,6 +168,21 @@ function update_wp_distance_and_heading()
     end
 end
 
+-- use X-Plane probeTerrain function to find ground elevation (meters) at waypoint lat/long
+function get_elevation_m(lat, lng)
+    local wp_x, wp_y, wp_z = sasl.worldToLocal(lat, lng, 0.0)
+    local result, x, y, z, nx, ny, nz, vx, vy, vz, isWet = sasl.probeTerrain(wp_x, wp_y, wp_z)
+    if result == PROBE_HIT_TERRAIN
+    then
+        local wp_lat, wp_lng, wp_elevation_m = localToWorld(x, y, z)
+        -- print("gpsnav PROBE_HIT_TERRAIN", wp_lat, wp_lng, wp_elevation_m)
+        return wp_elevation_m
+    else
+        print("gpsnav PROBE TERRAIN MISS", lat, lng)
+        return 0.0
+    end
+end
+
 -- detect when FMS has loaded a new flightplan
 function update_fms()
     local fms_count = sasl.countFMSEntries()
@@ -182,13 +197,25 @@ function update_fms()
 
     for i=0, fms_count-1
     do
-        local wp_type, wp_name, wp_id, wp_altitude, wp_latitude, wp_longitude = sasl.getFMSEntryInfo(i)
-        print("GPSNAV["..i.."]",wp_type, wp_name, wp_id, wp_altitude, wp_latitude, wp_longitude)
-        table.insert(task,{ type = wp_type, 
-                            ref =  wp_name, 
-                            alt = wp_altitude * FT_TO_M,
-                            lat = wp_latitude, 
-                            lng = wp_longitude
+        -- get next waypoint from X-Plane flight plan
+        local fms_type, fms_name, fms_id, fms_altitude_ft, fms_latitude, fms_longitude = sasl.getFMSEntryInfo(i)
+        -- try lookup ground elevation at the waypoint
+        local wp_elevation_m = get_elevation_m(fms_latitude, fms_longitude)
+        if wp_elevation_m == 0
+        then
+            wp_elevation_m = fms_altitude_ft * FT_TO_M
+        end
+
+        print("GPSNAV["..i.."] "..fms_name, 
+                                 fms_latitude, 
+                                 fms_longitude, 
+                                 fms_altitude_ft, 
+                                 wp_elevation_m * M_TO_FT)
+        table.insert(task,{ type = fms_type, 
+                            ref =  fms_name, 
+                            alt = wp_elevation_m,
+                            lat = fms_latitude, 
+                            lng = fms_longitude
                         })
     end
 
