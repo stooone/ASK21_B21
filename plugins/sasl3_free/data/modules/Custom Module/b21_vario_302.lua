@@ -147,6 +147,9 @@ B21_302_needle_fpm = 0.0
 
 prev_ballast = 0.0
 
+-- Maccready knob, so we can detect when it changes
+prev_knob = 0
+
 -- time period start used by average
 average_start_s = 0.0
 
@@ -173,14 +176,30 @@ function update_ballast()
     --print("B21_302_ballast_adjust",B21_302_ballast_adjust) --debug
 end
 
+-- update Maccready value from knob rotation 0..15
+-- note we update differently for mps / knots so display moves 0.5 units in each units setting.
 function update_maccready()
-    --debug read knob on cockpit panel
-    if dataref_read("UNITS_VARIO") == 1 -- meters per second
+    local knob = dataref_read("KNOB") -- 0..15
+    if knob ~= prev_knob -- only update if knob position changes
     then
-        B21_302_maccready_mps = dataref_read("KNOB") / 2
-    else                                -- knots
-        B21_302_maccready_kts = dataref_read("KNOB") / 2
-        B21_302_maccready_mps = B21_302_maccready_kts * KTS_TO_MPS
+        --debug read knob on cockpit panel
+        if dataref_read("UNITS_VARIO") == 1 -- meters per second
+        then
+            B21_302_maccready_mps = knob / 2
+        else                                -- knots
+            -- for Knots knob will move in 0.5 knot increments to 5.0, then 1 Knot increments to 9.99
+            if knob < 10.1                          -- i.e. knob = 0..10
+            then
+                B21_302_maccready_kts = knob / 2
+            elseif knob < 14.1                      -- i.e. knob = 11..14
+            then
+                B21_302_maccready_kts = knob - 5
+            else                                    -- i.e. knob = 15
+                B21_302_maccready_kts = 9.9 -- display as 9.9
+            end
+            B21_302_maccready_mps = B21_302_maccready_kts * KTS_TO_MPS
+        end
+        prev_knob = knob -- record knob position so we detect another change
     end
     --print("B21_302_maccready_kts", B21_302_maccready_kts) --debug
 end
