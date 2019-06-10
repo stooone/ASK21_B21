@@ -13,6 +13,10 @@ local dataref_trim = globalPropertyf("sim/cockpit2/controls/elevator_trim") -- -
 local dataref_airspeed_kts = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec")
 -- 
+
+local sound_trim = loadSample(sasl.getAircraftPath()..'/sounds/systems/trim.wav')
+setSampleGain(sound_trim, 500)
+
 local prev_click_time_s = 0.0 -- time button was previously clicked (so only one action per click)
 local current_trim = 0.0
 local required_trim = 0.0
@@ -26,6 +30,8 @@ function clicked_trim(phase)
     then
         print("CLICKED TRIM, current_trim = "..current_trim)
         prev_click_time_s = get(dataref_time_s)
+
+        playSample(sound_trim, false)
 
         local Smin = project_settings.TRIM_SPEEDS_KTS[1]
         local Szero = project_settings.TRIM_SPEEDS_KTS[2]
