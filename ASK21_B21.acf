@@ -25373,10 +25373,10 @@ gen_annun vario_302_ring
   KEY_FRAME 0.000000 0.000000 1.000000
   KEY_FRAME 1.000000 1.000000
 
-gen_LED vario_302_number_l
+gen_LED vario_302_bottom
   POS 507.500000 192.500000
-  IMAGE vario_302/num_left
-  DATAREF b21/vario_302/number_left
+  IMAGE vario_302/num_bottom
+  DATAREF b21/vario_302/number_bottom
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25386,10 +25386,10 @@ gen_LED vario_302_number_l
   PERIOD_WIDTH 6
   LED_ROWS 0
 
-gen_LED vario_302_numleft_s
+gen_LED vario_302_bottom_s
   POS 500.500000 192.500000
   IMAGE vario_302/num_sign
-  DATAREF b21/vario_302/number_left_sign
+  DATAREF b21/vario_302/number_bottom_sign
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000

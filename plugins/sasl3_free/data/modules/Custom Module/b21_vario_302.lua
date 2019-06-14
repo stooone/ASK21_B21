@@ -4,30 +4,29 @@
 
 --[[  THIS GAUGE READS THE POLAR FROM B21_POLAR.lua
                     
-                    The instrument has three basic modes for dev purposes:
-                    
-                    Normal: the needle is STF, with Arrival Height, MacCready, Climb Avg.
-                    TE/STF: clicking the top-center position of the gauge flips needle and sound between TE and STF.
-                            in TE mode, push and pull arrows appear
-                    Polar mode: clicking on the face at 9 o'clock puts gauge into 'glider development' mode
-                            the gauge displays:
-                                Airspeed in km/h (in place of the Arrival Height)
-                                L/D ratio (at 9 o'clock)
-                                Flap index (at 3 o'clock replacing MacCready)
-                                Sink rate (TE compensated for convenience) in m/s (replacing climb avg)
-
-    The 3 numbers displayed on the vario are referred to as 'top', 'left' and 'right'
+    The 3 numbers displayed on the vario are referred to as 'top', 'bottom' and 'right'
 
     User input DataRefs:
-        b21/vario_302/mode_stf   -- (1/0) toggles vario between STF and TE mode
+        b21/vario_302/stf_te_switch   -- (1/0) toggles vario between STF and TE mode
         b21/vario_302/knob -- MacCready setting dialled in by pilot
+
+    Input datarefs from other modules:
+        b21/total_energy_mps
 
     Display output DataRefs:
         b21/vario_302/needle_fpm
-        b21/vario_302/number_left
+        b21/vario_302/number_bottom
+        b21/vario_302/number_bottom_sign
         b21/vario_302/number_right
         b21/vario_302/number_top
         b21/vario_302/number_top_minus
+        b21/netto_fpm
+        b21/vario_302/pull
+        b21/vario_302/push
+        b21/vario_sound_fpm
+        b21/vario_sound_mode
+        b21/vario_302/stf_te_ind
+
 ]]
 
 -- include generally useful lat/long functions
@@ -65,9 +64,10 @@ DATAREF.NETTO = createGlobalPropertyf("b21/netto_fpm", 0.0, false, true, true)
 DATAREF.PULL = createGlobalPropertyi("b21/vario_302/pull", 0, false, true, true)
 DATAREF.PUSH = createGlobalPropertyi("b21/vario_302/push", 0, false, true, true)
 DATAREF.NEEDLE_FPM = createGlobalPropertyf("b21/vario_302/needle_fpm", 0.0, false, true, true)
-DATAREF.B21_VARIO_SOUND_FPM = globalPropertyf("b21/vario_sound_fpm")
-DATAREF.NUMBER_LEFT = createGlobalPropertyf("b21/vario_302/number_left",12.3,false,true,true)
-DATAREF.NUMBER_LEFT_SIGN = createGlobalPropertyi("b21/vario_302/number_left_sign",0,false,true,true)
+DATAREF.VARIO_SOUND_FPM = globalPropertyf("b21/vario_sound_fpm")
+DATAREF.VARIO_SOUND_MODE = globalPropertyi("b21/vario_sound_mode")
+DATAREF.NUMBER_BOTTOM = createGlobalPropertyf("b21/vario_302/number_bottom",12.3,false,true,true)
+DATAREF.NUMBER_BOTTOM_SIGN = createGlobalPropertyi("b21/vario_302/number_bottom_sign",0,false,true,true)
 DATAREF.NUMBER_RIGHT = createGlobalPropertyf("b21/vario_302/number_right",34.5,false,true,true)
 DATAREF.NUMBER_TOP = createGlobalPropertyi("b21/vario_302/number_top",123,false,true,true)
 DATAREF.NUMBER_TOP_SIGN = createGlobalPropertyi("b21/vario_302/number_top_sign",0,false,true,true)
@@ -156,7 +156,7 @@ average_start_s = 0.0
 -- previous update time of the NUMBER_TOP altitude display
 prev_number_top_s = 0.0
 
--- stf/te auto switch calculation
+-- stf/te switch calculation
 speed_prev_time_s = dataref_read("TIME_S")
 average_speed_mps = 0.0
 average_turn_rate_deg = 0.0
@@ -204,12 +204,15 @@ function update_maccready()
     --print("B21_302_maccready_kts", B21_302_maccready_kts) --debug
 end
 
-function update_stf_te()
-    local stf_switch = dataref_read("STF_TE_SWITCH")
-    if stf_switch == 0 -- 'STF' mode
+-- update STF/TE mode based on switch setting or AUTO calculation
+function update_stf_te_mode()
+    -- get current STF/TE switch setting
+    local switch = dataref_read("STF_TE_SWITCH")
+
+    if switch == 0 -- 'STF' mode
     then
         B21_302_mode_stf = true
-    elseif stf_switch == 2 -- 'TE' mode
+    elseif switch == 2 -- 'TE' mode
     then
         B21_302_mode_stf = false
     else -- in 'AUTO' STF/TE mode (switch == 1)
@@ -243,11 +246,11 @@ function update_stf_te()
                 B21_302_mode_stf = true
             end
         end
-
-        -- if in STF mode then set indicator to 0 (= STF on lcd), else set indicator to 1 (= TE on lcd)
-        dataref_write("STF_TE_IND", B21_302_mode_stf and 0 or 1)
-
     end
+    -- update STF/TE indicator
+    -- if in STF mode then set indicator to 0 (= STF on lcd), else set indicator to 1 (= TE on lcd)
+    dataref_write("STF_TE_IND", B21_302_mode_stf and 0 or 1)
+    dataref_write("VARIO_SOUND_MODE", B21_302_mode_stf and 1 or 0) -- sound mode 0=TE, 1=STF
 end
 
 -- calcular polar sink in m/s for given airspeed in km/h
@@ -539,7 +542,7 @@ end
 
 -- write value to b21/vario_sound_fpm dataref
 function update_vario_sound()
-    dataref_write("B21_VARIO_SOUND_FPM", B21_302_needle_fpm)
+    dataref_write("VARIO_SOUND_FPM", B21_302_needle_fpm)
 end
 
 -- show the 'PULL' indicator on the vario display
@@ -610,8 +613,8 @@ function update_top_number()
 
 end
 
---update left number of 302 vario with climb average
-function update_left_number()
+--update bottom number of 302 vario with climb average
+function update_bottom_number()
 
     local reading
 
@@ -622,7 +625,7 @@ function update_left_number()
         reading = math.floor(B21_302_climb_average_mps * MPS_TO_KTS * 10.0 + 0.5) / 10.0
     end
 
-    dataref_write("NUMBER_LEFT", math.abs(reading))
+    dataref_write("NUMBER_BOTTOM", math.abs(reading))
 
     -- put a +/- in front of the first digit
 
@@ -656,7 +659,7 @@ function update_left_number()
         end
     end
 
-    dataref_write("NUMBER_LEFT_SIGN", number_sign)
+    dataref_write("NUMBER_BOTTOM_SIGN", number_sign)
 
 end
 
@@ -674,7 +677,7 @@ end
 function update()
     update_ballast()
     update_maccready()
-    update_stf_te()
+    update_stf_te_mode()
     
     update_polar_sink()
     update_netto()
@@ -689,6 +692,6 @@ function update()
     update_pull()
     update_push()
     update_top_number()
-    update_left_number()
+    update_bottom_number()
     update_right_number()
 end
