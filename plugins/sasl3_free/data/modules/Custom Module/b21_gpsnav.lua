@@ -14,7 +14,7 @@ size = { 100, 89 }
 local geo = require "b21_geo" -- contains useful geographic function like distance between lat/longs
 
 -- datarefs READ
-local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/true_psi") -- aircraft true heading
+local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/hpath") -- aircraft ground path
 local dataref_latitude = globalProperty("sim/flightmodel/position/latitude") -- aircraft latitude
 local dataref_longitude = globalProperty("sim/flightmodel/position/longitude") -- aircraft longitude
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec") -- time in seconds

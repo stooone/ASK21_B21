@@ -7,11 +7,12 @@ print("b21_wings_level starting")
 local DATAREF_ROLL_NM = globalPropertyf("sim/flightmodel/forces/L_plug_acf") -- Newton-meters, +ve is right-roll
 -- READ datarefs
 local DATAREF_ROLL_DEG = globalPropertyf("sim/flightmodel/position/true_phi")
-local dataref_airspeed_kts = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
+local DATAREF_GROUNDSPEED_MS = globalPropertyf("sim/flightmodel/position/groundspeed")
+local DATAREF_ONGROUND = globalPropertyi("sim/flightmodel/failures/onground_any") -- =1 when on the ground
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec")
 -- 
 
-local WING_LEVELLER_FORCE = 2000.0 -- newton-meters
+local WING_LEVELLER_FORCE = 1500.0 -- newton-meters
 
 --local sound_trim = loadSample(sasl.getAircraftPath()..'/sounds/systems/trim.wav')
 -- setSampleGain(sound_trim, 500)
@@ -44,13 +45,21 @@ end
 sasl.registerCommandHandler(command_wings_level_on, 0, wings_level_on)
 sasl.registerCommandHandler(command_wings_level_off, 0, wings_level_off)
 
+-- apply a rotational force to aircraft while wings_level_running = 1 and roll not zero
 function update()
     if wings_level_running == 1
     then
-        local roll_now_deg = get(DATAREF_ROLL_DEG)
-        local lift_force = -roll_now_deg * WING_LEVELLER_FORCE / 10.0 -- make lift force proportional to required move
-        print("FORCE="..lift_force)
-        local force_now_nm = get(DATAREF_ROLL_NM)
-        set(DATAREF_ROLL_NM, force_now_nm + lift_force)
+        if get(DATAREF_ONGROUND) ~= 1 -- wings can only be levelled while on ground
+           or get(DATAREF_GROUNDSPEED_MS) > 3.0 -- assume wings levelled up to 3 m/s (~6 knots)
+        then
+            print("WINGS_LEVEL AUTOCANCEL")
+            wings_level_running = 0 -- if airborn or rolling fast then cancel wings_level
+        else
+            local roll_now_deg = get(DATAREF_ROLL_DEG)
+            local lift_force = -roll_now_deg * WING_LEVELLER_FORCE / 10.0 -- make lift force proportional to required move
+            --print("FORCE="..lift_force)
+            local force_now_nm = get(DATAREF_ROLL_NM)
+            set(DATAREF_ROLL_NM, force_now_nm + lift_force)
+        end
     end
 end
