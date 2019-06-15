@@ -2,10 +2,10 @@
 -- Trigger trim: set trim for aircraft to match current airspeed
 -- Take current airspeed for range Min-Mid-Max and set trim dataref to +1 .. 0 .. -1
 
-print("b21_trim starting... TRIM_SPEEDS_KTS =", 
-        project_settings.TRIM_SPEEDS_KTS[1], -- cruise speed with trim fully back (Min)
-        project_settings.TRIM_SPEEDS_KTS[2], -- cruise speed trim zero (Mid)
-        project_settings.TRIM_SPEEDS_KTS[3]) -- cruise speed trim fully forwards (Max)
+-- TRIM trigger calibration, must match aircraft for trigger trim to set accurately
+TRIM_SPEED_KTS = { 45, 57, 84 } -- cruise speeds (knots) for trim range +1..0..-1
+
+print("b21_trim starting")
 
 -- WRITE datarefs
 local dataref_trim = globalPropertyf("sim/cockpit2/controls/elevator_trim") -- -1.0 .. +1.0
@@ -33,9 +33,9 @@ function clicked_trim(phase)
 
         playSample(sound_trim, false)
 
-        local Smin = project_settings.TRIM_SPEEDS_KTS[1]
-        local Szero = project_settings.TRIM_SPEEDS_KTS[2]
-        local Smax = project_settings.TRIM_SPEEDS_KTS[3]
+        local Smin = TRIM_SPEED_KTS[1]
+        local Szero = TRIM_SPEED_KTS[2]
+        local Smax = TRIM_SPEED_KTS[3]
         
         local S = get(dataref_airspeed_kts) -- current speed
 
@@ -51,7 +51,7 @@ function clicked_trim(phase)
         else
             required_trim = -1.0                          -- i.e. set -1
         end
-        print("required trim set to",required_trim)
+        --print("required trim set to",required_trim)
     end
     return 1
 end
@@ -71,7 +71,7 @@ function update()
         --print("update trim trim_delta="..trim_delta)
         if  math.abs(trim_delta) > 0.05
         then
-            print("time_delta",time_delta_s, current_trim, trim_delta)
+            --print("time_delta",time_delta_s, current_trim, trim_delta)
             current_trim = current_trim + trim_delta * time_delta_s * TRIM_PER_SECOND
             print("new trim", current_trim)
             if current_trim > 1.0

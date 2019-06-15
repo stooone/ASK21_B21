@@ -24,9 +24,15 @@ createGlobalPropertyi("b21/units_speed",project_settings.SPEED_UNITS,false,true,
 createGlobalPropertyi("b21/units_altitude",project_settings.ALTITUDE_UNITS,false,true,true)
 createGlobalPropertyi("b21/units_distance",project_settings.DISTANCE_UNITS,false,true,true)
 
+-- create debug datarefs to be used by any module
+createGlobalPropertyf("b21/debug/1",0.1,false,true,false)
+createGlobalPropertyf("b21/debug/2",0.1,false,true,false)
+createGlobalPropertyf("b21/debug/3",0.1,false,true,false)
+
 components = { 
+                b21_wings_level {}, -- load before b21_controls_commands
                 b21_total_energy {}, -- load before variometers
-                b21_sounds {},
+                b21_sounds {}, -- load before variometers
                 b21_vario_302 {},
                 b21_vario_57 {},
                 b21_vario_winter {},
@@ -36,7 +42,8 @@ components = {
                 },
                 b21_clock {},
                 b21_trim {},
-                b21_altimeter {}
+                b21_altimeter {},
+                b21_controls_commands {}
              }
 
 function draw()

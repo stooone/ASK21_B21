@@ -79,9 +79,9 @@ local debug_wp_lng = -74.5
 local debug_wp_alt_m = 100.0
 
 -- some development debug values for testing
-DATAREF.DEBUG1 = createGlobalPropertyf("b21/debug/1",0.1,false,true,false)
-DATAREF.DEBUG2 = createGlobalPropertyf("b21/debug/2",0.1,false,true,false)
-DATAREF.DEBUG3 = createGlobalPropertyf("b21/debug/3",0.1,false,true,false)
+DATAREF.DEBUG1 = globalPropertyf("b21/debug/1")
+DATAREF.DEBUG2 = globalPropertyf("b21/debug/2")
+DATAREF.DEBUG3 = globalPropertyf("b21/debug/3")
 
 --shim functions to help testing in desktop Lua
 function dataref_read(x)
@@ -250,7 +250,11 @@ function update_stf_te_mode()
     -- update STF/TE indicator
     -- if in STF mode then set indicator to 0 (= STF on lcd), else set indicator to 1 (= TE on lcd)
     dataref_write("STF_TE_IND", B21_302_mode_stf and 0 or 1)
-    dataref_write("VARIO_SOUND_MODE", B21_302_mode_stf and 1 or 0) -- sound mode 0=TE, 1=STF
+    
+    if project_settings.VARIO_302_DUAL_SOUND == 1
+    then
+        dataref_write("VARIO_SOUND_MODE", B21_302_mode_stf and 1 or 0) -- sound mode 0=TE, 1=STF
+    end
 end
 
 -- calcular polar sink in m/s for given airspeed in km/h

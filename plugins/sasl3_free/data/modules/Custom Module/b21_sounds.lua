@@ -41,6 +41,11 @@ setSampleGain(sounds.sink, project_settings.VARIO_VOLUME)
 setSampleGain(sounds.stf_climb, project_settings.VARIO_VOLUME)
 setSampleGain(sounds.stf_sink, project_settings.VARIO_VOLUME)
 
+setSampleEnv(sounds.climb, SOUND_INTERNAL)
+setSampleEnv(sounds.sink, SOUND_INTERNAL)
+setSampleEnv(sounds.stf_climb, SOUND_INTERNAL)
+setSampleEnv(sounds.stf_sink, SOUND_INTERNAL)
+
 local current_climb = sounds.climb
 local current_sink = sounds.sink -- start off with sounds in TE mode, will update quickly if not
 
