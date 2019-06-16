@@ -1,5 +1,10 @@
 # X-Plane glider ASK21 - B21 updated
 
+### General
+
+* DONE create waggle-ailerons command trigger - use for wings-level
+* DEFERRED create waggle-rudder command trigger - use for aerotow/winch launch "all-out"
+* DONE implement "b21/wings_level" command
 
 ### TE Calculation
 
@@ -8,7 +13,7 @@
 ### winter vario
 
 * DONE get the TE reading from a separate b21_total_energy module, shared with 302 vario
-* implement gust filter
+* DONE implement gust filter
 * DONE implement rotating maccready ring
 
 ### flight model
@@ -17,13 +22,13 @@
 * reduce sensitivity in yaw
 * maybe improve stall behaviour
 * DONE increase available forward trim (move CG forward?)
-* find way to increase lateral wheel friction on ground - maybe add force opposing side wind.
+* DONE find way to increase lateral wheel friction on ground - maybe add force opposing side wind.
 
 ### yawstring
 
 * DONE remove speed-based rotation animation, keep yaw swing
-* try animate in 2 parts, main vs. tip
-* move animation control into Lua
+* DEFERRED try animate in 2 parts, main vs. tip
+* DONE move animation control into Lua
 
 ### nav instrument
 
@@ -38,6 +43,8 @@
 * DONE add commands
   - next waypoint
   - previous waypoint
+* DONE bugfix correct use of ground track dataref for heading arrows (Chris)
+* DONE get waypoint elevation from X-Plane terrain probe
 
 ### 302 vario
 
@@ -48,11 +55,10 @@
 * DONE get a decimal point into maccready display
 * DONE separate the TE calculation into a separate module
 * DONE include sim time difference in the smoothing formula
-* get waypoint elevation from X-Plane terrain probe
-* use needle acceleration to calculate needle position for smoothing
-* change smoothing to NEEDLE not the total energy calculation
-* implement gust filter
-* update arrivale height immediately on Maccready change (not wait for 1-sec updates)
+* DEFERRED use needle acceleration to calculate needle position for smoothing
+* DEFERRED change smoothing to NEEDLE not the total energy calculation
+* DONE implement gust filter
+* update arrival height immediately on Maccready change (not wait for 1-sec updates)
 * add commands
   - set STF mode
   - set TE mode
@@ -103,8 +109,9 @@
   - rolling on runway
   - rolling on grass
   - airspeed wind
-* add 'all-out' sound
-* make flight wind noise more of a whitenoise hiss, lower volume
+* DEFERRED add 'all-out' sound
+* DONE make flight wind noise more of a whitenoise hiss, lower volume
+* DONE add alternate sound for STF vs TE
 
 ### Aerotow
 

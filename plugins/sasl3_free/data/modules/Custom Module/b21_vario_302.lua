@@ -259,7 +259,7 @@ end
 
 -- calcular polar sink in m/s for given airspeed in km/h
 function sink_mps(speed_kph, ballast_adjust)
-    local prev_point = { 0, 10 } -- arbitrary starting polar point (for speed < polar[1][SPEED])
+    local prev_point = { 0, 2 } -- arbitrary starting polar point (for speed < polar[1][SPEED])
     for i, point in pairs(project_settings.polar) -- each point is { speed_kph, sink_mps }
     do
         -- adjust this polar point to account for ballast carried

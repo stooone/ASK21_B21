@@ -4,7 +4,7 @@
 
 print("b21_controls_commands.lua starting")
 
-local COMMANDS_AILERONS = sasl.findCommand("b21/wings_level_on")
+local COMMAND_AILERONS = sasl.findCommand("b21/wings_level_on")
 
 -- READ datarefs
 local DATAREF_AIRSPEED_KTS = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")

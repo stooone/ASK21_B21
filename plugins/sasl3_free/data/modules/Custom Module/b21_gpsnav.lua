@@ -18,6 +18,7 @@ local dataref_heading_deg = globalPropertyf("sim/flightmodel/position/hpath") --
 local dataref_latitude = globalProperty("sim/flightmodel/position/latitude") -- aircraft latitude
 local dataref_longitude = globalProperty("sim/flightmodel/position/longitude") -- aircraft longitude
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec") -- time in seconds
+local DATAREF_ONGROUND = globalPropertyi("sim/flightmodel/failures/onground_any") -- =1 when on the ground
 
 M_TO_MI = 0.000621371
 FT_TO_M = 0.3048
@@ -126,6 +127,11 @@ local bearing_index = 3
 
 -- calculate index into bearing PNG panel image to display correct turn indication
 function update_bearing_index()
+    if get(DATAREF_ONGROUND) == 1
+    then
+        bearing_index = 3 -- center
+        return
+    end
     local heading_delta_deg = get(dataref_heading_deg) - project_settings.gpsnav_wp_heading_deg
     local left_deg
     local right_deg
