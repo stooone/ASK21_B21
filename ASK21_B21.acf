@@ -140,7 +140,7 @@ P _gear/0/_lonE 0.0
 P _gear/0/_lonN 0.0
 P _gear/0/_lonR 0.0
 P _gear/0/_scon 2921.268310547
-P _gear/0/_stat_def 0.362302780
+P _gear/0/_stat_def 0.362302721
 P _gear/0/_steerdeg_hispeed 0.0
 P _gear/0/_steerdeg_lospeed 0.0
 P _gear/0/_strut_comp 0.0
@@ -174,7 +174,7 @@ P _gear/1/_lonE 0.0
 P _gear/1/_lonN 0.0
 P _gear/1/_lonR 0.0
 P _gear/1/_scon 1711.028686523
-P _gear/1/_stat_def 0.152895540
+P _gear/1/_stat_def 0.152895525
 P _gear/1/_steerdeg_hispeed 0.0
 P _gear/1/_steerdeg_lospeed 0.0
 P _gear/1/_strut_comp 0.0
@@ -336,7 +336,7 @@ P _obja/4/_v10_att_z_acf_prt_ref 0.0
 P _obja/4/_v10_is_internal 960420056
 P _obja/4/_v10_steers_with_gear 0
 P _obja/count 5
-P _panel_inst_3d 45
+P _panel_inst_3d 47
 P _part/10/_bot_s1 0.006000000
 P _part/10/_bot_s2 0.048999999
 P _part/10/_bot_t1 0.006000000
@@ -10787,7 +10787,7 @@ P _part/8/_geo_xyz/10,9,0 -8.830852509
 P _part/8/_geo_xyz/10,9,1 1.176438093
 P _part/8/_geo_xyz/10,9,2 10.208029747
 P _part/8/_geo_xyz/11,0,0 -10.412437439
-P _part/8/_geo_xyz/11,0,1 1.347293615
+P _part/8/_geo_xyz/11,0,1 1.347293496
 P _part/8/_geo_xyz/11,0,2 8.358226776
 P _part/8/_geo_xyz/11,1,0 -10.412706375
 P _part/8/_geo_xyz/11,1,1 1.343458056
@@ -10802,7 +10802,7 @@ P _part/8/_geo_xyz/11,12,0 -10.412706375
 P _part/8/_geo_xyz/11,12,1 1.343458056
 P _part/8/_geo_xyz/11,12,2 8.477264404
 P _part/8/_geo_xyz/11,13,0 -10.412437439
-P _part/8/_geo_xyz/11,13,1 1.347293615
+P _part/8/_geo_xyz/11,13,1 1.347293496
 P _part/8/_geo_xyz/11,13,2 8.358226776
 P _part/8/_geo_xyz/11,14,0 0.0
 P _part/8/_geo_xyz/11,14,1 0.0
@@ -10841,7 +10841,7 @@ P _part/8/_geo_xyz/11,9,0 -10.416460991
 P _part/8/_geo_xyz/11,9,1 1.289760470
 P _part/8/_geo_xyz/11,9,2 10.143795013
 P _part/8/_geo_xyz/12,0,0 -10.412437439
-P _part/8/_geo_xyz/12,0,1 1.347293615
+P _part/8/_geo_xyz/12,0,1 1.347293496
 P _part/8/_geo_xyz/12,0,2 8.358226776
 P _part/8/_geo_xyz/12,1,0 -10.412706375
 P _part/8/_geo_xyz/12,1,1 1.343458056
@@ -10856,7 +10856,7 @@ P _part/8/_geo_xyz/12,12,0 -10.412706375
 P _part/8/_geo_xyz/12,12,1 1.343458056
 P _part/8/_geo_xyz/12,12,2 8.477264404
 P _part/8/_geo_xyz/12,13,0 -10.412437439
-P _part/8/_geo_xyz/12,13,1 1.347293615
+P _part/8/_geo_xyz/12,13,1 1.347293496
 P _part/8/_geo_xyz/12,13,2 8.358226776
 P _part/8/_geo_xyz/12,14,0 0.0
 P _part/8/_geo_xyz/12,14,1 0.0
@@ -13547,7 +13547,7 @@ P _part/85/_part_specs_invis 1
 P _part/85/_part_tex 0
 P _part/85/_part_the 0.0
 P _part/85/_part_x 0.0
-P _part/85/_part_y -0.537697196
+P _part/85/_part_y -0.537697256
 P _part/85/_part_z 10.500000000
 P _part/85/_patt_con 0
 P _part/85/_patt_prt 0
@@ -18132,7 +18132,7 @@ P _part/9/_geo_xyz/10,9,0 8.830852509
 P _part/9/_geo_xyz/10,9,1 1.176438093
 P _part/9/_geo_xyz/10,9,2 10.208029747
 P _part/9/_geo_xyz/11,0,0 10.412437439
-P _part/9/_geo_xyz/11,0,1 1.347293615
+P _part/9/_geo_xyz/11,0,1 1.347293496
 P _part/9/_geo_xyz/11,0,2 8.358226776
 P _part/9/_geo_xyz/11,1,0 10.412706375
 P _part/9/_geo_xyz/11,1,1 1.343458056
@@ -18147,7 +18147,7 @@ P _part/9/_geo_xyz/11,12,0 10.412706375
 P _part/9/_geo_xyz/11,12,1 1.343458056
 P _part/9/_geo_xyz/11,12,2 8.477264404
 P _part/9/_geo_xyz/11,13,0 10.412437439
-P _part/9/_geo_xyz/11,13,1 1.347293615
+P _part/9/_geo_xyz/11,13,1 1.347293496
 P _part/9/_geo_xyz/11,13,2 8.358226776
 P _part/9/_geo_xyz/11,14,0 0.0
 P _part/9/_geo_xyz/11,14,1 0.0
@@ -18186,7 +18186,7 @@ P _part/9/_geo_xyz/11,9,0 10.416460991
 P _part/9/_geo_xyz/11,9,1 1.289760470
 P _part/9/_geo_xyz/11,9,2 10.143795013
 P _part/9/_geo_xyz/12,0,0 10.412437439
-P _part/9/_geo_xyz/12,0,1 1.347293615
+P _part/9/_geo_xyz/12,0,1 1.347293496
 P _part/9/_geo_xyz/12,0,2 8.358226776
 P _part/9/_geo_xyz/12,1,0 10.412706375
 P _part/9/_geo_xyz/12,1,1 1.343458056
@@ -18201,7 +18201,7 @@ P _part/9/_geo_xyz/12,12,0 10.412706375
 P _part/9/_geo_xyz/12,12,1 1.343458056
 P _part/9/_geo_xyz/12,12,2 8.477264404
 P _part/9/_geo_xyz/12,13,0 10.412437439
-P _part/9/_geo_xyz/12,13,1 1.347293615
+P _part/9/_geo_xyz/12,13,1 1.347293496
 P _part/9/_geo_xyz/12,13,2 8.358226776
 P _part/9/_geo_xyz/12,14,0 0.0
 P _part/9/_geo_xyz/12,14,1 0.0
@@ -25224,7 +25224,7 @@ han_sbrake_manual han_sbrake_manual
   BUS_SRC 1
 
 ins_slip_BC ins_slip_BC
-  POS 512.000000 -186.000000
+  POS 512.000000 -31.000000
   DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25338,7 +25338,7 @@ gen_rheostat vario_winter_rng_km
   WRAP 0
 
 gen_rotary vario_302_backgroun
-  POS 511.000000 177.500000
+  POS 494.000000 163.500000
   IMAGE vario_302/vario_302_background
   DATAREF 
   LIGHT_MODE MECHANICAL
@@ -25357,7 +25357,7 @@ gen_rotary vario_302_backgroun
   CLICK_DY 0
 
 gen_annun vario_302_ring
-  POS 510.500000 180.000000
+  POS 493.500000 166.000000
   IMAGE vario_302/ring
   DATAREF 
   SHOW_EQUAL 1.000000 b21/units_vario
@@ -25367,7 +25367,7 @@ gen_annun vario_302_ring
   KEY_FRAME 1.000000 1.000000
 
 gen_LED vario_302_bottom
-  POS 507.500000 152.500000
+  POS 490.500000 138.500000
   IMAGE vario_302/num_bottom
   DATAREF b21/vario_302/number_bottom
   LIGHT_MODE MECHANICAL
@@ -25380,7 +25380,7 @@ gen_LED vario_302_bottom
   LED_ROWS 0
 
 gen_LED vario_302_bottom_s
-  POS 501.500000 152.500000
+  POS 484.500000 138.500000
   IMAGE vario_302/num_sign
   DATAREF b21/vario_302/number_bottom_sign
   LIGHT_MODE MECHANICAL
@@ -25393,7 +25393,7 @@ gen_LED vario_302_bottom_s
   LED_ROWS 0
 
 gen_LED vario_302_number_r
-  POS 528.500000 178.500000
+  POS 511.500000 164.500000
   IMAGE vario_302/num_right
   DATAREF b21/vario_302/number_right
   LIGHT_MODE MECHANICAL
@@ -25406,7 +25406,7 @@ gen_LED vario_302_number_r
   LED_ROWS 0
 
 gen_LED vario_203_number_t
-  POS 508.500000 199.500000
+  POS 491.500000 185.500000
   IMAGE vario_302/num_top
   DATAREF b21/vario_302/number_top
   LIGHT_MODE MECHANICAL
@@ -25419,7 +25419,7 @@ gen_LED vario_203_number_t
   LED_ROWS 0
 
 gen_LED vario_302_num_top_s
-  POS 502.500000 199.500000
+  POS 485.500000 185.500000
   IMAGE vario_302/num_sign
   DATAREF b21/vario_302/number_top_sign
   LIGHT_MODE MECHANICAL
@@ -25432,7 +25432,7 @@ gen_LED vario_302_num_top_s
   LED_ROWS 0
 
 gen_needle vario_302_needle
-  POS 511.000000 178.500000
+  POS 494.000000 164.500000
   IMAGE vario_302/vario_302
   DATAREF b21/vario_302/needle_fpm
   LIGHT_MODE MECHANICAL
@@ -25446,7 +25446,7 @@ gen_needle vario_302_needle
   OFFSET 0.000000
 
 gen_rheostat vario_302_knob
-  POS 450.000000 113.000000
+  POS 433.000000 99.000000
   IMAGE vario_302/vario_302_knob
   DATAREF b21/vario_302/knob
   LIGHT_MODE MECHANICAL
@@ -25464,7 +25464,7 @@ gen_rheostat vario_302_knob
   WRAP 0
 
 gen_rotary vario_302_stf_te_sw
-  POS 415.000000 139.000000
+  POS 398.000000 125.000000
   IMAGE vario_302/stf_te_switch
   DATAREF b21/vario_302/stf_te_switch
   LIGHT_MODE MECHANICAL
@@ -25483,7 +25483,7 @@ gen_rotary vario_302_stf_te_sw
   CLICK_DY 0
 
 gen_annun vario_302_stf_te_in
-  POS 540.000000 166.000000
+  POS 523.000000 152.000000
   IMAGE vario_302/stf_te_ind
   DATAREF 
   SHOW_EQUAL 1.000000 b21/vario_302/stf_te_ind
@@ -25537,7 +25537,7 @@ gen_rotary vario_57_center
   CLICK_DY 0
 
 gen_rheostat vario_sound_volume
-  POS 419.000000 216.000000
+  POS 397.000000 179.000000
   IMAGE vario_302/volume
   DATAREF b21/vario_sound_volume
   LIGHT_MODE MECHANICAL
@@ -25555,7 +25555,7 @@ gen_rheostat vario_sound_volume
   WRAP 0
 
 gen_rotary gpsnav_background
-  POS 512.000000 23.000000
+  POS 654.000000 121.000000
   IMAGE gpsnav/background
   DATAREF 
   LIGHT_MODE MECHANICAL
@@ -25574,7 +25574,7 @@ gen_rotary gpsnav_background
   CLICK_DY 0
 
 gen_trigger gpsnav_load
-  POS 482.000000 84.500000
+  POS 625.000000 181.500000
   IMAGE gpsnav/button_load
   COMMAND b21/gpsnav/load
   LIGHT_MODE MECHANICAL
@@ -25588,7 +25588,7 @@ gen_trigger gpsnav_load
   CLICK_DY 0
 
 gen_trigger gpsnav_left
-  POS 482.000000 -34.500000
+  POS 625.000000 64.500000
   IMAGE gpsnav/button_left
   COMMAND b21/gpsnav/left
   LIGHT_MODE MECHANICAL
@@ -25602,7 +25602,7 @@ gen_trigger gpsnav_left
   CLICK_DY 0
 
 gen_trigger gpsnav_right
-  POS 541.000000 -34.500000
+  POS 681.000000 64.500000
   IMAGE gpsnav/button_right
   COMMAND b21/gpsnav/right
   LIGHT_MODE MECHANICAL
@@ -25702,7 +25702,7 @@ gen_needle asi_needle
   OFFSET 0.000000
 
 gen_needle altimeter_ft
-  POS 786.000000 133.000000
+  POS 796.000000 133.000000
   IMAGE altimeter/altimeter_ft
   DATAREF b21/altimeter/needle_3_deg
   SHOW_EQUAL 0.000000 b21/units_altitude
@@ -25714,7 +25714,7 @@ gen_needle altimeter_ft
   OFFSET 0.000000
 
 gen_needle altimeter_m
-  POS 786.000000 133.000000
+  POS 796.000000 133.000000
   IMAGE altimeter/altimeter_m
   DATAREF b21/altimeter/needle_3_deg
   SHOW_EQUAL 1.000000 b21/units_altitude
@@ -25726,7 +25726,7 @@ gen_needle altimeter_m
   OFFSET 0.000000
 
 gen_needle altimeter_needle_2
-  POS 786.000000 132.000000
+  POS 796.000000 132.000000
   IMAGE altimeter/needle_small
   DATAREF b21/altimeter/needle_2_deg
   LIGHT_MODE MECHANICAL
@@ -25737,7 +25737,7 @@ gen_needle altimeter_needle_2
   OFFSET 0.000000
 
 gen_needle altimeter_needle_1
-  POS 786.000000 132.000000
+  POS 796.000000 132.000000
   IMAGE altimeter/needle_large
   DATAREF b21/altimeter/needle_1_deg
   LIGHT_MODE MECHANICAL
@@ -25748,7 +25748,7 @@ gen_needle altimeter_needle_1
   OFFSET 0.000000
 
 gen_rheostat altimeter_knob
-  POS 737.000000 74.000000
+  POS 747.000000 74.000000
   IMAGE altimeter/knob
   DATAREF b21/altimeter/knob
   KF_WRAP_BOTTOM
@@ -25779,8 +25779,34 @@ gen_pointer trim
   IS_VERTICAL 0
   OFFSET 0.000000
 
-compass_GA compass_GA.png
-  POS 508.000000 325.000000
+gen_pointer compass
+  POS 509.000000 318.000000
+  IMAGE compass/compass_GA
+  DATAREF sim/cockpit2/gauges/indicators/compass_heading_deg_mag
+  CLIP
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 -73.000000 1.000000
+  KEY_FRAME 360.000000 71.000000
+  IS_DRAGGABLE 0
+  IS_VERTICAL 0
+  OFFSET 0.000000
+
+gen_pointer compass_background
+  POS 509.000000 317.000000
+  IMAGE compass/compass_background
+  DATAREF 
+  SIZE 1.400000
+  LIGHT_MODE MECHANICAL
+  LIGHT_RHEOSTAT 0
+  KEY_FRAME 0.000000 0.000000 1.000000
+  KEY_FRAME 1.000000 0.000000
+  IS_DRAGGABLE 0
+  IS_VERTICAL 0
+  OFFSET 0.000000
+
+ins_timer_GA timer_GA.png
+  POS 522.500000 38.500000
   DATAREF 
   SIZE 1.500000
   LIGHT_MODE MECHANICAL

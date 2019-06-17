@@ -12,7 +12,7 @@ local DATAREF_ONGROUND = globalPropertyi("sim/flightmodel/failures/onground_any"
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec")
 -- 
 
-local WING_LEVELLER_FORCE = 1500.0 -- newton-meters
+local WING_LEVELLER_FORCE = 1000.0 -- newton-meters
 
 --local sound_trim = loadSample(sasl.getAircraftPath()..'/sounds/systems/trim.wav')
 -- setSampleGain(sound_trim, 500)

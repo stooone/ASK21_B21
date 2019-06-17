@@ -104,8 +104,8 @@ KPH_TO_MPS = 1 / MPS_TO_KPH
 DEG_TO_RAD = 0.0174533
 
 -- b21_302 globals
-B21_302_maccready_kts = 4 -- user input maccready setting in kts
-B21_302_maccready_mps = 2 -- user input maccready setting in m/s
+B21_302_maccready_kts = 0 -- user input maccready setting in kts
+B21_302_maccready_mps = 0 -- user input maccready setting in m/s
 
 B21_302_climb_average_mps = 0 -- calculated climb average
 

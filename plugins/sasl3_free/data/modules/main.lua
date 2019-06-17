@@ -38,7 +38,7 @@ components = {
                 b21_vario_winter {},
                 b21_airbrakes {},
 	            b21_gpsnav { 
-                   position = { 462, 237, 100, 89}
+                   position = { 604, 335, 100, 89}
                 },
                 b21_clock {},
                 b21_trim {},
