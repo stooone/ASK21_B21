@@ -15,6 +15,7 @@
 * DONE get the TE reading from a separate b21_total_energy module, shared with 302 vario
 * DONE implement gust filter
 * DONE implement rotating maccready ring
+* DONE add units to vario face
 
 ### flight model
 
@@ -43,7 +44,7 @@
 * DONE add commands
   - next waypoint
   - previous waypoint
-* DONE bugfix correct use of ground track dataref for heading arrows (Chris)
+* DONE bugfix correct use of ground track dataref for heading arrows (thanks Chris)
 * DONE get waypoint elevation from X-Plane terrain probe
 
 ### 302 vario
@@ -68,6 +69,12 @@
   - volume up
   - volume down
   - volume mute
+
+### 57mm vario
+
+* DONE implement NETTO
+* DONE add units to vario face
+* DONE fade reading to zero as airspeed reduces
 
 ### spoilers (aka speedbrakes) / wheel brake
 
