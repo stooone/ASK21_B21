@@ -12,6 +12,8 @@ local dataref_trim = globalPropertyf("sim/cockpit2/controls/elevator_trim") -- -
 -- READ datarefs
 local dataref_airspeed_kts = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec")
+local DATAREF_YOKE_PITCH = globalPropertyf("sim/joystick/yoke_pitch_ratio") -- -1..+1
+local DATAREF_ONGROUND = globalPropertyi("sim/flightmodel/failures/onground_any") -- =1 when on the ground
 -- 
 
 local sound_trim = loadSample(sasl.getAircraftPath()..'/sounds/systems/trim.wav')
@@ -33,6 +35,14 @@ function clicked_trim(phase)
 
         playSample(sound_trim, false)
 
+        -- if on ground then use yoke pitch position
+        if get(DATAREF_ONGROUND) == 1
+        then
+            required_trim = get(DATAREF_YOKE_PITCH)
+            return
+        end
+
+        -- otherwise set trim according to current airspeed
         local Smin = TRIM_SPEED_KTS[1]
         local Szero = TRIM_SPEED_KTS[2]
         local Smax = TRIM_SPEED_KTS[3]
