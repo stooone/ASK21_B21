@@ -43,13 +43,13 @@ project_settings.gpsnav_wp_altitude_m = 0.0 -- altitude MSL of next waypoint in 
 
 -- command callbacks from gpsnav buttons
 
-local command_load = sasl.createCommand("b21/gpsnav/load", 
+local command_load = sasl.createCommand("b21/nav/load_task",
     "Sailplane GPSNAV load flightplan")
 
-local command_left = sasl.createCommand("b21/gpsnav/left", 
+local command_left = sasl.createCommand("b21/nav/prev_waypoint",
     "Sailplane GPSNAV left-button function (e.g. prev waypoint)")
 
-local command_right = sasl.createCommand("b21/gpsnav/right", 
+local command_right = sasl.createCommand("b21/nav/next_waypoint",
     "Sailplane GPSNAV right-button function (e.g. next waypoint)")
 
 local xplane_load_flightplan = sasl.findCommand("sim/FMS/key_load")
@@ -148,11 +148,11 @@ function update_bearing_index()
     then
         turn_deg = -left_deg
     else
-        turn_deg = right_deg    
+        turn_deg = right_deg
     end
     if turn_deg > 70 then bearing_index = 6
     elseif turn_deg > 40 then bearing_index = 5
-    elseif turn_deg > 10 then bearing_index = 4 
+    elseif turn_deg > 10 then bearing_index = 4
     elseif turn_deg > -10 then bearing_index = 3 -- center
     elseif turn_deg > -40 then bearing_index = 2
     elseif turn_deg > -70 then bearing_index = 1
@@ -165,9 +165,9 @@ function update_wp_distance_and_heading()
     if #task ~= 0
     then
         local aircraft_point = { lat= get(dataref_latitude),
-                                lng= get(dataref_longitude) 
+                                lng= get(dataref_longitude)
                             }
-        
+
         project_settings.gpsnav_wp_distance_m = geo.get_distance(aircraft_point, wp_point)
 
         project_settings.gpsnav_wp_heading_deg = geo.get_bearing(aircraft_point, wp_point)
@@ -198,7 +198,7 @@ function update_fms()
     end
 
     print("gpsnav fms_count",fms_count)
-    
+
     task = {}
 
     for i=0, fms_count-1
@@ -212,15 +212,15 @@ function update_fms()
             wp_elevation_m = fms_altitude_ft * FT_TO_M
         end
 
-        print("GPSNAV["..i.."] "..fms_name, 
-                                 fms_latitude, 
-                                 fms_longitude, 
-                                 fms_altitude_ft, 
+        print("GPSNAV["..i.."] "..fms_name,
+                                 fms_latitude,
+                                 fms_longitude,
+                                 fms_altitude_ft,
                                  wp_elevation_m * M_TO_FT)
-        table.insert(task,{ type = fms_type, 
-                            ref =  fms_name, 
+        table.insert(task,{ type = fms_type,
+                            ref =  fms_name,
                             alt = wp_elevation_m,
-                            lat = fms_latitude, 
+                            lat = fms_latitude,
                             lng = fms_longitude
                         })
     end
@@ -268,7 +268,7 @@ function draw()
     end
     local bottom_string = altitude_string
 
-    --  TOP STRING                         size isBold isItalic     
+    --  TOP STRING                         size isBold isItalic
     sasl.gl.drawText(font,5,70, top_string, 16, true, false, TEXT_ALIGN_LEFT, black)
 
     -- BEARING GRAPHIC
@@ -279,7 +279,6 @@ function draw()
 
     -- BOTTOM STRING
     sasl.gl.drawText(font,5,5, bottom_string, 18, true, false, TEXT_ALIGN_LEFT, black)
-    
+
 end
 
- 

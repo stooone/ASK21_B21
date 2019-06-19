@@ -3,7 +3,7 @@
 -- Computer vario simulation
 
 --[[  THIS GAUGE READS THE POLAR FROM B21_POLAR.lua
-                    
+
     The 3 numbers displayed on the vario are referred to as 'top', 'bottom' and 'right'
 
     User input DataRefs:
@@ -160,6 +160,73 @@ prev_number_top_s = 0.0
 speed_prev_time_s = dataref_read("TIME_S")
 average_speed_mps = 0.0
 average_turn_rate_deg = 0.0
+prev_mode = dataref_read("STF_TE_SWITCH") -- used to rotate through options in 'toggle' command
+
+-- #################################################################################################
+-- COMMANDS
+-- #################################################################################################
+
+local command_mode_toggle = sasl.createCommand("b21/vario_302/mode_toggle",
+    "Switch the 302 computer vario between STF, AUTO, TE")
+local command_mode_stf = sasl.createCommand("b21/vario_302/mode_stf",
+    "Set the 302 computer vario to STF mode")
+local command_mode_auto = sasl.createCommand("b21/vario_302/mode_auto",
+    "Set the 302 computer vario to Auto mode")
+local command_mode_te = sasl.createCommand("b21/vario_302/mode_te",
+    "Set the 302 computer vario to TE mode")
+
+function mode_toggle(phase)
+    if phase == SASL_COMMAND_BEGIN
+    then
+        local current_mode = dataref_read("STF_TE_SWITCH")
+        print("MODE_TOGGLE COMMAND "..current_mode)
+        if current_mode == 0 or current_mode == 2
+        then
+            dataref_write("STF_TE_SWITCH", 1)
+            prev_mode = current_mode
+        else -- current_mode == 1 i.e. AUTO
+            if prev_mode == 0
+            then
+                dataref_write("STF_TE_SWITCH", 2)
+            else
+                dataref_write("STF_TE_SWITCH", 0)
+            end
+        end
+    end
+    return 1
+end
+
+function mode_stf(phase)
+    if phase == SASL_COMMAND_BEGIN
+    then
+        print("MODE_STF COMMAND")
+        dataref_write("STF_TE_SWITCH", 0)
+    end
+    return 1
+end
+
+function mode_auto(phase)
+    if phase == SASL_COMMAND_BEGIN
+    then
+        print("MODE_AUTO COMMAND")
+        dataref_write("STF_TE_SWITCH", 1)
+    end
+    return 1
+end
+
+function mode_te(phase)
+    if phase == SASL_COMMAND_BEGIN
+    then
+        print("MODE_TE COMMAND")
+        dataref_write("STF_TE_SWITCH", 2)
+    end
+    return 1
+end
+
+sasl.registerCommandHandler(command_mode_toggle, 0, mode_toggle)
+sasl.registerCommandHandler(command_mode_stf, 0, mode_stf)
+sasl.registerCommandHandler(command_mode_auto, 0, mode_auto)
+sasl.registerCommandHandler(command_mode_te, 0, mode_te)
 
 -- #################################################################################################
 
@@ -168,9 +235,9 @@ average_turn_rate_deg = 0.0
 --  ballast = 0.0 (zero ballast, glider at empty weight) => polar_adjust = 1
 --  ballast = 1.0 (full ballast, glider at full weight) => polar_adjust = sqrt(weight_full/weight_empty)
 function update_ballast()
-    B21_302_ballast_ratio = (dataref_read("WEIGHT_TOTAL_KG") - project_settings.polar_weight_empty_kg) / 
+    B21_302_ballast_ratio = (dataref_read("WEIGHT_TOTAL_KG") - project_settings.polar_weight_empty_kg) /
                             (project_settings.polar_weight_full_kg - project_settings.polar_weight_empty_kg)
-    
+
     B21_302_ballast_adjust = math.sqrt(dataref_read("WEIGHT_TOTAL_KG")/ project_settings.polar_weight_empty_kg)
     --print("B21_302_ballast_ratio",B21_302_ballast_ratio) --debug
     --print("B21_302_ballast_adjust",B21_302_ballast_adjust) --debug
@@ -250,7 +317,7 @@ function update_stf_te_mode()
     -- update STF/TE indicator
     -- if in STF mode then set indicator to 0 (= STF on lcd), else set indicator to 1 (= TE on lcd)
     dataref_write("STF_TE_IND", B21_302_mode_stf and 0 or 1)
-    
+
     if project_settings.VARIO_302_DUAL_SOUND == 1
     then
         dataref_write("VARIO_SOUND_MODE", B21_302_mode_stf and 1 or 0) -- sound mode 0=TE, 1=STF
@@ -272,7 +339,7 @@ function sink_mps(speed_kph, ballast_adjust)
     end
     return 10 -- we fell off the end of the polar, so guess sink value (10 m/s)
 end
-    
+
 -- interpolate sink for speed between between points p1 and p2 on the polar
 -- p1 and p2 are { speed_kph, sink_mps } where sink is positive
 function interp(speed, p1, p2)
@@ -302,9 +369,9 @@ E.g. TE says airplane sinking at 2.5 m/s (te = -2.5)
 
 function update_netto()
     B21_302_netto_mps = dataref_read("TE_MPS") + B21_302_polar_sink_mps
-    
+
     local airspeed_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
-    
+
     -- correct for low airspeed when instrument would not be fully working
     -- i.e.
     -- at 0 mps airspeed, netto will be forced to zero
@@ -330,9 +397,9 @@ end
                         (L:B21_302_netto, meters per second)
                         (L:B21_302_maccready, meters per second)
                         (L:B21_302_ballast_adjust, number)
-                         
+
                      Vstf = sqrt(R*(maccready-netto) + sqr(stf_best))*sqrt(polar_adjust)
-                     
+
                      if in high lift area then this formula has error calculating negative speeds, so adjust:
                      if R*(maccready-netto)+sqr(Vbest) is below a threshold (v2stfx) instead use:
                         1 / ((v2stfx - [above calculation])/z + 1/v2stfx)
@@ -361,7 +428,7 @@ end
 
 -- calculate speed-to-fly in still air for current maccready setting
 function update_maccready_stf()
-    B21_302_mc_stf_mps = math.sqrt(B21_302_maccready_mps * B21_302_polar_const_r + B21_polar_stf_best_mps^2) * 
+    B21_302_mc_stf_mps = math.sqrt(B21_302_maccready_mps * B21_302_polar_const_r + B21_polar_stf_best_mps^2) *
                          math.sqrt(B21_302_ballast_adjust)
     --print("B21_302_mc_stf_mps", B21_302_mc_stf_mps,"(", B21_302_mc_stf_mps * MPS_TO_KPH, "kph)") --debug
 end
@@ -382,7 +449,7 @@ function update_maccready_sink()
 end
 
 --[[                    CALCULATE ARRIVAL HEIGHT
-                Outputs: 
+                Outputs:
                     (L:B21_302_arrival_height, meters)
                     (L:B21_302_height_needed, meters)
                 Inputs:
@@ -403,8 +470,8 @@ end
                         (L:B21_x, meters per second) + (&gt;L:B21_vw, meters per second)
                         (L:B21_302_distance_to_go, meters) (L:B21_vw, meters per second) /
                         (L:B21_302_mc_sink, meters per second) * (&gt;L:B21_302_height_needed, meters)
-                        
-                        (A:PLANE ALTITUDE, meters) (L:B21_302_height_needed, meters) - 
+
+                        (A:PLANE ALTITUDE, meters) (L:B21_302_height_needed, meters) -
                         (L:B21_302_wp_msl, meters) -
                         (&gt;L:B21_302_arrival_height, meters)
 ]]
@@ -507,7 +574,7 @@ end
                     STF:
                             (A:AIRSPEED INDICATED, meters per second)
                             (L:B21_302_stf, meters per second) -
-                            7 / 
+                            7 /
                             (&gt;L:B21_302_stf_needle, meters per second)
                     NEEDLE:
                         (L:B21_302_mode_stf, number) 0 == if{
@@ -526,7 +593,7 @@ function update_needle()
     else
         needle_mps = dataref_read("TE_MPS")
     end
-    
+
     -- correct for speed
     local airspeed_mps = dataref_read("AIRSPEED_KTS") * KTS_TO_MPS
     -- correct for low airspeed when instrument would not be fully working
@@ -593,7 +660,7 @@ function update_top_number()
     -- if negative we'll overlay a '-' to the left of the leftmost digit
     -- we use a gen_LED overlay which displays a '-' for '9' and blank for '0'
     -- e.g. 9000 will display "-   ", so overlaid over " 123" will show "-123"
-    
+
     local number_sign -- will be 9XXX where the X's represent the existing digits
 
     if reading >= 0
@@ -682,7 +749,7 @@ function update()
     update_ballast()
     update_maccready()
     update_stf_te_mode()
-    
+
     update_polar_sink()
     update_netto()
     update_stf()

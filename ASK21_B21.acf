@@ -24641,7 +24641,7 @@ P acf/_part_descrip/78 #2 center Nacelle
 P acf/_part_descrip/79 Prop3 gearbox
 P acf/_part_descrip/80 Prop4 gearbox
 P acf/_part_descrip/85 Nose Wheel Fairing
-P acf/_part_descrip/86 hgiReG tW raleehnaP 
+P acf/_part_descrip/86 hgiReG tW raleehnaP
 P acf/_part_descrip/87 Main Gear Wheel Fairing - Starboard
 P acf/_part_descrip/88 nose landing gear fairing
 P acf/_part_descrip/89 esoNaeG iS rF edgnal
@@ -25209,7 +25209,7 @@ PROPERTIES_END
 PANEL_2D_BEGIN
 ins_tailnum ins_tailnum
   POS 256.000000 234.000000
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
@@ -25218,14 +25218,14 @@ ins_tailnum ins_tailnum
 
 han_sbrake_manual han_sbrake_manual
   POS 60.500000 -156.000000
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
 
 ins_slip_BC ins_slip_BC
   POS 512.000000 -31.000000
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
@@ -25243,14 +25243,14 @@ gen_handle gen_handle
 
 han_elv_trim_act elv_trim_act.png
   POS 120.000000 -158.000000
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
 
 elv_trim_ind elv_trim_ind.png
   POS 145.000000 -158.000000
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
@@ -25258,7 +25258,7 @@ elv_trim_ind elv_trim_ind.png
 gen_annun vario_winter_backgr
   POS 283.000000 128.000000
   IMAGE vario_winter/b21_vario_winter
-  DATAREF 
+  DATAREF
   SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25283,7 +25283,7 @@ gen_needle vario_winter
 gen_rotary vario_winter_center
   POS 282.000000 129.000000
   IMAGE vario_winter/b21_vario_winter_center
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25340,7 +25340,7 @@ gen_rheostat vario_winter_rng_km
 gen_rotary vario_302_backgroun
   POS 494.000000 163.500000
   IMAGE vario_302/vario_302_background
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25359,7 +25359,7 @@ gen_rotary vario_302_backgroun
 gen_annun vario_302_ring
   POS 493.500000 166.000000
   IMAGE vario_302/ring
-  DATAREF 
+  DATAREF
   SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25485,7 +25485,7 @@ gen_rotary vario_302_stf_te_sw
 gen_annun vario_302_stf_te_in
   POS 523.000000 152.000000
   IMAGE vario_302/stf_te_ind
-  DATAREF 
+  DATAREF
   SHOW_EQUAL 1.000000 b21/vario_302/stf_te_ind
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25495,7 +25495,7 @@ gen_annun vario_302_stf_te_in
 gen_annun vario_57_background
   POS 344.000000 280.000000
   IMAGE vario_57/vario_57_background
-  DATAREF 
+  DATAREF
   SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25520,7 +25520,7 @@ gen_needle vario_57_needle
 gen_rotary vario_57_center
   POS 343.500000 278.500000
   IMAGE vario_57/vario_57_center
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25557,7 +25557,7 @@ gen_rheostat vario_sound_volume
 gen_rotary gpsnav_background
   POS 654.000000 121.000000
   IMAGE gpsnav/background
-  DATAREF 
+  DATAREF
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25576,7 +25576,7 @@ gen_rotary gpsnav_background
 gen_trigger gpsnav_load
   POS 625.000000 181.500000
   IMAGE gpsnav/button_load
-  COMMAND b21/gpsnav/load
+  COMMAND b21/nav/load_task
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25590,7 +25590,7 @@ gen_trigger gpsnav_load
 gen_trigger gpsnav_left
   POS 625.000000 64.500000
   IMAGE gpsnav/button_left
-  COMMAND b21/gpsnav/left
+  COMMAND b21/nav/prev_waypoint
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25604,7 +25604,7 @@ gen_trigger gpsnav_left
 gen_trigger gpsnav_right
   POS 681.000000 64.500000
   IMAGE gpsnav/button_right
-  COMMAND b21/gpsnav/right
+  COMMAND b21/nav/next_waypoint
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25661,7 +25661,7 @@ gen_handle gen_handle.png
 
 rad_com1_GA rad_com1_GA.png
   POS 511.000000 -96.500000
-  DATAREF 
+  DATAREF
   SIZE 1.500000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25670,7 +25670,7 @@ rad_com1_GA rad_com1_GA.png
 
 rad_CDU739_2d CDU739_2d.png
   POS 761.500000 -31.000000
-  DATAREF 
+  DATAREF
   SIZE 0.100000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25680,7 +25680,7 @@ rad_CDU739_2d CDU739_2d.png
 gen_annun asi
   POS 675.500000 279.500000
   IMAGE asi/asi_background
-  DATAREF 
+  DATAREF
   SHOW_EQUAL 1.000000 b21/units_speed
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25795,7 +25795,7 @@ gen_pointer compass
 gen_pointer compass_background
   POS 509.000000 317.000000
   IMAGE compass/compass_background
-  DATAREF 
+  DATAREF
   SIZE 1.400000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25807,7 +25807,7 @@ gen_pointer compass_background
 
 ins_timer_GA timer_GA.png
   POS 522.500000 38.500000
-  DATAREF 
+  DATAREF
   SIZE 1.500000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
