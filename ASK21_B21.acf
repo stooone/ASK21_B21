@@ -174,7 +174,7 @@ P _gear/1/_lonE 0.0
 P _gear/1/_lonN 0.0
 P _gear/1/_lonR 0.0
 P _gear/1/_scon 1711.028686523
-P _gear/1/_stat_def 0.152895570
+P _gear/1/_stat_def 0.152895585
 P _gear/1/_steerdeg_hispeed 0.0
 P _gear/1/_steerdeg_lospeed 0.0
 P _gear/1/_strut_comp 0.0
@@ -10787,7 +10787,7 @@ P _part/8/_geo_xyz/10,9,0 -8.830852509
 P _part/8/_geo_xyz/10,9,1 1.176438093
 P _part/8/_geo_xyz/10,9,2 10.208029747
 P _part/8/_geo_xyz/11,0,0 -10.412437439
-P _part/8/_geo_xyz/11,0,1 1.347293615
+P _part/8/_geo_xyz/11,0,1 1.347293496
 P _part/8/_geo_xyz/11,0,2 8.358226776
 P _part/8/_geo_xyz/11,1,0 -10.412706375
 P _part/8/_geo_xyz/11,1,1 1.343458056
@@ -10802,7 +10802,7 @@ P _part/8/_geo_xyz/11,12,0 -10.412706375
 P _part/8/_geo_xyz/11,12,1 1.343458056
 P _part/8/_geo_xyz/11,12,2 8.477264404
 P _part/8/_geo_xyz/11,13,0 -10.412437439
-P _part/8/_geo_xyz/11,13,1 1.347293615
+P _part/8/_geo_xyz/11,13,1 1.347293496
 P _part/8/_geo_xyz/11,13,2 8.358226776
 P _part/8/_geo_xyz/11,14,0 0.0
 P _part/8/_geo_xyz/11,14,1 0.0
@@ -10841,7 +10841,7 @@ P _part/8/_geo_xyz/11,9,0 -10.416460991
 P _part/8/_geo_xyz/11,9,1 1.289760470
 P _part/8/_geo_xyz/11,9,2 10.143795013
 P _part/8/_geo_xyz/12,0,0 -10.412437439
-P _part/8/_geo_xyz/12,0,1 1.347293615
+P _part/8/_geo_xyz/12,0,1 1.347293496
 P _part/8/_geo_xyz/12,0,2 8.358226776
 P _part/8/_geo_xyz/12,1,0 -10.412706375
 P _part/8/_geo_xyz/12,1,1 1.343458056
@@ -10856,7 +10856,7 @@ P _part/8/_geo_xyz/12,12,0 -10.412706375
 P _part/8/_geo_xyz/12,12,1 1.343458056
 P _part/8/_geo_xyz/12,12,2 8.477264404
 P _part/8/_geo_xyz/12,13,0 -10.412437439
-P _part/8/_geo_xyz/12,13,1 1.347293615
+P _part/8/_geo_xyz/12,13,1 1.347293496
 P _part/8/_geo_xyz/12,13,2 8.358226776
 P _part/8/_geo_xyz/12,14,0 0.0
 P _part/8/_geo_xyz/12,14,1 0.0
@@ -18132,7 +18132,7 @@ P _part/9/_geo_xyz/10,9,0 8.830852509
 P _part/9/_geo_xyz/10,9,1 1.176438093
 P _part/9/_geo_xyz/10,9,2 10.208029747
 P _part/9/_geo_xyz/11,0,0 10.412437439
-P _part/9/_geo_xyz/11,0,1 1.347293615
+P _part/9/_geo_xyz/11,0,1 1.347293496
 P _part/9/_geo_xyz/11,0,2 8.358226776
 P _part/9/_geo_xyz/11,1,0 10.412706375
 P _part/9/_geo_xyz/11,1,1 1.343458056
@@ -18147,7 +18147,7 @@ P _part/9/_geo_xyz/11,12,0 10.412706375
 P _part/9/_geo_xyz/11,12,1 1.343458056
 P _part/9/_geo_xyz/11,12,2 8.477264404
 P _part/9/_geo_xyz/11,13,0 10.412437439
-P _part/9/_geo_xyz/11,13,1 1.347293615
+P _part/9/_geo_xyz/11,13,1 1.347293496
 P _part/9/_geo_xyz/11,13,2 8.358226776
 P _part/9/_geo_xyz/11,14,0 0.0
 P _part/9/_geo_xyz/11,14,1 0.0
@@ -18186,7 +18186,7 @@ P _part/9/_geo_xyz/11,9,0 10.416460991
 P _part/9/_geo_xyz/11,9,1 1.289760470
 P _part/9/_geo_xyz/11,9,2 10.143795013
 P _part/9/_geo_xyz/12,0,0 10.412437439
-P _part/9/_geo_xyz/12,0,1 1.347293615
+P _part/9/_geo_xyz/12,0,1 1.347293496
 P _part/9/_geo_xyz/12,0,2 8.358226776
 P _part/9/_geo_xyz/12,1,0 10.412706375
 P _part/9/_geo_xyz/12,1,1 1.343458056
@@ -18201,7 +18201,7 @@ P _part/9/_geo_xyz/12,12,0 10.412706375
 P _part/9/_geo_xyz/12,12,1 1.343458056
 P _part/9/_geo_xyz/12,12,2 8.477264404
 P _part/9/_geo_xyz/12,13,0 10.412437439
-P _part/9/_geo_xyz/12,13,1 1.347293615
+P _part/9/_geo_xyz/12,13,1 1.347293496
 P _part/9/_geo_xyz/12,13,2 8.358226776
 P _part/9/_geo_xyz/12,14,0 0.0
 P _part/9/_geo_xyz/12,14,1 0.0
@@ -23008,7 +23008,7 @@ P acf/_bus_gen_is_on/7 0
 P acf/_bus_gen_is_on/count 8
 P acf/_buses_always_tied 0
 P acf/_bypass_ratio 0.0
-P acf/_callsign Trump Card
+P acf/_callsign B21
 P acf/_camera_fov_zoom 60.0
 P acf/_camera_offset_phi 0.0
 P acf/_camera_offset_psi 0.0
@@ -24573,7 +24573,6 @@ P acf/_nom_bat_volt 24.0
 P acf/_nom_fuelP 30.0
 P acf/_nom_gen_volt 26.399999619
 P acf/_nom_oilP 115.0
-P acf/_notes built upon lordareal's enhanced stock ASK21
 P acf/_num_batteries 1
 P acf/_num_braking_wheels 0.0
 P acf/_num_buses 1
@@ -24977,7 +24976,7 @@ P acf/_tail_rot_with_v1_kts 0.0
 P acf/_tail_rot_with_v2_deg 0.0
 P acf/_tail_rot_with_v2_kts 0.0
 P acf/_tail_with_coll 0.0
-P acf/_tailnum I-DMAX
+P acf/_tailnum G-XB21
 P acf/_tailrotor_EQ 0
 P acf/_takeoff_trim_11 0.0
 P acf/_tank_part_en/0 0
@@ -25075,7 +25074,7 @@ P acf/_vect_power_for 1.0
 P acf/_vect_rate 15.0
 P acf/_vectarmY 0.0
 P acf/_vectarmZ 0.0
-P acf/_version 1
+P acf/_version 2
 P acf/_vvi_but_adjusts_pitch 0
 P acf/_warn_airliner 0
 P acf/_warn_alt_app_100 0
@@ -25209,7 +25208,7 @@ PROPERTIES_END
 PANEL_2D_BEGIN
 ins_tailnum ins_tailnum
   POS 256.000000 234.000000
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
@@ -25218,14 +25217,14 @@ ins_tailnum ins_tailnum
 
 han_sbrake_manual han_sbrake_manual
   POS 60.500000 -156.000000
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
 
 ins_slip_BC ins_slip_BC
   POS 512.000000 -31.000000
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
@@ -25243,14 +25242,14 @@ gen_handle gen_handle
 
 han_elv_trim_act elv_trim_act.png
   POS 120.000000 -158.000000
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
 
 elv_trim_ind elv_trim_ind.png
   POS 145.000000 -158.000000
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   BUS_SRC 1
@@ -25258,7 +25257,7 @@ elv_trim_ind elv_trim_ind.png
 gen_annun vario_winter_backgr
   POS 283.000000 128.000000
   IMAGE vario_winter/b21_vario_winter
-  DATAREF
+  DATAREF 
   SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25283,7 +25282,7 @@ gen_needle vario_winter
 gen_rotary vario_winter_center
   POS 282.000000 129.000000
   IMAGE vario_winter/b21_vario_winter_center
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25340,7 +25339,7 @@ gen_rheostat vario_winter_rng_km
 gen_rotary vario_302_backgroun
   POS 494.000000 163.500000
   IMAGE vario_302/vario_302_background
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25359,7 +25358,7 @@ gen_rotary vario_302_backgroun
 gen_annun vario_302_ring
   POS 493.500000 166.000000
   IMAGE vario_302/ring
-  DATAREF
+  DATAREF 
   SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25485,7 +25484,7 @@ gen_rotary vario_302_stf_te_sw
 gen_annun vario_302_stf_te_in
   POS 523.000000 152.000000
   IMAGE vario_302/stf_te_ind
-  DATAREF
+  DATAREF 
   SHOW_EQUAL 1.000000 b21/vario_302/stf_te_ind
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25495,7 +25494,7 @@ gen_annun vario_302_stf_te_in
 gen_annun vario_57_background
   POS 344.000000 280.000000
   IMAGE vario_57/vario_57_background
-  DATAREF
+  DATAREF 
   SHOW_EQUAL 1.000000 b21/units_vario
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25520,7 +25519,7 @@ gen_needle vario_57_needle
 gen_rotary vario_57_center
   POS 343.500000 278.500000
   IMAGE vario_57/vario_57_center
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25557,7 +25556,7 @@ gen_rheostat vario_sound_volume
 gen_rotary gpsnav_background
   POS 654.000000 121.000000
   IMAGE gpsnav/background
-  DATAREF
+  DATAREF 
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
   KEY_FRAME 0.000000 0.000000 1.000000
@@ -25661,7 +25660,7 @@ gen_handle gen_handle.png
 
 rad_com1_GA rad_com1_GA.png
   POS 511.000000 -96.500000
-  DATAREF
+  DATAREF 
   SIZE 1.500000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25670,7 +25669,7 @@ rad_com1_GA rad_com1_GA.png
 
 rad_CDU739_2d CDU739_2d.png
   POS 761.500000 -31.000000
-  DATAREF
+  DATAREF 
   SIZE 0.100000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25680,7 +25679,7 @@ rad_CDU739_2d CDU739_2d.png
 gen_annun asi
   POS 675.500000 279.500000
   IMAGE asi/asi_background
-  DATAREF
+  DATAREF 
   SHOW_EQUAL 1.000000 b21/units_speed
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25795,7 +25794,7 @@ gen_pointer compass
 gen_pointer compass_background
   POS 509.000000 317.000000
   IMAGE compass/compass_background
-  DATAREF
+  DATAREF 
   SIZE 1.400000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
@@ -25807,7 +25806,7 @@ gen_pointer compass_background
 
 ins_timer_GA timer_GA.png
   POS 522.500000 38.500000
-  DATAREF
+  DATAREF 
   SIZE 1.500000
   LIGHT_MODE MECHANICAL
   LIGHT_RHEOSTAT 0
