@@ -13,7 +13,7 @@ local DATAREF_ONGROUND = globalPropertyi("sim/flightmodel/failures/onground_any"
 local dataref_time_s = globalPropertyf("sim/network/misc/network_time_sec")
 --
 
-local WING_LEVELLER_FORCE = 1000.0 -- newton-meters
+local WING_LEVELLER_FORCE = 2000.0 -- newton-meters
 
 --local sound_trim = loadSample(sasl.getAircraftPath()..'/sounds/systems/trim.wav')
 -- setSampleGain(sound_trim, 500)
@@ -68,6 +68,7 @@ function wing_force()
     local roll_rate = get(DATAREF_ROLL_RATE_DEG_S)
     local roll_force = -roll * WING_LEVELLER_FORCE / 10.0  -- make roll force proportional to required move
     local roll_rate_force = -roll_rate * 50 -- create damping force based on roll speed
+    print("WING FORCE="..roll_force,roll_rate_force)
     return roll_force + roll_rate_force
 end
 
@@ -82,7 +83,9 @@ function update()
             wings_level_running = 0 -- if airborn or rolling fast then cancel wings_level
         else
             local force_now_nm = get(DATAREF_ROLL_NM)
-            set(DATAREF_ROLL_NM, force_now_nm + wing_force())
+            local crew_force = wing_force()
+            set(DATAREF_ROLL_NM, force_now_nm + crew_force)
+            print("FORCE NOW="..force_now_nm, crew_force)
         end
     end
 end
