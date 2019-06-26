@@ -5,11 +5,11 @@
 -- TRIM trigger calibration, must match aircraft for trigger trim to set accurately
 TRIM_SPEED_KTS = { 45, 57, 84 } -- cruise speeds (knots) for trim range +1..0..-1
 
-print("b21_trim starting, v0.92")
+print("b21_trim starting, v0.89")
 
 -- WRITE datarefs
---local DATAREF_TRIM = globalPropertyf("sim/cockpit2/controls/elevator_trim") -- -1.0 .. +1.0
-local DATAREF_TRIM_DEBUG = 0.3
+local DATAREF_TRIM = globalPropertyf("sim/cockpit2/controls/elevator_trim") -- -1.0 .. +1.0
+--local DATAREF_TRIM_DEBUG = 0.3
 
 -- READ datarefs
 local DATAREF_AIRSPEED_KTS = globalPropertyf("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
@@ -89,7 +89,8 @@ function update()
     local trim_time_step = 0.5  -- update 2 per second max
     if  (time_now_s < command_time_s + 5.0) and (time_delta_s > trim_time_step)
     then
-        local current_trim = DATAREF_TRIM_DEBUG --get(DATAREF_TRIM)
+        --local current_trim = DATAREF_TRIM_DEBUG --get(DATAREF_TRIM)
+        local current_trim = get(DATAREF_TRIM)
         print("b21_trim read DATAREF_TRIM at", time_now_s, time_delta_s, current_trim)
         local trim_delta = command_trim - current_trim
         --print("update trim trim_delta="..trim_delta)
@@ -105,7 +106,8 @@ function update()
             end
             --print("new trim", new_trim)
             print("b21_trim writing DATAREF_TRIM",new_trim,time_delta_s, current_trim, trim_delta)
-            DATAREF_TRIM_DEBUG = new_trim --set(DATAREF_TRIM, new_trim)
+            --DATAREF_TRIM_DEBUG = new_trim --set(DATAREF_TRIM, new_trim)
+            set(DATAREF_TRIM, new_trim)
         end
         prev_trim_time_s = time_now_s
     end
