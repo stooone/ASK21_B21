@@ -1,0 +1,13 @@
+A
+800
+OBJ
+
+TEXTURE
+PARTICLE_SYSTEM aircraft_particles.pss
+
+POINT_COUNTS	0 0 0 0
+
+ANIM_begin
+	EMITTER		wingtip_smoke_L	 	-8.1   0.7    3.5		0 0 0	0
+	EMITTER		wingtip_smoke_R		8.1   0.7    3.5 0 0 0 1
+ANIM_end

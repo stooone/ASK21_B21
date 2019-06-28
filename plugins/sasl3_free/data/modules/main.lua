@@ -42,6 +42,7 @@ components = {
                 },
                 b21_clock {},
                 b21_trim {},
+				b21_smoke {},
                 b21_altimeter {},
                 b21_yawstring {},
                 b21_controls_commands {}
